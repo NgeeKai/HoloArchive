@@ -35,101 +35,114 @@ DELAY       = 0.3   # seconds between Google Translate calls
 # JP name → Official English name
 # Always use this before falling back to Google Translate
 MEMBER_NAMES = {
-    # 0期生
+    # ── hololive JP — 0期生 ──────────────────────────────────────
     "ときのそら":           "Tokino Sora",
     "ロボ子さん":           "Roboco",
     "さくらみこ":           "Sakura Miko",
     "星街すいせい":         "Hoshimachi Suisei",
     "AZKi":                 "AZKi",
-    # 1期生
+    # ── hololive JP — 1期生 ──────────────────────────────────────
     "夜空メル":             "Yozora Mel",
     "アキ・ローゼンタール": "Aki Rosenthal",
-    "赤井はあと":           "Haato Akai",
+    "赤井はあと":           "Akai Haato",
     "白上フブキ":           "Shirakami Fubuki",
     "夏色まつり":           "Natsuiro Matsuri",
-    # 2期生
+    # ── hololive JP — 2期生 ──────────────────────────────────────
     "湊あくあ":             "Minato Aqua",
     "紫咲シオン":           "Murasaki Shion",
     "百鬼あやめ":           "Nakiri Ayame",
     "癒月ちょこ":           "Yuzuki Choco",
     "大空スバル":           "Oozora Subaru",
-    # ゲーマーズ
+    # ── hololive JP — GAMERS ─────────────────────────────────────
     "大神ミオ":             "Ookami Mio",
     "猫又おかゆ":           "Nekomata Okayu",
     "戌神ころね":           "Inugami Korone",
-    # 3期生
+    # ── hololive JP — 3期生 ──────────────────────────────────────
     "兎田ぺこら":           "Usada Pekora",
     "不知火フレア":         "Shiranui Flare",
     "白銀ノエル":           "Shirogane Noel",
     "宝鐘マリン":           "Houshou Marine",
-    # 4期生
+    # ── hololive JP — 4期生 ──────────────────────────────────────
     "天音かなた":           "Amane Kanata",
     "桐生ここ":             "Kiryu Coco",
     "角巻わため":           "Tsunomaki Watame",
     "常闇トワ":             "Tokoyami Towa",
     "姫森ルーナ":           "Himemori Luna",
-    # 5期生
+    # ── hololive JP — 5期生 ──────────────────────────────────────
     "雪花ラミィ":           "Yukihana Lamy",
     "桃鈴ねね":             "Momosuzu Nene",
     "獅白ぼたん":           "Shishiro Botan",
     "尾丸ポルカ":           "Omaru Polka",
-    # 6期生 / holoX
+    # ── hololive JP — 6期生 / holoX ─────────────────────────────
     "ラプラス・ダークネス": "La+ Darknesss",
     "鷹嶺ルイ":             "Takane Lui",
     "博衣こより":           "Hakui Koyori",
     "沙花叉クロヱ":         "Sakamata Chloe",
     "風真いろは":           "Kazama Iroha",
-    # 7期生
+    # ── hololive DEV_IS — ReGLOSS ───────────────────────────────
     "火威青":               "Hiodoshi Ao",
     "音乃瀬奏":             "Otonose Kanade",
     "一条莉々華":           "Ichijou Ririka",
-    "儚羽もこ":             "Hakanai Moco",
-    "輝羽れな":             "Kiha Rena",
-    # hololive EN — Myth
+    "儒烏風亭らでん":       "Juufuutei Raden",
+    "轟はじめ":             "Todoroki Hajime",
+    # ── hololive DEV_IS — FLOW GLOW ─────────────────────────────
+    "響咲リオナ":           "Isaki Riona",
+    "小金井ニコ":           "Koganei Niko",
+    "水宮枢":               "Mizumiya Su",
+    "鈴宮千早":             "Rindo Chihaya",
+    "綺々羅々ヴィヴィ":     "Kikirara Vivi",
+    # ── hololive EN — Myth ───────────────────────────────────────
     "モリ・カリオペ":       "Mori Calliope",
     "小鳥遊キアラ":         "Takanashi Kiara",
     "一伊那尓栖":           "Ninomae Ina'nis",
     "がうる・ぐら":         "Gawr Gura",
     "ワトソン・アメリア":   "Watson Amelia",
-    # hololive EN — Promise
+    # ── hololive EN — Council / Promise ─────────────────────────
     "七詩ムメイ":           "Nanashi Mumei",
     "七詩むめい":           "Nanashi Mumei",
     "セレス・ファウナ":     "Ceres Fauna",
     "オーロ・クロニー":     "Ouro Kronii",
     "ベールズ・ゾエタ":     "Hakos Baelz",
     "IRyS":                 "IRyS",
-    # hololive EN — Advent
+    # ── hololive EN — Advent ─────────────────────────────────────
     "シオリ・ノベラ":       "Shiori Novella",
+    "古石ビジュ":           "Koseki Bijou",
+    "コセキ・ビジュ":       "Koseki Bijou",
     "ネリッサ・レイヴンクロフト": "Nerissa Ravencroft",
     "フワワ・アビスガード": "Fuwawa Abyssgard",
     "モコ・アビスガード":   "Mococo Abyssgard",
-    # hololive EN — Justice
+    "モココ・アビスガード": "Mococo Abyssgard",
+    # ── hololive EN — Justice ────────────────────────────────────
     "エリザベス・ローズ・ブラッドフレイム": "Elizabeth Rose Bloodflame",
-    "ジジ・マグニ":         "Gigi Mugnii",
+    "ジジ・ムリン":         "Gigi Murin",      # official: ジジ・ムリン not ジジ・マグニ
     "セシリア・イマーグリーン": "Cecilia Immergreen",
     "ラオーラ・パンテーラ": "Raora Panthera",
-    # hololive ID — Gen 1
+    # ── hololive ID — Gen 1 ──────────────────────────────────────
     "アユンダ・リス":       "Ayunda Risu",
     "ムーナ・ホシノヴァ":   "Moona Hoshinova",
     "アイラニ・イオフィフティーン": "Iofi Airani",
-    # hololive ID — Gen 2
+    # ── hololive ID — Gen 2 ──────────────────────────────────────
     "クレイジー・オリー":   "Kureiji Ollie",
     "アーニャ・メルフィッサ": "Anya Melfissa",
     "パヴォリア・レイネ":   "Pavolia Reine",
-    # hololive ID — Gen 3
+    # ── hololive ID — Gen 3 ──────────────────────────────────────
     "ベスティア・ゼータ":   "Vestia Zeta",
     "カエラ・コヴァルスキア": "Kaela Kovalskia",
     "こぼ・かなえる":       "Kobo Kanaeru",
-    # Staff / support cards
+    # ── holoAN announcers ────────────────────────────────────────
     "春先のどか":           "Harusaki Nodoka",
+    "出雲みちる":           "Izuki Michiru",
+    "花園さやか":           "Hanazono Sayaka",
+    "風城ゆき":             "Kazeshiro Yuki",
+    # ── Staff / recurring support cards ─────────────────────────
     "マネちゃん":           "Manager-chan",
-    # Mascots / items
+    # ── Mascots & items ──────────────────────────────────────────
     "うぱお":               "Upao",
     "石の斧":               "Stone Axe",
     "サブパソコン":         "Sub PC",
     "スゴイパソコン":       "Super PC",
     "ホロリスの輪":         "Hololis Circle",
-    # Units
+    # ── Units ────────────────────────────────────────────────────
     "SorAZ":                "SorAZ",
 }
 
