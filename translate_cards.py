@@ -261,6 +261,7 @@ def main():
             is_japanese(card.get('name', '')) or
             any(is_japanese(v) for v in (card.get('abilities') or {}).values()) or
             any(is_japanese(t) for t in (card.get('tags') or []))
+            # NOTE: illustrator is intentionally excluded — never translated
         )
         if not needs_work:
             continue
@@ -287,6 +288,11 @@ def main():
         # ── Translate tags ────────────────────────────────────────
         if card.get('tags'):
             card['tags'] = [translate_tag(t) for t in card['tags']]
+
+        # ── Illustrator — NEVER translate, keep original ──────────
+        # Illustrator names are proper nouns — 高崎律, あずーる, Nekojira etc.
+        # should always display exactly as written on the card.
+        # (No code needed — we simply never touch card['illustrator'])
 
         # Checkpoint every 50 cards
         if (i + 1) % 50 == 0:
