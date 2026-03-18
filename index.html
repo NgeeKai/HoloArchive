@@ -246,8 +246,9 @@ img { display: block; max-width: 100%; }
 /* ── Card Grid ─────────────────────────────────────────────────────── */
 #cardGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, 160px);
   gap: 12px;
+  justify-content: start; /* cards left-align, no stretching */
 }
 #cardGrid.list-mode {
   grid-template-columns: 1fr;
@@ -262,8 +263,11 @@ img { display: block; max-width: 100%; }
   transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
   overflow: hidden;
   animation: fadeUp 0.3s ease both;
-  contain: layout style;  /* prevents off-screen tiles affecting layout */
-  will-change: transform; /* promotes to own layer for smooth hover */
+  contain: layout style;
+  will-change: transform;
+  width: 100%;       /* fill the grid column exactly */
+  min-width: 0;      /* prevent overflow in tight columns */
+  box-sizing: border-box;
 }
 .card-tile:hover {
   border-color: var(--accent);
@@ -674,8 +678,9 @@ img { display: block; max-width: 100%; }
 @media (min-width: 1200px) {
   #main { padding: 24px 32px; }
   #cardGrid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, 175px);
     gap: 14px;
+    justify-content: start;
   }
 }
 
@@ -687,8 +692,9 @@ img { display: block; max-width: 100%; }
   #bottomNav { display: grid; }
   .topbar-right { display: none; }
   #cardGrid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fill, 148px);
     gap: 10px;
+    justify-content: start;
   }
   #toolrow { gap: 8px; }
 
@@ -720,10 +726,11 @@ img { display: block; max-width: 100%; }
   #layout { padding-top: var(--topbar-h); }
   #main { padding: 12px 12px 72px; }
 
-  /* Card grid — 2 columns on phone */
+  /* Card grid — 2 equal columns on phone */
   #cardGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
+    justify-content: stretch;
   }
 
   /* Toolrow */
@@ -810,6 +817,7 @@ img { display: block; max-width: 100%; }
   #cardGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 6px;
+    justify-content: stretch;
   }
   .card-name { font-size: 11px; }
   #heroTitle { font-size: 22px; }
