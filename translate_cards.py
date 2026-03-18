@@ -2,23 +2,18 @@
 """
 Holoarchive Card Translator
 ============================
-Translates all Japanese text in cards.json to English using
-Google Translate (free, no API key needed).
+Translates Japanese text in cards.json to English.
 
-Translates:
-  - card name
-  - all ability text (keyword, arts, oshi_skill, etc.)
-  - tags (#0期生 → #Gen0 etc.)
+Card NAMES use a hardcoded lookup table of official hololive member
+names — so ときのそら → "Tokino Sora" not "Time's Sky".
 
-Keeps unchanged:
-  - card_number, set_code, rarity, hp, life, color, bloom_level
-  - image_url, source_url, baton_pass
+Ability TEXT uses Google Translate (free, no API key).
 
 Usage:
     pip install deep-translator
     python translate_cards.py
 
-Resume-safe: already-translated cards are skipped on re-run.
+Resume-safe: skips already-translated cards on re-run.
 """
 
 import json, time, os, sys, re
@@ -34,51 +29,181 @@ except ImportError:
 INPUT_FILE  = "cards.json"
 OUTPUT_FILE = "cards.json"
 BACKUP_FILE = "cards_jp_backup.json"
-DELAY       = 0.3   # seconds between API calls — free tier is generous
+DELAY       = 0.3   # seconds between Google Translate calls
 
-# ── HELPERS ───────────────────────────────────────────────────────────
-
-# Tag translation map — common JP OCG tags to English
-TAG_MAP = {
-    "#0期生":          "#Gen0",
-    "#1期生":          "#Gen1",
-    "#2期生":          "#Gen2",
-    "#3期生":          "#Gen3",
-    "#4期生":          "#Gen4",
-    "#5期生":          "#Gen5",
-    "#6期生":          "#Gen6",
-    "#秘密結社holoX":  "#holoX",
-    "#ID1期生":        "#IDGen1",
-    "#ID2期生":        "#IDGen2",
-    "#ID3期生":        "#IDGen3",
-    "#JP":             "#JP",
-    "#EN":             "#EN",
-    "#ID":             "#ID",
-    "#歌":             "#Song",
-    "#ケモミミ":       "#AnimalEars",
-    "#トリ":           "#Bird",
-    "#絵":             "#Art",
-    "#お酒":           "#Alcohol",
-    "#ハーフエルフ":   "#HalfElf",
-    "#Myth":           "#Myth",
-    "#Promise":        "#Promise",
-    "#Bird":           "#Bird",
-    "#Painting":       "#Painting",
+# ── OFFICIAL MEMBER NAME TABLE ────────────────────────────────────────
+# JP name → Official English name
+# Always use this before falling back to Google Translate
+MEMBER_NAMES = {
+    # 0期生
+    "ときのそら":           "Tokino Sora",
+    "ロボ子さん":           "Roboco",
+    "さくらみこ":           "Sakura Miko",
+    "星街すいせい":         "Hoshimachi Suisei",
+    "AZKi":                 "AZKi",
+    # 1期生
+    "夜空メル":             "Yozora Mel",
+    "アキ・ローゼンタール": "Aki Rosenthal",
+    "赤井はあと":           "Haato Akai",
+    "白上フブキ":           "Shirakami Fubuki",
+    "夏色まつり":           "Natsuiro Matsuri",
+    # 2期生
+    "湊あくあ":             "Minato Aqua",
+    "紫咲シオン":           "Murasaki Shion",
+    "百鬼あやめ":           "Nakiri Ayame",
+    "癒月ちょこ":           "Yuzuki Choco",
+    "大空スバル":           "Oozora Subaru",
+    # ゲーマーズ
+    "大神ミオ":             "Ookami Mio",
+    "猫又おかゆ":           "Nekomata Okayu",
+    "戌神ころね":           "Inugami Korone",
+    # 3期生
+    "兎田ぺこら":           "Usada Pekora",
+    "不知火フレア":         "Shiranui Flare",
+    "白銀ノエル":           "Shirogane Noel",
+    "宝鐘マリン":           "Houshou Marine",
+    # 4期生
+    "天音かなた":           "Amane Kanata",
+    "桐生ここ":             "Kiryu Coco",
+    "角巻わため":           "Tsunomaki Watame",
+    "常闇トワ":             "Tokoyami Towa",
+    "姫森ルーナ":           "Himemori Luna",
+    # 5期生
+    "雪花ラミィ":           "Yukihana Lamy",
+    "桃鈴ねね":             "Momosuzu Nene",
+    "獅白ぼたん":           "Shishiro Botan",
+    "尾丸ポルカ":           "Omaru Polka",
+    # 6期生 / holoX
+    "ラプラス・ダークネス": "La+ Darknesss",
+    "鷹嶺ルイ":             "Takane Lui",
+    "博衣こより":           "Hakui Koyori",
+    "沙花叉クロヱ":         "Sakamata Chloe",
+    "風真いろは":           "Kazama Iroha",
+    # 7期生
+    "火威青":               "Hiodoshi Ao",
+    "音乃瀬奏":             "Otonose Kanade",
+    "一条莉々華":           "Ichijou Ririka",
+    "儚羽もこ":             "Hakanai Moco",
+    "輝羽れな":             "Kiha Rena",
+    # hololive EN — Myth
+    "モリ・カリオペ":       "Mori Calliope",
+    "小鳥遊キアラ":         "Takanashi Kiara",
+    "一伊那尓栖":           "Ninomae Ina'nis",
+    "がうる・ぐら":         "Gawr Gura",
+    "ワトソン・アメリア":   "Watson Amelia",
+    # hololive EN — Promise
+    "七詩ムメイ":           "Nanashi Mumei",
+    "七詩むめい":           "Nanashi Mumei",
+    "セレス・ファウナ":     "Ceres Fauna",
+    "オーロ・クロニー":     "Ouro Kronii",
+    "ベールズ・ゾエタ":     "Hakos Baelz",
+    "IRyS":                 "IRyS",
+    # hololive EN — Advent
+    "シオリ・ノベラ":       "Shiori Novella",
+    "ネリッサ・レイヴンクロフト": "Nerissa Ravencroft",
+    "フワワ・アビスガード": "Fuwawa Abyssgard",
+    "モコ・アビスガード":   "Mococo Abyssgard",
+    # hololive EN — Justice
+    "エリザベス・ローズ・ブラッドフレイム": "Elizabeth Rose Bloodflame",
+    "ジジ・マグニ":         "Gigi Mugnii",
+    "セシリア・イマーグリーン": "Cecilia Immergreen",
+    "ラオーラ・パンテーラ": "Raora Panthera",
+    # hololive ID — Gen 1
+    "アユンダ・リス":       "Ayunda Risu",
+    "ムーナ・ホシノヴァ":   "Moona Hoshinova",
+    "アイラニ・イオフィフティーン": "Iofi Airani",
+    # hololive ID — Gen 2
+    "クレイジー・オリー":   "Kureiji Ollie",
+    "アーニャ・メルフィッサ": "Anya Melfissa",
+    "パヴォリア・レイネ":   "Pavolia Reine",
+    # hololive ID — Gen 3
+    "ベスティア・ゼータ":   "Vestia Zeta",
+    "カエラ・コヴァルスキア": "Kaela Kovalskia",
+    "こぼ・かなえる":       "Kobo Kanaeru",
+    # Staff / support cards
+    "春先のどか":           "Harusaki Nodoka",
+    "マネちゃん":           "Manager-chan",
+    # Mascots / items
+    "うぱお":               "Upao",
+    "石の斧":               "Stone Axe",
+    "サブパソコン":         "Sub PC",
+    "スゴイパソコン":       "Super PC",
+    "ホロリスの輪":         "Hololis Circle",
+    # Units
+    "SorAZ":                "SorAZ",
 }
 
+# Build a "contains" map for partial name matches
+# e.g. "ときのそら Birthday" → "Tokino Sora Birthday"
+def lookup_name(jp_name):
+    """Look up official EN name. Handles exact matches and suffix variants."""
+    if not jp_name:
+        return jp_name
+    # Exact match first
+    if jp_name in MEMBER_NAMES:
+        return MEMBER_NAMES[jp_name]
+    # Try partial — e.g. "ときのそら Birthday" or "ときのそら（水着）"
+    for jp, en in MEMBER_NAMES.items():
+        if jp_name.startswith(jp) and len(jp) > 3:
+            suffix = jp_name[len(jp):].strip()
+            if suffix:
+                # Translate suffix if it's Japanese, keep if it's already EN
+                if is_japanese(suffix):
+                    try:
+                        suffix = translator.translate(suffix)
+                        time.sleep(DELAY)
+                    except Exception:
+                        pass
+                return f"{en} {suffix}".strip()
+    return None  # not found — fall back to Google Translate
+
+
+# ── TAG TRANSLATION MAP ───────────────────────────────────────────────
+TAG_MAP = {
+    "#0期生":         "#Gen0",
+    "#1期生":         "#Gen1",
+    "#2期生":         "#Gen2",
+    "#3期生":         "#Gen3",
+    "#4期生":         "#Gen4",
+    "#5期生":         "#Gen5",
+    "#6期生":         "#Gen6",
+    "#秘密結社holoX": "#holoX",
+    "#ID1期生":       "#IDGen1",
+    "#ID2期生":       "#IDGen2",
+    "#ID3期生":       "#IDGen3",
+    "#JP":            "#JP",
+    "#EN":            "#EN",
+    "#ID":            "#ID",
+    "#歌":            "#Song",
+    "#ケモミミ":      "#AnimalEars",
+    "#トリ":          "#Bird",
+    "#絵":            "#Art",
+    "#お酒":          "#Alcohol",
+    "#ハーフエルフ":  "#HalfElf",
+    "#Myth":          "#Myth",
+    "#Promise":       "#Promise",
+    "#Bird":          "#Bird",
+    "#Painting":      "#Painting",
+    "#ゲーマーズ":    "#Gamers",
+    "#GAMERS":        "#Gamers",
+}
+
+# ── HELPERS ───────────────────────────────────────────────────────────
 def is_japanese(text):
-    """Return True if text contains Japanese characters."""
     if not text:
         return False
     for ch in text:
-        if '\u3000' <= ch <= '\u9fff' or '\uff00' <= ch <= '\uffef':
+        cp = ord(ch)
+        if (0x3000 <= cp <= 0x9FFF or
+            0xFF00 <= cp <= 0xFFEF or
+            0x4E00 <= cp <= 0x9FFF):
             return True
     return False
 
 translator = GoogleTranslator(source='ja', target='en')
 
-def translate(text):
-    """Translate Japanese text to English. Returns original if not Japanese."""
+def translate_text(text):
+    """Translate Japanese text to English via Google Translate."""
     if not text or not is_japanese(text):
         return text
     try:
@@ -86,20 +211,17 @@ def translate(text):
         time.sleep(DELAY)
         return result or text
     except Exception as e:
-        print(f"    ⚠ Translation error: {e}")
+        print(f"    ⚠ Translation error: {e} — keeping original")
         time.sleep(2)
-        return text  # keep original on error
+        return text
 
 def translate_tag(tag):
-    """Translate a hashtag using the map, fall back to Google Translate."""
     if tag in TAG_MAP:
         return TAG_MAP[tag]
     if not is_japanese(tag):
         return tag
-    # Strip # prefix, translate, re-add
     inner = tag.lstrip('#')
-    translated = translate(inner)
-    # Capitalise and remove spaces for clean hashtag
+    translated = translate_text(inner)
     clean = ''.join(w.capitalize() for w in translated.split())
     return f"#{clean}"
 
@@ -132,23 +254,28 @@ def main():
 
         print(f"  [{card['id']:>4}] {card['card_number']:<16} {card.get('name','')[:25]}")
 
-        # Translate name
+        # ── Translate name ────────────────────────────────────────
         if is_japanese(card.get('name', '')):
-            card['name'] = translate(card['name'])
-            print(f"         name → {card['name']}")
+            official = lookup_name(card['name'])
+            if official:
+                card['name'] = official
+                print(f"         name → {card['name']} (official lookup)")
+            else:
+                # Fall back to Google Translate
+                card['name'] = translate_text(card['name'])
+                print(f"         name → {card['name']} (google translate)")
 
-        # Translate abilities
+        # ── Translate abilities ───────────────────────────────────
         if card.get('abilities'):
             for key, val in card['abilities'].items():
                 if is_japanese(val):
-                    card['abilities'][key] = translate(val)
-                    print(f"         {key} → {card['abilities'][key][:60]}...")
+                    card['abilities'][key] = translate_text(val)
 
-        # Translate tags
+        # ── Translate tags ────────────────────────────────────────
         if card.get('tags'):
             card['tags'] = [translate_tag(t) for t in card['tags']]
 
-        # Save checkpoint every 50 cards
+        # Checkpoint every 50 cards
         if (i + 1) % 50 == 0:
             _save(cards, OUTPUT_FILE)
             print(f"\n  → Checkpoint saved ({i+1}/{total})\n")
