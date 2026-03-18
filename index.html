@@ -1284,6 +1284,16 @@ img { display: block; max-width: 100%; }
 
 <script>
 // ── State ────────────────────────────────────────────────────────────
+// Image proxy Worker URL — update this after deploying image-proxy-worker.js
+// Leave empty to attempt direct hotlinking (works in some browsers/regions)
+const IMAGE_PROXY_BASE = '';  // e.g. 'https://holo-img.YOUR-ACCOUNT.workers.dev'
+
+function proxyImg(url) {
+  if (!url) return '';
+  if (!IMAGE_PROXY_BASE) return url;
+  return IMAGE_PROXY_BASE + '?url=' + encodeURIComponent(url);
+}
+
 let ALL_CARDS = [];
 let ALL_SETS  = [];
 let currentView = 'cards';
@@ -1655,7 +1665,7 @@ function makeCardTile(card, i) {
     tile.innerHTML = `
       <div class="card-art">
         ${card.image_url
-          ? `<img src="${escHtml(card.image_url)}" alt="${escHtml(card.name)}"
+          ? `<img src="${escHtml(proxyImg(card.image_url))}" alt="${escHtml(card.name)}"
               loading="${isEager ? 'eager' : 'lazy'}"
               ${isHigh ? 'fetchpriority="high"' : 'fetchpriority="low"'}
               decoding="async"
@@ -1683,7 +1693,7 @@ function makeCardTile(card, i) {
     tile.innerHTML = `
       <div class="card-art">
         ${card.image_url
-          ? `<img src="${escHtml(card.image_url)}" alt="${escHtml(card.name)}"
+          ? `<img src="${escHtml(proxyImg(card.image_url))}" alt="${escHtml(card.name)}"
               loading="${isEager ? 'eager' : 'lazy'}"
               decoding="async"
               width="52" height="52"
@@ -1910,7 +1920,7 @@ function openModal(card) {
   const img = document.getElementById('modalImg');
   const noImg = document.getElementById('modalNoImg');
   if (card.image_url) {
-    img.src = card.image_url;
+    img.src = proxyImg(card.image_url);
     img.alt = card.name || '';
     img.style.display = 'block';
     noImg.style.display = 'none';
