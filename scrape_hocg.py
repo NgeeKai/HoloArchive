@@ -155,7 +155,14 @@ def parse_dl(soup):
         elif key == "Color" and dd_text in JP_COLOR_TEXT:
             result[key] = JP_COLOR_TEXT[dd_text]
         else:
-            result[key] = dd_text
+            # For Baton Pass, content is often only <img alt="◇"> — get_text() returns empty
+            # Fall back to reading the alt attribute directly
+            if not dd_text:
+                imgs = dd.find_all("img")
+                alt_texts = [i.get("alt", "") for i in imgs if i.get("alt", "").strip()]
+                result[key] = " ".join(alt_texts) if alt_texts else ""
+            else:
+                result[key] = dd_text
     return result
 
 def parse_tags(soup):
@@ -219,7 +226,7 @@ def parse_abilities_from_page(soup):
             # Next element must exist and must NOT itself be a heading
             if i + 1 < len(elements):
                 next_el = elements[i + 1]
-                next_text = re.sub(r'\\s+', ' ', next_el.get_text(" ", strip=True)).strip()
+                next_text = re.sub(r'\s+', ' ', next_el.get_text(' ', strip=True)).strip()
                 if next_text and next_text not in ABILITY_HEADINGS:
                     if key in abilities:
                         abilities[key] += "\n" + next_text
@@ -355,7 +362,9 @@ def parse_card_page(html, card_id, url):
     # Translate JP bloom level values
     BLOOM_VALUES = {
         "デビュー": "Debut", "Debut": "Debut",
-        "1st": "1st", "２nd": "2nd", "2nd": "2nd",
+        "1st": "1st", "１st": "1st",
+        "2nd": "2nd", "２nd": "2nd",
+        "3rd": "3rd", "３rd": "3rd",
         "スポット": "Spot", "Spot": "Spot",
     }
     bloom = BLOOM_VALUES.get(bloom_raw, bloom_raw) if bloom_raw else None
@@ -365,9 +374,16 @@ def parse_card_page(html, card_id, url):
     # Illustrator -- field first, then scan raw page text (covers both JP/EN format)
     illustrator_raw = fields.get("Illustrator") or ""
     if not illustrator_raw:
-        illus_match = re.search(r'(?:Illustrator|[Ii]llust)[:\uff1a]\s*(.+)', soup.get_text())
+        page_text = soup.get_text()
+        # Match EN "Illustrator: Name" and JP "イラスト：Name" / "イラストレーター：Name"
+        illus_match = re.search(
+            r'(?:Illustrator|イラストレーター|イラスト)[:\uff1a\s]+([^\n\r\t]+)',
+            page_text
+        )
         if illus_match:
             illustrator_raw = illus_match.group(1).strip()
+            # Trim anything after a card number pattern or newline
+            illustrator_raw = re.split(r'[\n\r]|(?=h[A-Z]\w+-\d+)', illustrator_raw)[0].strip()
 
     # Abilities — scan the whole page for ability label/text pairs.
     # The real site puts abilities as bare <p> tags OUTSIDE the <dl>,
