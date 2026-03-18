@@ -3,13 +3,71 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<!-- ── Primary SEO ─────────────────────────────────────────────────── -->
 <title>Holoarchive — hololive OCG Card Database</title>
-<meta name="description" content="Search, filter and browse every card in the hololive OFFICIAL CARD GAME.">
+<meta name="description" content="Search, filter and browse every card in the hololive OFFICIAL CARD GAME. Find cards by name, type, color, rarity, bloom level and set.">
+<meta name="keywords" content="hololive card game, hololive OCG, hOCG, hololive TCG, hololive official card game, card database, card list, hBP01, hSD01, oshi card, holomem">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://https://holoarchive.pages.dev/">
+
+<!-- ── Open Graph (Facebook, Discord, LINE previews) ───────────────── -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://https://holoarchive.pages.dev/">
+<meta property="og:title"       content="Holoarchive — hololive OCG Card Database">
+<meta property="og:description" content="Search, filter and browse every card in the hololive OFFICIAL CARD GAME. Find cards by name, type, color, rarity, bloom level and set.">
+<meta property="og:image"       content="https://https://holoarchive.pages.dev/og-image.png">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale"      content="en_US">
+<meta property="og:site_name"   content="Holoarchive">
+
+<!-- ── Twitter / X Card ────────────────────────────────────────────── -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"        content="@holoarchive">
+<meta name="twitter:title"       content="Holoarchive — hololive OCG Card Database">
+<meta name="twitter:description" content="Search, filter and browse every card in the hololive OFFICIAL CARD GAME.">
+<meta name="twitter:image"       content="https://https://holoarchive.pages.dev/og-image.png">
+
+<!-- ── Structured Data (JSON-LD) ───────────────────────────────────── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Holoarchive",
+  "url": "https://https://holoarchive.pages.dev/",
+  "description": "Search, filter and browse every card in the hololive OFFICIAL CARD GAME.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://https://holoarchive.pages.dev/?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Holoarchive",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://https://holoarchive.pages.dev/logo.svg"
+    }
+  }
+}
+</script>
+
+<!-- ── Favicon & icons ─────────────────────────────────────────────── -->
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="apple-touch-icon" href="logo.svg">
+<meta name="theme-color" content="#00a8e8">
+
+<!-- ── Preconnects ─────────────────────────────────────────────────── -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://hololive-official-cardgame.com" crossorigin>
 <link rel="dns-prefetch" href="https://hololive-official-cardgame.com">
-<link rel="icon" type="image/svg+xml" href="logo.svg">
+
+<!-- ── Fonts (non-blocking) ────────────────────────────────────────── -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
@@ -943,8 +1001,40 @@ const SET_ICONS = {
   hBP01:'🌸', hBP02:'⭐', hBP03:'⚡', hBP04:'🌌', hBP05:'🎭', hBP06:'🔥', hBP07:'💎',
   hSD01:'🎵', hSD02:'⚔️', hSD03:'🐱', hSD04:'💜', hSD05:'⬜', hSD06:'🌿', hSD07:'💛',
   hSD08:'🎤', hSD09:'🌙', hSD10:'🌊', hSD11:'🦊', hSD12:'🌺', hSD13:'🎪',
-  hPR:'🎁', hYS01:'🎀',
+  hBD24:'🎂', hYS01:'🎀', hPR:'🎁',
 };
+
+// Official set names (set_name field is null in scraped JP data)
+const SET_NAMES = {
+  hBP01: 'Booster Pack — Blooming Radiance',
+  hBP02: 'Booster Pack — Quintet Spectrum',
+  hBP03: 'Booster Pack — Elite Spark',
+  hBP04: 'Booster Pack — Curious Universe',
+  hBP05: 'Booster Pack Vol.5',
+  hBP06: 'Booster Pack Vol.6',
+  hBP07: 'Booster Pack Vol.7',
+  hSD01: 'Start Deck — Tokino Sora & AZKi',
+  hSD02: 'Start Deck — Red Nakiri Ayame',
+  hSD03: 'Start Deck — Blue Nekomata Okayu',
+  hSD04: 'Start Deck — Purple Yuzuki Choco',
+  hSD05: 'Start Deck — White Todoroki',
+  hSD06: 'Start Deck — Green Kazama Iroha',
+  hSD07: 'Start Deck — Yellow Shiranui Flare',
+  hSD08: 'Start Deck Vol.8',
+  hSD09: 'Start Deck Vol.9',
+  hSD10: 'Start Deck Vol.10',
+  hSD11: 'Start Deck Vol.11',
+  hSD12: 'Start Deck Vol.12',
+  hSD13: 'Start Deck Vol.13',
+  hBD24: 'Birthday Set 2024',
+  hYS01: 'Start Cheer Set',
+  hPR:   'Promo Cards',
+};
+
+// Helper: get display name for a set code
+function getSetName(code) {
+  return SET_NAMES[code] || code || 'Unknown Set';
+}
 
 // ── Boot ─────────────────────────────────────────────────────────────
 function showSkeletons(count = 20) {
@@ -989,7 +1079,7 @@ function buildSetIndex() {
     if (!c.set_code) return;
     if (!setMap[c.set_code]) {
       setMap[c.set_code] = {
-        code: c.set_code, name: c.set_name || c.set_code,
+        code: c.set_code, name: c.set_name || getSetName(c.set_code),
         cards: 0, types: {}
       };
     }
@@ -1001,13 +1091,38 @@ function buildSetIndex() {
 }
 
 // ── Normalizers ──────────────────────────────────────────────────────
+// JP type map — covers every type found in the real cards.json
+const JP_TYPE_MAP = {
+  '推しホロメン':              'oshi',
+  'ホロメン':                  'holomem',
+  'Buzzホロメン':              'buzz holomem',
+  'サポート・アイテム':        'support',
+  'サポート・アイテム・LIMITED':'support',
+  'サポート・イベント':        'support',
+  'サポート・イベント・LIMITED':'support',
+  'サポート・ツール':          'support',
+  'サポート・マスコット':      'support',
+  'サポート・ファン':          'support',
+  'サポート・スタッフ':        'support',
+  'サポート・スタッフ・LIMITED':'support',
+  // English fallbacks (for EN site data)
+  'oshi':         'oshi',
+  'holomem':      'holomem',
+  'buzz holomem': 'buzz holomem',
+  'support':      'support',
+  'cheer':        'cheer',
+};
+
 function normalizeType(t) {
   if (!t) return 'other';
+  // Direct JP lookup first
+  if (JP_TYPE_MAP[t]) return JP_TYPE_MAP[t];
+  // Fallback substring match for English/mixed
   const l = t.toLowerCase();
-  if (l.includes('oshi')) return 'oshi';
-  if (l.includes('buzz')) return 'buzz holomem';
-  if (l.includes('holomem')) return 'holomem';
-  if (l.includes('support') || l.includes('item')) return 'support';
+  if (l.includes('oshi') || l.includes('推し')) return 'oshi';
+  if (l.includes('buzz') || l.includes('Buzz')) return 'buzz holomem';
+  if (l.includes('holomem') || l.includes('ホロメン')) return 'holomem';
+  if (l.includes('support') || l.includes('サポート')) return 'support';
   if (l.includes('cheer')) return 'cheer';
   return 'other';
 }
@@ -1211,7 +1326,16 @@ function makeCardTile(card, i) {
   const typCls   = typeClass(card.card_type);
   const rarCls   = rarityClass(card.rarity);
   const strCls   = colorStripeClass(card.color);
-  const typeLabel = card.card_type || '—';
+  // Show friendly English type label instead of raw JP string
+  const TYPE_LABELS = {
+    '推しホロメン': 'Oshi', 'ホロメン': 'Holomem', 'Buzzホロメン': 'Buzz Holomem',
+    'サポート・アイテム': 'Support', 'サポート・アイテム・LIMITED': 'Support (Ltd)',
+    'サポート・イベント': 'Event', 'サポート・イベント・LIMITED': 'Event (Ltd)',
+    'サポート・ツール': 'Tool', 'サポート・マスコット': 'Mascot',
+    'サポート・ファン': 'Fan', 'サポート・スタッフ': 'Staff',
+    'サポート・スタッフ・LIMITED': 'Staff (Ltd)',
+  };
+  const typeLabel = TYPE_LABELS[card.card_type] || card.card_type || '—';
   const isEager  = i < 20;
   const isHigh   = i < 6;
 
@@ -1390,7 +1514,8 @@ function openModal(card) {
   if (card.life)      fields.push(['Life',        card.life]);
   if (card.bloom_level) fields.push(['Bloom',     card.bloom_level]);
   if (card.baton_pass)  fields.push(['Baton Pass',card.baton_pass]);
-  if (card.set_name)    fields.push(['Set',       card.set_name]);
+  const _sname = card.set_name || getSetName(card.set_code);
+  if (_sname)           fields.push(['Set', _sname]);
   if (card.illustrator) fields.push(['Art',       card.illustrator]);
 
   document.getElementById('modalFields').innerHTML = `
@@ -1456,8 +1581,20 @@ function cap(str) {
 // ── Go ───────────────────────────────────────────────────────────────
 // Show skeletons on the very first frame, then kick off data loading
 // once the browser is idle — ensures topbar + skeleton grid LCP fires fast
+// Handle ?q= search param — lets search engines link to specific queries
+// e.g. holoarchive.com/?q=suisei will pre-fill the search box
+const _urlParams = new URLSearchParams(window.location.search);
+const _urlQuery  = _urlParams.get('q') || '';
+if (_urlQuery) {
+  searchQuery = _urlQuery;
+  const inp = document.getElementById('searchInput');
+  if (inp) {
+    inp.value = _urlQuery;
+    document.getElementById('clearSearch').style.display = 'block';
+  }
+}
+
 if ('requestIdleCallback' in window) {
-  // Paint skeletons synchronously, defer JSON fetch to idle
   showSkeletons(20);
   requestIdleCallback(init, { timeout: 500 });
 } else {
@@ -1495,6 +1632,51 @@ if ('requestIdleCallback' in window) {
 
   </div>
 </footer>
+
+
+<!-- ── Static SEO content — visible to search engines, hidden from users ──
+     Googlebot can read this without executing JavaScript.
+     Update the card list below after running the scraper by regenerating
+     this section (optional — the meta tags above are the most important).
+─────────────────────────────────────────────────────────────────────────── -->
+<div id="seoContent" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">
+  <h1>Holoarchive — hololive OFFICIAL CARD GAME Card Database</h1>
+  <p>
+    Holoarchive is a fan-made searchable database for the hololive OFFICIAL CARD GAME (hOCG).
+    Browse and search every card across all sets including Booster Packs and Start Decks.
+    Filter by card type (Oshi, Holomem, Support, Cheer), color (White, Green, Red, Blue, Purple, Yellow),
+    rarity (C, U, R, RR, OSR, SR, SEC, UR), bloom level (Debut, 1st, 2nd, Spot),
+    and set (hBP01, hBP02, hBP03, hBP04, hSD01, hSD02, hSD03, hSD04, hSD05, hSD06, hSD07).
+  </p>
+  <h2>Card Sets</h2>
+  <ul>
+    <li><strong>hBP01 — Booster Pack: Blooming Radiance</strong> — The first booster set. Features holomem from hololive JP, EN, and ID generations.</li>
+    <li><strong>hBP02 — Booster Pack: Quintet Spectrum</strong> — Second booster expansion with new Oshi cards and Bloom mechanics.</li>
+    <li><strong>hBP03 — Booster Pack: Elite Spark</strong> — Third booster set released December 2025.</li>
+    <li><strong>hBP04 — Booster Pack: Curious Universe</strong> — Latest booster set released February 2026.</li>
+    <li><strong>hSD01 — Start Deck: Tokino Sora &amp; AZKi</strong> — Blue starter deck featuring 0th generation members.</li>
+    <li><strong>hSD02 — Start Deck: Red Nakiri Ayame</strong> — Red starter deck.</li>
+    <li><strong>hSD03 — Start Deck: Blue Nekomata Okayu</strong> — Blue starter deck featuring Gamers generation.</li>
+    <li><strong>hSD04 — Start Deck: Purple Yuzuki Choco</strong> — Purple starter deck.</li>
+    <li><strong>hSD05 — Start Deck: White Todoroki</strong> — White starter deck released December 2025.</li>
+    <li><strong>hSD06 — Start Deck: Green Kazama Iroha</strong> — Green starter deck released December 2025.</li>
+    <li><strong>hSD07 — Start Deck: Yellow Shiranui Flare</strong> — Yellow starter deck released December 2025.</li>
+  </ul>
+  <h2>Card Types</h2>
+  <ul>
+    <li><strong>Oshi</strong> — Your main hololive member card. Each player has one Oshi with unique Oshi Skills and SP Oshi Skills.</li>
+    <li><strong>Holomem</strong> — Member cards you play on the field. Have HP, Arts attacks, and optional Bloom/Collab effects.</li>
+    <li><strong>Buzz Holomem</strong> — Special variant Holomem cards with enhanced abilities.</li>
+    <li><strong>Support</strong> — One-time use cards including Items, Tools, Mascots, Events, Fans, and Staff.</li>
+    <li><strong>Cheer</strong> — Energy cards attached to your holomem to power their Arts.</li>
+  </ul>
+  <h2>About hololive OFFICIAL CARD GAME</h2>
+  <p>
+    The hololive OFFICIAL CARD GAME (hOCG) is a trading card game published by COVER Corp.
+    featuring members of hololive production. Cards are available in Japanese and English editions.
+    All card data and images are copyright COVER Corp. This is an unofficial fan database.
+  </p>
+</div>
 
 </body>
 </html>
