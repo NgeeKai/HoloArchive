@@ -1772,8 +1772,9 @@ function switchView(v) {
   document.getElementById('bnCards').classList.toggle('active', v === 'cards');
   document.getElementById('bnSets').classList.toggle('active',  v === 'sets');
 
-  // Populate homepage when switching to it
+  // Populate views when switching to them
   if (v === 'home') buildHomepage();
+  if (v === 'cards' && ALL_CARDS.length) applyFilters();
 
   // Scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
