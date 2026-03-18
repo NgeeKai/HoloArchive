@@ -406,20 +406,21 @@ img { display: block; max-width: 100%; }
 }
 #modalOverlay.open #modal { transform: scale(1) translateY(0); }
 
-/* Left — card image */
+/* Left — card image fills panel */
 #modalArt {
   position: relative; overflow: hidden;
-  display: flex; align-items: flex-start; justify-content: center;
-  background: var(--bg3); padding: 20px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg3);
+  min-height: 420px;
 }
 #modalArt img {
-  width: 100%; border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-  object-fit: contain;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
 }
 #modalArt .no-img {
   display: flex; flex-direction: column; align-items: center;
-  gap: 8px; color: var(--text3); font-size: 13px; padding-top: 40px;
+  gap: 8px; color: var(--text3); font-size: 13px;
 }
 
 /* Right — card info */
@@ -460,42 +461,47 @@ img { display: block; max-width: 100%; }
 
 /* Inline stats bar — Color / HP / Bloom / Baton in a row */
 #modalStatsRow {
-  display: flex; align-items: center; gap: 8px;
+  display: flex; align-items: center; gap: 10px;
   flex-wrap: wrap; margin-bottom: 20px;
-  padding: 12px 14px; background: var(--bg3);
-  border-radius: var(--radius); border: 1px solid var(--border);
+  padding: 14px 16px; background: var(--bg3);
+  border-radius: var(--radius-lg); border: 1px solid var(--border);
 }
 .modal-stat-pill {
-  display: flex; align-items: center; gap: 6px;
+  display: flex; align-items: center; gap: 8px;
 }
 .modal-stat-label {
-  background: #1e3a5f; color: #7ec2ff;
-  font-size: 11px; font-weight: 600;
-  padding: 3px 10px; border-radius: 99px; white-space: nowrap;
+  background: #1a3a5c; color: #60aaee;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.03em;
+  padding: 4px 12px; border-radius: 99px; white-space: nowrap;
 }
 .modal-stat-val {
-  font-size: 13px; font-weight: 600; color: var(--text);
+  font-size: 14px; font-weight: 700; color: var(--text);
 }
-.modal-stat-divider { width: 1px; height: 16px; background: var(--border2); }
+.modal-stat-divider {
+  width: 1px; height: 18px; background: var(--border2); flex-shrink: 0;
+}
 .modal-color-dot {
-  width: 14px; height: 14px; border-radius: 50%; display: inline-block;
+  width: 13px; height: 13px; border-radius: 50%;
+  display: inline-block; flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.15);
 }
 
 /* Ability blocks */
-.modal-divider { height: 1px; background: var(--border); margin: 4px 0 16px; }
-#modalAbilities { display: flex; flex-direction: column; gap: 10px; }
+.modal-divider { height: 1px; background: var(--border); margin: 4px 0 18px; }
+#modalAbilities { display: flex; flex-direction: column; gap: 12px; }
 .ability-block {
-  border-radius: var(--radius); padding: 12px 14px;
-  font-size: 13px; line-height: 1.65;
-  border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 14px 16px;
+  font-size: 13px; line-height: 1.7;
+  background: #111827;
+  border: 1px solid rgba(255,255,255,0.06);
 }
 .ability-label {
   display: inline-block;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
-  padding: 3px 10px; border-radius: 99px;
-  margin-bottom: 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+  padding: 4px 12px; border-radius: 99px;
+  margin-bottom: 10px;
 }
-.ability-text { color: var(--text2); white-space: pre-line; }
+.ability-text { color: #c8d8e8; white-space: pre-line; font-size: 13.5px; line-height: 1.7; }
 
 /* Ability label colours matching EN site */
 .abl-keyword      { background: rgba(100,180,255,0.15); color: #64b4ff; border: 1px solid rgba(100,180,255,0.25); }
@@ -510,11 +516,13 @@ img { display: block; max-width: 100%; }
 
 /* Footer info — illustrator / card number */
 #modalFooterInfo {
-  margin-top: 16px; padding-top: 14px;
+  margin-top: 18px; padding-top: 14px;
   border-top: 1px solid var(--border);
-  font-size: 12px; color: var(--text3);
-  display: flex; flex-direction: column; gap: 3px;
+  font-size: 12.5px; color: var(--text3);
+  display: flex; flex-direction: column; gap: 4px;
+  line-height: 1.6;
 }
+#modalFooterInfo span { color: var(--text2); font-weight: 500; }
 
 /* Close button */
 #modalClose {
@@ -815,13 +823,12 @@ img { display: block; max-width: 100%; }
     width: 100%;
   }
   #modalArt {
-    padding: 16px 16px 0;
-    background: var(--bg3);
+    min-height: 240px;
+    max-height: 280px;
   }
   #modalArt img {
-    max-height: 200px;
-    width: auto;
-    margin: 0 auto;
+    width: 100%; height: 100%;
+    object-fit: cover;
   }
   #modalBody {
     padding: 16px 16px max(28px, env(safe-area-inset-bottom));
@@ -2202,8 +2209,8 @@ function openModal(card) {
 
   // ── Footer: illustrator + card number ────────────────────────────
   const footerParts = [];
-  if (card.illustrator) footerParts.push(`Illustrator: ${escHtml(card.illustrator)}`);
-  if (card.card_number) footerParts.push(`Card Number: ${escHtml(card.card_number)}`);
+  if (card.illustrator) footerParts.push(`Illustrator: <span>${escHtml(card.illustrator)}</span>`);
+  if (card.card_number) footerParts.push(`Card Number: <span>${escHtml(card.card_number)}</span>`);
   document.getElementById('modalFooterInfo').innerHTML = footerParts
     .map(p => `<div>${p}</div>`).join('');
 
