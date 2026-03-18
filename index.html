@@ -424,6 +424,57 @@ img { display: block; max-width: 100%; }
   padding: 1px 5px; font-family: var(--mono); font-size: 12px;
 }
 
+/* ── Footer ────────────────────────────────────────────────────────── */
+#footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 32px;
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-line {
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: var(--text3);
+}
+.footer-line a {
+  color: var(--text2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.footer-line a:hover { color: var(--text); }
+.footer-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
+}
+.footer-copy {
+  font-size: 11.5px;
+  color: var(--text3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.footer-logo-small {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+}
+.footer-logo-small span { color: var(--pink); }
+
 /* ── Responsive ────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
   #sidebar { display: none; }
@@ -434,6 +485,7 @@ img { display: block; max-width: 100%; }
   #modalArt { min-height: 200px; max-height: 240px; }
   #cardGrid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
   .topbar-right .nav-btn:not(.active) { display: none; }
+  #footer { padding: 24px 16px; }
 }
 </style>
 </head>
@@ -981,5 +1033,37 @@ function cap(str) {
 // ── Go ───────────────────────────────────────────────────────────────
 init();
 </script>
+
+<!-- ── Footer ─────────────────────────────────────────────────────────── -->
+<footer id="footer">
+  <div class="footer-inner">
+
+    <p class="footer-line">
+      HoloCardDB is an unofficial fan database and is not affiliated with, produced by, or endorsed by
+      <a href="https://cover-corp.com/en/" target="_blank" rel="noopener">COVER Corp.</a>
+      or hololive production.
+      The literal and graphical information presented on this site about the hololive OFFICIAL CARD GAME,
+      including card images, card text, and character likenesses, is copyright
+      <a href="https://cover-corp.com/en/" target="_blank" rel="noopener">COVER Corp.</a>
+      HoloCardDB is not produced by or endorsed by COVER Corp.
+    </p>
+
+    <p class="footer-line">
+      No card images are hosted on this site &mdash; all images are loaded directly from the
+      <a href="https://hololive-official-cardgame.com/" target="_blank" rel="noopener">official hololive OCG servers</a>.
+      Please support the official card game.
+    </p>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-copy">
+      <span class="footer-logo-small">Holo<span>Card</span>DB</span>
+      <span>&mdash;</span>
+      <span>All other site content &copy; 2026 HoloCardDB. For fan use only.</span>
+    </div>
+
+  </div>
+</footer>
+
 </body>
 </html>
