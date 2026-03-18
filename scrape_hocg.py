@@ -98,14 +98,18 @@ def parse_dl(soup):
         "カード名":           "Name",
         "カードタイプ":       "Card Type",
         "カードセット":       "Card Set",
+        "収録商品":           "Card Set",      # variant seen on real JP site
         "カード番号":         "Card Number",
+        "カードナンバー":     "Card Number",   # variant seen on real JP site
         # Stats
         "色":                 "Color",
         "HP":                 "HP",
         "ライフ":             "LIFE",
         "レアリティ":         "Rarity",
         "ブルームレベル":     "Bloom Level",
+        "Bloomレベル":        "Bloom Level",   # variant seen on real JP site
         "バトンパス":         "Baton Pass",
+        "バトンタッチ":       "Baton Pass",    # variant seen on real JP site
         # Skills / abilities
         "タグ":               "Tag",
         "キーワード":         "Keyword",
@@ -118,6 +122,8 @@ def parse_dl(soup):
         "コラボ効果":         "Collab Effect",
         "ギフト":             "Gift",
         "イラストレーター":   "Illustrator",
+        "イラストレーター名": "Illustrator",   # variant seen on real JP site
+        "イラスト":           "Illustrator",   # short form variant
         # Ability text (Cheer / Support cards)
         "能力テキスト":       "Ability Text",
         "テキスト":           "Ability Text",
@@ -375,9 +381,10 @@ def parse_card_page(html, card_id, url):
     illustrator_raw = fields.get("Illustrator") or ""
     if not illustrator_raw:
         page_text = soup.get_text()
-        # Match EN "Illustrator: Name" and JP "イラスト：Name" / "イラストレーター：Name"
+        # Match EN "Illustrator: Name" and JP variants:
+        # "イラストレーター名：Name", "イラストレーター：Name", "イラスト：Name"
         illus_match = re.search(
-            r'(?:Illustrator|イラストレーター|イラスト)[:\uff1a\s]+([^\n\r\t]+)',
+            r'(?:Illustrator|イラストレーター名|イラストレーター|イラスト)[:\uff1a\s]+([^\n\r\t]+)',
             page_text
         )
         if illus_match:
@@ -443,10 +450,18 @@ def main():
     # Load existing data if resuming
     existing = {}
     if RESUME and os.path.exists(OUTPUT_FILE):
-        with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
-            existing_list = json.load(f)
-        existing = {c["id"]: c for c in existing_list}
-        print(f"Resuming: {len(existing)} cards already scraped")
+        try:
+            with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
+                content = f.read().strip()
+            if not content:
+                print(f"Warning: {OUTPUT_FILE} is empty — starting fresh")
+            else:
+                existing_list = json.loads(content)
+                existing = {c["id"]: c for c in existing_list}
+                print(f"Resuming: {len(existing)} cards already scraped")
+        except (json.JSONDecodeError, ValueError) as e:
+            print(f"Warning: {OUTPUT_FILE} is corrupted ({e}) — starting fresh")
+            existing = {}
 
     cards = dict(existing)
     session = requests.Session()
