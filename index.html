@@ -406,16 +406,20 @@ img { display: block; max-width: 100%; }
 }
 #modalOverlay.open #modal { transform: scale(1) translateY(0); }
 
-/* Left — card image fills panel */
+/* Left — card image, full card visible */
 #modalArt {
   position: relative; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
-  background: var(--bg3);
-  min-height: 420px;
+  background: linear-gradient(160deg, #0d1829 0%, #111e33 100%);
+  padding: 20px 16px;
 }
 #modalArt img {
-  width: 100%; height: 100%;
-  object-fit: cover;
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
   display: block;
 }
 #modalArt .no-img {
@@ -1134,6 +1138,172 @@ img { display: block; max-width: 100%; }
 .home-type-count { font-size: 12px; color: var(--text3); font-family: var(--mono); }
 
 /* Homepage responsive — handled in main responsive block above */
+
+/* ══════════════════════════════════════════════════════════════════
+   CARD DETAIL PAGE
+══════════════════════════════════════════════════════════════════ */
+#cardDetailView {
+  display: none;
+  min-height: calc(100vh - var(--topbar-h));
+  animation: fadeUp 0.22s ease both;
+}
+#cardDetailView.active { display: block; }
+
+#cardDetailInner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 28px 24px 60px;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Back button */
+#cardDetailBack {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--text2); font-size: 13px; font-weight: 500;
+  background: none; border: none; cursor: pointer;
+  padding: 8px 0; margin-bottom: 20px;
+  transition: color 0.15s;
+}
+#cardDetailBack:hover { color: var(--accent); }
+#cardDetailBack svg { width: 16px; height: 16px; flex-shrink: 0; }
+#cardDetailBreadcrumb {
+  padding: 0 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Left column — card image */
+#cardDetailArt {
+  position: sticky;
+  top: calc(var(--topbar-h) + 20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+#cardDetailImg {
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+  display: block;
+}
+#cardDetailImgPlaceholder {
+  width: 100%; aspect-ratio: 5/7;
+  background: var(--bg3); border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text3); font-size: 13px; flex-direction: column; gap: 8px;
+}
+#cardDetailOfficialLink {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--text3);
+  padding: 8px 14px; border-radius: var(--radius);
+  border: 1px solid var(--border); background: var(--bg3);
+  transition: all 0.15s; text-decoration: none;
+  width: 100%; justify-content: center;
+}
+#cardDetailOfficialLink:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Right column — card info */
+#cardDetailInfo { display: flex; flex-direction: column; gap: 0; }
+
+#cardDetailName {
+  font-size: 32px; font-weight: 700; line-height: 1.15;
+  color: var(--text); margin-bottom: 6px;
+}
+#cardDetailCardNum {
+  font-size: 13px; color: var(--text3); font-family: var(--mono);
+  margin-bottom: 24px;
+}
+
+/* Fields table */
+#cardDetailFields { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.cd-field-row { display: flex; align-items: center; gap: 12px; }
+.cd-key {
+  background: var(--accent); color: #fff;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+  padding: 4px 14px; border-radius: 99px;
+  white-space: nowrap; flex-shrink: 0; min-width: 88px; text-align: center;
+}
+.cd-val { font-size: 14px; color: var(--text); font-weight: 500; }
+
+/* Tags */
+#cardDetailTags { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 22px; }
+.cd-tag {
+  padding: 5px 13px; border-radius: 99px;
+  background: var(--bg3); border: 1px solid var(--border2);
+  font-size: 12px; color: var(--text2); font-weight: 500;
+}
+
+/* Stats bar */
+#cardDetailStats {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 14px 18px; background: var(--bg3);
+  border-radius: var(--radius-lg); border: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.cd-stat { display: flex; align-items: center; gap: 8px; }
+.cd-stat-label {
+  background: #1a3a5c; color: #60aaee;
+  font-size: 11px; font-weight: 700;
+  padding: 4px 12px; border-radius: 99px; white-space: nowrap;
+}
+.cd-stat-val { font-size: 14px; font-weight: 700; color: var(--text); }
+.cd-stat-divider { width: 1px; height: 18px; background: var(--border2); flex-shrink: 0; }
+.cd-color-dot { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 2px rgba(255,255,255,0.15); }
+
+/* Divider */
+.cd-divider { height: 1px; background: var(--border); margin-bottom: 20px; }
+
+/* Ability blocks */
+#cardDetailAbilities { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
+.cd-ability {
+  border-radius: var(--radius-lg); padding: 16px 18px;
+  font-size: 14px; line-height: 1.75;
+  background: #111827;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.cd-ability-label {
+  display: inline-block;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+  padding: 4px 13px; border-radius: 99px;
+  margin-bottom: 10px;
+}
+.cd-ability-text { color: #c8d8e8; white-space: pre-line; }
+
+/* Footer */
+#cardDetailFooter {
+  padding-top: 16px; border-top: 1px solid var(--border);
+  font-size: 13px; color: var(--text3);
+  display: flex; flex-direction: column; gap: 5px;
+}
+#cardDetailFooter span { color: var(--text2); font-weight: 500; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  #cardDetailInner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 20px 16px 80px;
+  }
+  #cardDetailArt {
+    position: static;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  #cardDetailName { font-size: 26px; }
+  #cardDetailBreadcrumb { padding: 0 16px; }
+}
+@media (max-width: 600px) {
+  #cardDetailInner { padding: 16px 12px 80px; }
+  #cardDetailArt { max-width: 220px; }
+  #cardDetailName { font-size: 22px; }
+  .cd-key { font-size: 10px; padding: 3px 10px; min-width: 72px; }
+  .cd-val { font-size: 13px; }
+  .cd-ability { padding: 12px 14px; font-size: 13px; }
+}
 </style>
 </head>
 <body>
@@ -1442,6 +1612,50 @@ img { display: block; max-width: 100%; }
   </button>
 </nav>
 
+<!-- ── Card Detail Page ──────────────────────────────────────────────── -->
+<div id="cardDetailView">
+  <div id="cardDetailBreadcrumb">
+    <button id="cardDetailBack" onclick="closeCardDetail()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M10 3L5 8l5 5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to Cards
+    </button>
+  </div>
+  <div id="cardDetailInner">
+    <!-- Left: image -->
+    <div id="cardDetailArt">
+      <img id="cardDetailImg" src="" alt="" onerror="this.style.display='none';document.getElementById('cardDetailImgPlaceholder').style.display='flex'">
+      <div id="cardDetailImgPlaceholder" style="display:none">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="3" y="3" width="18" height="18" rx="3"/>
+          <circle cx="8.5" cy="8.5" r="1.5"/>
+          <path d="M21 15l-5-5L5 21"/>
+        </svg>
+        No image
+      </div>
+      <a id="cardDetailOfficialLink" href="#" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          <path d="M8 1h3v3M11 1L6 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        View on official site
+      </a>
+    </div>
+    <!-- Right: info -->
+    <div id="cardDetailInfo">
+      <div id="cardDetailName"></div>
+      <div id="cardDetailCardNum"></div>
+      <div id="cardDetailFields"></div>
+      <div id="cardDetailTags"></div>
+      <div id="cardDetailStats"></div>
+      <div class="cd-divider"></div>
+      <div id="cardDetailAbilities"></div>
+      <div id="cardDetailFooter"></div>
+    </div>
+  </div>
+</div>
+
 <!-- ── Modal ──────────────────────────────────────────────────────────── -->
 <div id="modalOverlay" onclick="handleOverlayClick(event)">
   <div id="modal">
@@ -1551,24 +1765,7 @@ function showSkeletons(count = 20) {
   grid.appendChild(frag);
 }
 
-async function init() {
-  try {
-    const res = await fetch('./cards.json');
-    if (!res.ok) throw new Error('not found');
-    ALL_CARDS = await res.json();
-    buildSetIndex();
-    buildFilterPills();
-    buildSetsView();
-    // Start on homepage, not cards
-    switchView('home');
-  } catch (e) {
-    document.getElementById('noJsonBanner').style.display = 'block';
-    const grid = document.getElementById('cardGrid');
-    grid.innerHTML = '<div style="color:var(--text3);font-size:14px;padding:60px 20px;text-align:center;grid-column:1/-1">No cards.json found — see the notice above.</div>';
-    buildFilterPills();
-    buildSetsView();
-  }
-}
+
 
 function buildSetIndex() {
   const setMap = {};
@@ -1822,7 +2019,7 @@ function makeCardTile(card, i) {
   tile.className = 'card-tile';
   // No stagger delay for visible cards — LCP must paint immediately
   tile.style.animationDelay = i < PAGE_SIZE ? '0ms' : Math.min((i % PAGE_SIZE) * 10, 150) + 'ms';
-  tile.onclick = () => openModal(card);
+  tile.onclick = () => openCardDetail(card);
 
   const typCls   = typeClass(card.card_type);
   const rarCls   = rarityClass(card.rarity);
@@ -2093,7 +2290,166 @@ function clearSearch() {
   applyFilters();
 }
 
-// ── Modal ────────────────────────────────────────────────────────────
+// ── Card Detail Page ─────────────────────────────────────────────────
+function openCardDetail(card) {
+  // Push URL so back button works and cards are shareable
+  const url = new URL(window.location);
+  url.searchParams.set('card', card.card_number + (card.rarity ? '_' + card.rarity : ''));
+  url.searchParams.set('id', card.id);
+  window.history.pushState({ cardId: card.id }, '', url);
+
+  _renderCardDetail(card);
+}
+
+function closeCardDetail() {
+  // Go back in history or return to cards view
+  window.history.back();
+}
+
+function _renderCardDetail(card) {
+  // Hide all other views, show detail
+  document.getElementById('homeView').style.display  = 'none';
+  document.getElementById('cardView').classList.add('hidden');
+  document.getElementById('setsView').classList.remove('active');
+  document.getElementById('sidebar').style.display   = 'none';
+  document.getElementById('cardDetailView').classList.add('active');
+
+  // Update page title and meta for SEO/sharing
+  document.title = `${card.name || card.card_number} — Holoarchive`;
+
+  // ── Image ─────────────────────────────────────────────────────────
+  const img = document.getElementById('cardDetailImg');
+  const placeholder = document.getElementById('cardDetailImgPlaceholder');
+  if (card.image_url) {
+    img.src = proxyImg(card.image_url);
+    img.alt = card.name || '';
+    img.style.display = 'block';
+    placeholder.style.display = 'none';
+  } else {
+    img.style.display = 'none';
+    placeholder.style.display = 'flex';
+  }
+
+  // Official site link
+  document.getElementById('cardDetailOfficialLink').href = card.source_url || '#';
+
+  // ── Name & card number ────────────────────────────────────────────
+  document.getElementById('cardDetailName').textContent    = card.name || 'Unknown';
+  document.getElementById('cardDetailCardNum').textContent = card.card_number || '';
+
+  // ── Labeled fields ────────────────────────────────────────────────
+  const MODAL_TYPE_LABELS = {
+    '推しホロメン':'Oshi Holomem', 'ホロメン':'Holomem', 'Buzzホロメン':'Buzz Holomem',
+    'サポート・アイテム':'Support — Item',
+    'サポート・アイテム・LIMITED':'Support — Item (Limited)',
+    'サポート・イベント':'Support — Event',
+    'サポート・イベント・LIMITED':'Support — Event (Limited)',
+    'サポート・ツール':'Support — Tool',
+    'サポート・マスコット':'Support — Mascot',
+    'サポート・ファン':'Support — Fan',
+    'サポート・スタッフ':'Support — Staff',
+    'サポート・スタッフ・LIMITED':'Support — Staff (Limited)',
+    'チア':'Cheer', 'エール':'Cheer', 'Cheer':'Cheer',
+  };
+  const labeledFields = [];
+  if (card.card_type) labeledFields.push(['Card Type', MODAL_TYPE_LABELS[card.card_type] || card.card_type]);
+  if (card.rarity)    labeledFields.push(['Rarity', card.rarity]);
+  const setName = card.set_name || getSetName(card.set_code);
+  if (setName)        labeledFields.push(['Card Set', setName]);
+
+  document.getElementById('cardDetailFields').innerHTML = labeledFields
+    .filter(([,v]) => v)
+    .map(([k,v]) => `
+      <div class="cd-field-row">
+        <span class="cd-key">${escHtml(k)}</span>
+        <span class="cd-val">${escHtml(String(v))}</span>
+      </div>`).join('');
+
+  // ── Tags ──────────────────────────────────────────────────────────
+  const tags = card.tags || [];
+  document.getElementById('cardDetailTags').innerHTML = tags
+    .map(t => `<span class="cd-tag">${escHtml(t)}</span>`).join('');
+
+  // ── Stats row ─────────────────────────────────────────────────────
+  const COLOR_HEX_DETAIL = {
+    white:'#e2e8f0', green:'#22c55e', red:'#ef4444',
+    blue:'#3b82f6', purple:'#a855f7', yellow:'#eab308', colorless:'#64748b'
+  };
+  const COLOR_LABELS = {
+    white:'White', green:'Green', red:'Red', blue:'Blue',
+    purple:'Purple', yellow:'Yellow', colorless:'Colorless',
+    '白':'White','緑':'Green','赤':'Red','青':'Blue','紫':'Purple','黄':'Yellow',
+  };
+  const stats = [];
+  if (card.color) {
+    const hex = COLOR_HEX_DETAIL[card.color] || '#888';
+    const lbl = COLOR_LABELS[card.color] || cap(card.color);
+    stats.push(`<div class="cd-stat">
+      <span class="cd-stat-label">Color</span>
+      <span class="cd-stat-val" style="display:flex;align-items:center;gap:5px">
+        <span class="cd-color-dot" style="background:${escHtml(hex)}"></span>${escHtml(lbl)}
+      </span></div>`);
+  }
+  if (card.hp)          stats.push(`<div class="cd-stat"><span class="cd-stat-label">HP</span><span class="cd-stat-val">${card.hp}</span></div>`);
+  if (card.life)        stats.push(`<div class="cd-stat"><span class="cd-stat-label">Life</span><span class="cd-stat-val">${card.life}</span></div>`);
+  if (card.bloom_level) stats.push(`<div class="cd-stat"><span class="cd-stat-label">Bloom Level</span><span class="cd-stat-val">${escHtml(card.bloom_level)}</span></div>`);
+  if (card.baton_pass && card.baton_pass !== 'None') stats.push(`<div class="cd-stat"><span class="cd-stat-label">Baton Pass</span><span class="cd-stat-val">${escHtml(card.baton_pass)}</span></div>`);
+
+  const statsEl = document.getElementById('cardDetailStats');
+  statsEl.innerHTML = stats.map((s,i) =>
+    i < stats.length - 1 ? s + '<div class="cd-stat-divider"></div>' : s
+  ).join('');
+  statsEl.style.display = stats.length ? 'flex' : 'none';
+
+  // ── Abilities ─────────────────────────────────────────────────────
+  const ABILITY_META = {
+    keyword:       { label:'Keyword',       cls:'abl-keyword' },
+    arts:          { label:'Arts',          cls:'abl-arts' },
+    ability_text:  { label:'Ability',       cls:'abl-ability_text' },
+    oshi_skill:    { label:'Oshi Skill',    cls:'abl-oshi_skill' },
+    sp_oshi_skill: { label:'SP Oshi Skill', cls:'abl-sp_oshi_skill' },
+    bloom_effect:  { label:'Bloom Effect',  cls:'abl-bloom_effect' },
+    collab_effect: { label:'Collab Effect', cls:'abl-collab_effect' },
+    gift:          { label:'Gift',          cls:'abl-gift' },
+    extra:         { label:'Extra',         cls:'abl-extra' },
+  };
+  const abs = card.abilities || {};
+  document.getElementById('cardDetailAbilities').innerHTML = Object.entries(abs)
+    .filter(([,v]) => v && v.trim())
+    .map(([k,v]) => {
+      const meta = ABILITY_META[k] || { label: k, cls: 'abl-ability_text' };
+      return `<div class="cd-ability">
+        <div class="cd-ability-label ${meta.cls}">${escHtml(meta.label)}</div>
+        <div class="cd-ability-text">${escHtml(v)}</div>
+      </div>`;
+    }).join('') || '';
+
+  // ── Footer ────────────────────────────────────────────────────────
+  const footerParts = [];
+  if (card.illustrator) footerParts.push(`Illustrator: <span>${escHtml(card.illustrator)}</span>`);
+  if (card.card_number) footerParts.push(`Card Number: <span>${escHtml(card.card_number)}</span>`);
+  document.getElementById('cardDetailFooter').innerHTML = footerParts
+    .map(p => `<div>${p}</div>`).join('');
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+// Handle browser back/forward buttons
+window.addEventListener('popstate', (e) => {
+  const params = new URLSearchParams(window.location.search);
+  const cardId = params.get('id');
+  if (cardId && ALL_CARDS.length) {
+    const card = ALL_CARDS.find(c => String(c.id) === cardId);
+    if (card) { _renderCardDetail(card); return; }
+  }
+  // No card param — return to previous view
+  document.getElementById('cardDetailView').classList.remove('active');
+  const view = params.get('view') || 'home';
+  switchView(view);
+});
+
+// ── Modal (kept for potential future use but not used for cards) ──────
 function openModal(card) {
   const overlay = document.getElementById('modalOverlay');
 
@@ -2254,6 +2610,33 @@ if (_urlQuery) {
   if (inp) {
     inp.value = _urlQuery;
     document.getElementById('clearSearch').style.display = 'block';
+  }
+}
+
+async function init() {
+  try {
+    const res = await fetch('./cards.json');
+    if (!res.ok) throw new Error('not found');
+    ALL_CARDS = await res.json();
+    buildSetIndex();
+    buildFilterPills();
+    buildSetsView();
+
+    // Check if URL has a card deep-link
+    const params = new URLSearchParams(window.location.search);
+    const deepCardId = params.get('id');
+    if (deepCardId) {
+      const card = ALL_CARDS.find(c => String(c.id) === deepCardId);
+      if (card) { _renderCardDetail(card); return; }
+    }
+
+    switchView('home');
+  } catch (e) {
+    document.getElementById('noJsonBanner').style.display = 'block';
+    const grid = document.getElementById('cardGrid');
+    grid.innerHTML = '<div style="color:var(--text3);font-size:14px;padding:60px 20px;text-align:center;grid-column:1/-1">No cards.json found — see the notice above.</div>';
+    buildFilterPills();
+    buildSetsView();
   }
 }
 
