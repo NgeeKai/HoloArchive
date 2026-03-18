@@ -6,8 +6,13 @@
 <title>Holoarchive — hololive OCG Card Database</title>
 <meta name="description" content="Search, filter and browse every card in the hololive OFFICIAL CARD GAME.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://hololive-official-cardgame.com" crossorigin>
+<link rel="dns-prefetch" href="https://hololive-official-cardgame.com">
 <link rel="icon" type="image/svg+xml" href="logo.svg">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
 <style>
 /* ── Reset & Base ───────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -197,6 +202,8 @@ img { display: block; max-width: 100%; }
   transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
   overflow: hidden;
   animation: fadeUp 0.3s ease both;
+  contain: layout style;  /* prevents off-screen tiles affecting layout */
+  will-change: transform; /* promotes to own layer for smooth hover */
 }
 .card-tile:hover {
   border-color: var(--accent);
@@ -667,6 +674,29 @@ img { display: block; max-width: 100%; }
   .set-card:hover { transform: none; border-color: var(--border); }
   .set-card:active { transform: scale(0.98); border-color: var(--accent); }
 }
+
+/* ── Skeleton loading ──────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg,
+    var(--bg3) 25%, var(--bg2) 50%, var(--bg3) 75%);
+  background-size: 1200px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: var(--radius);
+}
+.skel-tile {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--bg2);
+}
+.skel-art  { width: 100%; aspect-ratio: 5/7; }
+.skel-info { padding: 9px 10px 10px; display: flex; flex-direction: column; gap: 6px; }
+.skel-name { height: 13px; width: 75%; }
+.skel-meta { height: 10px; width: 45%; }
 </style>
 </head>
 <body>
@@ -798,12 +828,7 @@ img { display: block; max-width: 100%; }
           </button>
         </div>
       </div>
-      <div id="cardGrid">
-        <div id="loadingState">
-          <div class="spinner"></div>
-          <span>Loading cards…</span>
-        </div>
-      </div>
+      <div id="cardGrid"></div>
     </div>
 
     <!-- Sets View -->
@@ -922,6 +947,24 @@ const SET_ICONS = {
 };
 
 // ── Boot ─────────────────────────────────────────────────────────────
+function showSkeletons(count = 20) {
+  const grid = document.getElementById('cardGrid');
+  const frag = document.createDocumentFragment();
+  for (let i = 0; i < count; i++) {
+    const tile = document.createElement('div');
+    tile.className = 'skel-tile';
+    tile.innerHTML = `
+      <div class="skel-art skeleton"></div>
+      <div class="skel-info">
+        <div class="skel-name skeleton"></div>
+        <div class="skel-meta skeleton"></div>
+      </div>`;
+    frag.appendChild(tile);
+  }
+  grid.innerHTML = '';
+  grid.appendChild(frag);
+}
+
 async function init() {
   try {
     const res = await fetch('./cards.json');
@@ -933,8 +976,8 @@ async function init() {
     applyFilters();
   } catch (e) {
     document.getElementById('noJsonBanner').style.display = 'block';
-    document.getElementById('loadingState').innerHTML =
-      '<div style="color:var(--text3);font-size:13px">No cards.json — see the notice above.</div>';
+    const grid = document.getElementById('cardGrid');
+    grid.innerHTML = '<div style="color:var(--text3);font-size:14px;padding:60px 20px;text-align:center;grid-column:1/-1">No cards.json found — see the notice above.</div>';
     buildFilterPills();
     buildSetsView();
   }
@@ -1092,70 +1135,135 @@ function applyFilters() {
   renderCards(cards);
 }
 
-// ── Render Cards ─────────────────────────────────────────────────────
+// ── Render Cards — windowed / paginated ──────────────────────────────
+// Renders PAGE_SIZE cards immediately, then appends more as user scrolls.
+// Keeps DOM node count low, dramatically improving paint & LCP.
+const PAGE_SIZE = 60;
+let _renderCards = [];      // current filtered list
+let _renderOffset = 0;      // how many have been appended so far
+let _scrollObserver = null;
+
 function renderCards(cards) {
+  _renderCards = cards;
+  _renderOffset = 0;
+
   const grid = document.getElementById('cardGrid');
+
+  // Disconnect any previous sentinel observer
+  if (_scrollObserver) { _scrollObserver.disconnect(); _scrollObserver = null; }
+
   if (cards.length === 0) {
     grid.innerHTML = '<div id="emptyState">No cards match your filters.</div>';
     return;
   }
 
-  const frag = document.createDocumentFragment();
-  cards.forEach((card, i) => {
-    const tile = document.createElement('div');
-    tile.className = 'card-tile';
-    tile.style.animationDelay = Math.min(i * 15, 300) + 'ms';
-    tile.onclick = () => openModal(card);
-
-    const typCls = typeClass(card.card_type);
-    const rarCls = rarityClass(card.rarity);
-    const strCls = colorStripeClass(card.color);
-    const typeLabel = card.card_type || '—';
-
-    if (viewMode === 'grid') {
-      tile.innerHTML = `
-        <div class="card-art">
-          ${card.image_url
-            ? `<img src="${escHtml(card.image_url)}" alt="${escHtml(card.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-            : ''}
-          <div class="img-placeholder" style="display:${card.image_url?'none':'flex'}">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-              <rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/>
-              <path d="M21 15l-5-5L5 21"/>
-            </svg>
-            <span>${escHtml(card.card_number||'')}</span>
-          </div>
-          <span class="rarity-badge ${rarCls}">${escHtml(card.rarity||'?')}</span>
-          <div class="color-stripe ${strCls}"></div>
-        </div>
-        <div class="card-info">
-          <div class="card-name">${escHtml(card.name||'Unknown')}</div>
-          <div class="card-meta">
-            <span class="type-badge ${typCls}">${escHtml(typeLabel)}</span>
-            <span class="card-num">${escHtml(card.card_number||'')}</span>
-          </div>
-        </div>`;
-    } else {
-      tile.innerHTML = `
-        <div class="card-art">
-          ${card.image_url
-            ? `<img src="${escHtml(card.image_url)}" alt="${escHtml(card.name)}" loading="lazy" onerror="this.style.display='none'">`
-            : ''}
-        </div>
-        <div class="card-info">
-          <div class="card-name">${escHtml(card.name||'Unknown')}</div>
-          <div class="card-meta">
-            <span class="type-badge ${typCls}">${escHtml(typeLabel)}</span>
-            <span class="type-badge ${rarCls}">${escHtml(card.rarity||'?')}</span>
-            <span class="card-num">${escHtml(card.card_number||'')}</span>
-          </div>
-        </div>`;
-    }
-    frag.appendChild(tile);
-  });
-
   grid.innerHTML = '';
+  appendCards(grid, 0, Math.min(PAGE_SIZE, cards.length));
+  _renderOffset = Math.min(PAGE_SIZE, cards.length);
+
+  if (_renderOffset < cards.length) {
+    attachSentinel(grid);
+  }
+}
+
+function appendCards(grid, start, end) {
+  const frag = document.createDocumentFragment();
+  for (let i = start; i < end; i++) {
+    frag.appendChild(makeCardTile(_renderCards[i], i));
+  }
   grid.appendChild(frag);
+}
+
+function attachSentinel(grid) {
+  // Remove old sentinel
+  const old = grid.querySelector('.scroll-sentinel');
+  if (old) old.remove();
+
+  const sentinel = document.createElement('div');
+  sentinel.className = 'scroll-sentinel';
+  sentinel.style.cssText = 'height:1px;grid-column:1/-1;';
+  grid.appendChild(sentinel);
+
+  _scrollObserver = new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) return;
+    const next = Math.min(_renderOffset + PAGE_SIZE, _renderCards.length);
+    appendCards(grid, _renderOffset, next);
+    _renderOffset = next;
+    if (_renderOffset >= _renderCards.length) {
+      _scrollObserver.disconnect();
+      sentinel.remove();
+    } else {
+      // Move sentinel to end
+      grid.appendChild(sentinel);
+    }
+  }, { rootMargin: '400px' });
+
+  _scrollObserver.observe(sentinel);
+}
+
+function makeCardTile(card, i) {
+  const tile = document.createElement('div');
+  tile.className = 'card-tile';
+  // No stagger delay for visible cards — LCP must paint immediately
+  tile.style.animationDelay = i < PAGE_SIZE ? '0ms' : Math.min((i % PAGE_SIZE) * 10, 150) + 'ms';
+  tile.onclick = () => openModal(card);
+
+  const typCls   = typeClass(card.card_type);
+  const rarCls   = rarityClass(card.rarity);
+  const strCls   = colorStripeClass(card.color);
+  const typeLabel = card.card_type || '—';
+  const isEager  = i < 20;
+  const isHigh   = i < 6;
+
+  if (viewMode === 'grid') {
+    tile.innerHTML = `
+      <div class="card-art">
+        ${card.image_url
+          ? `<img src="${escHtml(card.image_url)}" alt="${escHtml(card.name)}"
+              loading="${isEager ? 'eager' : 'lazy'}"
+              ${isHigh ? 'fetchpriority="high"' : 'fetchpriority="low"'}
+              decoding="async"
+              width="150" height="210"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+          : ''}
+        <div class="img-placeholder" style="display:${card.image_url?'none':'flex'}">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <path d="M21 15l-5-5L5 21"/>
+          </svg>
+          <span>${escHtml(card.card_number||'')}</span>
+        </div>
+        <span class="rarity-badge ${rarCls}">${escHtml(card.rarity||'?')}</span>
+        <div class="color-stripe ${strCls}"></div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">${escHtml(card.name||'Unknown')}</div>
+        <div class="card-meta">
+          <span class="type-badge ${typCls}">${escHtml(typeLabel)}</span>
+          <span class="card-num">${escHtml(card.card_number||'')}</span>
+        </div>
+      </div>`;
+  } else {
+    tile.innerHTML = `
+      <div class="card-art">
+        ${card.image_url
+          ? `<img src="${escHtml(card.image_url)}" alt="${escHtml(card.name)}"
+              loading="${isEager ? 'eager' : 'lazy'}"
+              decoding="async"
+              width="52" height="52"
+              onerror="this.style.display='none'">`
+          : ''}
+      </div>
+      <div class="card-info">
+        <div class="card-name">${escHtml(card.name||'Unknown')}</div>
+        <div class="card-meta">
+          <span class="type-badge ${typCls}">${escHtml(typeLabel)}</span>
+          <span class="type-badge ${rarCls}">${escHtml(card.rarity||'?')}</span>
+          <span class="card-num">${escHtml(card.card_number||'')}</span>
+        </div>
+      </div>`;
+  }
+  return tile;
 }
 
 // ── Sets View ────────────────────────────────────────────────────────
@@ -1232,10 +1340,13 @@ function setViewMode(mode) {
 }
 
 // ── Search ───────────────────────────────────────────────────────────
+let _searchTimer = null;
 document.getElementById('searchInput').addEventListener('input', e => {
   searchQuery = e.target.value;
   document.getElementById('clearSearch').style.display = searchQuery ? 'block' : 'none';
-  applyFilters();
+  // Debounce: wait 180ms after user stops typing before filtering
+  clearTimeout(_searchTimer);
+  _searchTimer = setTimeout(applyFilters, 180);
 });
 function clearSearch() {
   searchQuery = '';
@@ -1343,7 +1454,15 @@ function cap(str) {
 }
 
 // ── Go ───────────────────────────────────────────────────────────────
-init();
+// Show skeletons on the very first frame, then kick off data loading
+// once the browser is idle — ensures topbar + skeleton grid LCP fires fast
+if ('requestIdleCallback' in window) {
+  // Paint skeletons synchronously, defer JSON fetch to idle
+  showSkeletons(20);
+  requestIdleCallback(init, { timeout: 500 });
+} else {
+  init();
+}
 </script>
 
 <!-- ── Footer ─────────────────────────────────────────────────────────── -->
