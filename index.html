@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Holoarchive — hololive OCG Card Database</title>
 <meta name="description" content="Search, filter and browse every card in the hololive OFFICIAL CARD GAME.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -93,6 +93,7 @@ img { display: block; max-width: 100%; }
   border-radius: var(--radius); color: var(--text);
   padding: 0 38px 0 38px; font-size: 14px;
   transition: border-color 0.15s, box-shadow 0.15s;
+  -webkit-appearance: none;
 }
 #searchInput:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
 #searchInput::placeholder { color: var(--text3); }
@@ -351,6 +352,7 @@ img { display: block; max-width: 100%; }
 #modalBody {
   padding: 24px; overflow-y: auto;
   display: flex; flex-direction: column; gap: 14px;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
 }
 #modalName { font-size: 22px; font-weight: 600; line-height: 1.2; }
 #modalCardNum { font-size: 12px; color: var(--text3); font-family: var(--mono); margin-top: 3px; }
@@ -487,17 +489,183 @@ img { display: block; max-width: 100%; }
 }
 .footer-logo-small span { color: var(--accent); }
 
-/* ── Responsive ────────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════
+   RESPONSIVE — mobile-first, three breakpoints
+   • <600px  : phone        (1-col, bottom nav, filter drawer)
+   • 600–900 : tablet       (2-col grid, filter drawer)
+   • >900px  : desktop      (sidebar visible, full layout)
+══════════════════════════════════════════════════════════════════ */
+
+/* ── Mobile filter drawer ─────────────────────────────────────── */
+#filterDrawerOverlay {
+  display: none;
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  z-index: 300; backdrop-filter: blur(3px);
+}
+#filterDrawerOverlay.open { display: block; }
+
+#filterDrawer {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg2); border-top: 1px solid var(--border2);
+  border-radius: 20px 20px 0 0;
+  z-index: 310; padding: 0 0 env(safe-area-inset-bottom);
+  transform: translateY(100%);
+  transition: transform 0.28s cubic-bezier(0.32,0.72,0,1);
+  max-height: 85vh; display: flex; flex-direction: column;
+}
+#filterDrawer.open { transform: translateY(0); }
+
+#filterDrawerHandle {
+  width: 36px; height: 4px; border-radius: 99px;
+  background: var(--border2); margin: 12px auto 4px;
+  flex-shrink: 0;
+}
+#filterDrawerTitle {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 20px 12px; flex-shrink: 0;
+  font-size: 15px; font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+#filterDrawerClose {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--bg3); border: none; cursor: pointer;
+  color: var(--text2); font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+#filterDrawerBody {
+  overflow-y: auto; padding: 16px 20px 20px;
+  display: flex; flex-direction: column; gap: 20px;
+  -webkit-overflow-scrolling: touch;
+}
+#filterDrawerBody .filter-group { display: flex; flex-direction: column; gap: 10px; }
+#filterDrawerBody .filter-pills { gap: 7px; }
+#filterDrawerBody .pill { height: 32px; padding: 0 14px; font-size: 13px; }
+
+/* ── Bottom nav bar (mobile only) ─────────────────────────────── */
+#bottomNav {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: calc(56px + env(safe-area-inset-bottom));
+  background: rgba(8,14,26,0.96); backdrop-filter: blur(14px);
+  border-top: 1px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 200;
+  display: none;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.bottom-nav-btn {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 3px;
+  background: none; border: none; cursor: pointer;
+  color: var(--text3); font-size: 10px; font-weight: 500;
+  transition: color 0.15s; padding: 8px 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.bottom-nav-btn svg { width: 22px; height: 22px; }
+.bottom-nav-btn.active { color: var(--accent); }
+.bottom-nav-btn .nav-dot {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--accent); margin-top: 2px;
+  opacity: 0; transition: opacity 0.15s;
+}
+.bottom-nav-btn.active .nav-dot { opacity: 1; }
+
+/* ── Filter trigger button (tablet/mobile) ────────────────────── */
+#filterTrigger {
+  display: none;
+  align-items: center; gap: 7px;
+  height: 34px; padding: 0 14px;
+  border: 1px solid var(--border2); border-radius: var(--radius);
+  background: var(--bg3); color: var(--text2);
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  transition: all 0.15s; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+#filterTrigger:hover { border-color: var(--accent); color: var(--text); }
+#filterTrigger svg { width: 14px; height: 14px; flex-shrink: 0; }
+#filterTrigger .filter-count {
+  background: var(--accent); color: #fff;
+  font-size: 10px; font-weight: 600;
+  min-width: 18px; height: 18px; border-radius: 99px;
+  display: none; align-items: center; justify-content: center;
+  padding: 0 4px;
+}
+#filterTrigger .filter-count.visible { display: flex; }
+
+/* ── Tablet (600–900px) ───────────────────────────────────────── */
 @media (max-width: 900px) {
   #sidebar { display: none; }
-  #main { padding: 16px; }
+  #main { padding: 16px 16px 80px; }
+  #filterTrigger { display: flex; }
+  #bottomNav { display: grid; }
+  .topbar-right { display: none; }
+  #cardGrid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+  #toolrow { gap: 8px; }
 }
+
+/* ── Phone (<600px) ───────────────────────────────────────────── */
 @media (max-width: 600px) {
-  #modal { grid-template-columns: 1fr; }
-  #modalArt { min-height: 200px; max-height: 240px; }
-  #cardGrid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
-  .topbar-right .nav-btn:not(.active) { display: none; }
-  #footer { padding: 24px 16px; }
+  :root { --topbar-h: 52px; }
+
+  #topbar { padding: 0 14px; gap: 10px; }
+  .logo-text { display: none; }
+  #searchInput { font-size: 16px; /* prevents iOS auto-zoom */ }
+
+  #main { padding: 12px 12px 80px; }
+
+  #cardGrid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+  }
+
+  #toolrow { margin-bottom: 12px; }
+  .toolrow-label { display: none; }
+
+  /* Modal — full-screen bottom sheet on mobile */
+  #modalOverlay { align-items: flex-end; padding: 0; }
+  #modal {
+    grid-template-columns: 1fr;
+    border-radius: 20px 20px 0 0;
+    max-height: 92vh;
+    width: 100%;
+  }
+  #modalArt {
+    min-height: 220px;
+    max-height: 260px;
+    border-radius: 20px 20px 0 0;
+  }
+  #modalBody { padding: 18px 18px 32px; }
+  #modalName { font-size: 18px; }
+  #modalClose { top: 10px; right: 10px; }
+
+  /* Sets grid 1-col on very small phones */
+  .sets-grid { grid-template-columns: 1fr; gap: 10px; }
+
+  #footer { padding: 20px 16px 96px; }
+
+  /* List mode adjustments */
+  #cardGrid.list-mode .card-tile { height: 58px; }
+  #cardGrid.list-mode .card-art { width: 42px; height: 58px; }
+  #cardGrid.list-mode .card-name { font-size: 13px; }
+}
+
+/* ── Touch target sizing ──────────────────────────────────────── */
+@media (hover: none) {
+  .pill { min-height: 36px; padding: 0 14px; }
+  .card-tile:hover {
+    transform: none;
+    border-color: var(--border);
+    box-shadow: none;
+  }
+  .card-tile:active {
+    transform: scale(0.97);
+    border-color: var(--accent);
+  }
+  .set-card:hover { transform: none; border-color: var(--border); }
+  .set-card:active { transform: scale(0.98); border-color: var(--accent); }
 }
 </style>
 </head>
@@ -598,6 +766,13 @@ img { display: block; max-width: 100%; }
     <!-- Card View -->
     <div id="cardView">
       <div id="toolrow">
+        <button id="filterTrigger" onclick="openFilterDrawer()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M2 4h12M5 8h6M7 12h2" stroke-linecap="round"/>
+          </svg>
+          Filters
+          <span class="filter-count" id="filterCount"></span>
+        </button>
         <span class="toolrow-label">Sort by</span>
         <select id="sortSelect" onchange="applyFilters()">
           <option value="number">Card Number</option>
@@ -638,6 +813,70 @@ img { display: block; max-width: 100%; }
 
   </main>
 </div>
+
+<!-- ── Filter Drawer (mobile/tablet) ────────────────────────────────── -->
+<div id="filterDrawerOverlay" onclick="closeFilterDrawer()"></div>
+<div id="filterDrawer">
+  <div id="filterDrawerHandle"></div>
+  <div id="filterDrawerTitle">
+    <span>Filters</span>
+    <button id="filterDrawerClose" onclick="closeFilterDrawer()">×</button>
+  </div>
+  <div id="filterDrawerBody">
+    <div class="filter-group">
+      <div class="filter-label">Card Type</div>
+      <div class="filter-pills" id="drawerTypePills"></div>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="filter-group">
+      <div class="filter-label">Color</div>
+      <div class="filter-pills" id="drawerColorPills"></div>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="filter-group">
+      <div class="filter-label">Rarity</div>
+      <div class="filter-pills" id="drawerRarityPills"></div>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="filter-group">
+      <div class="filter-label">Bloom Level</div>
+      <div class="filter-pills" id="drawerBloomPills"></div>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="filter-group">
+      <div class="filter-label">Set</div>
+      <div class="filter-pills" id="drawerSetPills"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Bottom Nav (mobile/tablet) ────────────────────────────────────── -->
+<nav id="bottomNav">
+  <button class="bottom-nav-btn active" id="bnCards" onclick="switchView('cards')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/>
+      <rect x="14" y="11" width="7" height="10" rx="1.5"/><rect x="3" y="15" width="7" height="6" rx="1.5"/>
+    </svg>
+    <span>Cards</span>
+    <div class="nav-dot"></div>
+  </button>
+  <button class="bottom-nav-btn" id="bnSets" onclick="switchView('sets')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <rect x="3" y="4" width="18" height="4" rx="1.5"/>
+      <rect x="3" y="11" width="18" height="4" rx="1.5"/>
+      <rect x="3" y="18" width="11" height="3" rx="1.5"/>
+    </svg>
+    <span>Sets</span>
+    <div class="nav-dot"></div>
+  </button>
+  <button class="bottom-nav-btn" id="bnFilter" onclick="openFilterDrawer()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M3 6h18M7 12h10M11 18h2" stroke-linecap="round"/>
+    </svg>
+    <span>Filter</span>
+    <div class="nav-dot" id="filterActiveDot"></div>
+  </button>
+</nav>
 
 <!-- ── Modal ──────────────────────────────────────────────────────────── -->
 <div id="modalOverlay" onclick="handleOverlayClick(event)">
@@ -754,11 +993,32 @@ function buildFilterPills() {
   const blooms   = ['All','Debut','1st','2nd','Spot'];
   const sets     = ['All', ...ALL_SETS.map(s => s.code)];
 
+  // Sidebar (desktop)
   makePills('typePills',   types,    'type',   v => v);
   makePills('colorPills',  colors,   'color',  v => v, true);
   makePills('rarityPills', rarities, 'rarity', v => v);
   makePills('bloomPills',  blooms,   'bloom',  v => v);
   makePills('setPills',    sets,     'set',    v => v);
+
+  // Drawer (mobile/tablet) — same content, separate elements
+  makePills('drawerTypePills',   types,    'type',   v => v);
+  makePills('drawerColorPills',  colors,   'color',  v => v, true);
+  makePills('drawerRarityPills', rarities, 'rarity', v => v);
+  makePills('drawerBloomPills',  blooms,   'bloom',  v => v);
+  makePills('drawerSetPills',    sets,     'set',    v => v);
+
+  updateFilterCount();
+}
+
+function updateFilterCount() {
+  const active = Object.values(filters).filter(v => v !== 'All').length;
+  const badge = document.getElementById('filterCount');
+  const dot = document.getElementById('filterActiveDot');
+  if (badge) {
+    badge.textContent = active;
+    badge.classList.toggle('visible', active > 0);
+  }
+  if (dot) dot.style.opacity = active > 0 ? '1' : '0';
 }
 
 function makePills(containerId, values, filterKey, labelFn, isColor=false) {
@@ -775,7 +1035,13 @@ function makePills(containerId, values, filterKey, labelFn, isColor=false) {
       btn.appendChild(dot);
     }
     btn.appendChild(document.createTextNode(labelFn(v)));
-    btn.onclick = () => { filters[filterKey] = v; buildFilterPills(); applyFilters(); };
+    btn.onclick = () => {
+      filters[filterKey] = v;
+      buildFilterPills();
+      applyFilters();
+      // Auto-close drawer on mobile after picking a filter
+      if (window.innerWidth <= 900) closeFilterDrawer();
+    };
     el.appendChild(btn);
   });
 }
@@ -822,6 +1088,7 @@ function applyFilters() {
   document.getElementById('resultCount').textContent =
     `${cards.length.toLocaleString()} / ${ALL_CARDS.length.toLocaleString()} cards`;
 
+  updateFilterCount();
   renderCards(cards);
 }
 
@@ -931,9 +1198,29 @@ function switchView(v) {
   document.getElementById('cardView').classList.toggle('hidden', v !== 'cards');
   document.getElementById('setsView').classList.toggle('active', v === 'sets');
   document.getElementById('sidebar').style.display = v === 'cards' ? '' : 'none';
+  // Topbar nav (desktop)
   document.getElementById('btnCards').classList.toggle('active', v === 'cards');
   document.getElementById('btnSets').classList.toggle('active', v === 'sets');
+  // Bottom nav (mobile)
+  document.getElementById('bnCards').classList.toggle('active', v === 'cards');
+  document.getElementById('bnSets').classList.toggle('active', v === 'sets');
 }
+
+// ── Filter Drawer ─────────────────────────────────────────────────────
+function openFilterDrawer() {
+  document.getElementById('filterDrawer').classList.add('open');
+  document.getElementById('filterDrawerOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeFilterDrawer() {
+  document.getElementById('filterDrawer').classList.remove('open');
+  document.getElementById('filterDrawerOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+// Close drawer with Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); closeFilterDrawer(); }
+});
 
 function setViewMode(mode) {
   viewMode = mode;
@@ -1043,7 +1330,7 @@ function handleImgError(img) {
   img.style.display = 'none';
   document.getElementById('modalNoImg').style.display = 'flex';
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
 
 // ── Utilities ────────────────────────────────────────────────────────
 function escHtml(str) {
