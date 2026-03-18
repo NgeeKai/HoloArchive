@@ -3668,6 +3668,27 @@
     "source_url": "https://hololive-official-cardgame.com/cardlist/?id=148"
   },
   {
+    "id": 149,
+    "card_number": "hBP01-108",
+    "set_code": "hBP01",
+    "set_name": "ブースターパック「ブルーミングレディアンス」 スタートデッキ 赤 百鬼あやめ スタートデッキ 青 猫又おかゆ スタートデッキ 白 轟はじめ スタートデッキ 白 天音かなた スタートデッキ 赤 宝鐘マリン スタートデッキ 推し Advent",
+    "name": "Then it's the enemy.",
+    "card_type": "サポート・イベント・LIMITED",
+    "rarity": "U",
+    "color": null,
+    "hp": null,
+    "life": null,
+    "bloom_level": null,
+    "baton_pass": null,
+    "tags": [],
+    "abilities": {
+      "ability_text": "Swap the opponent's center and back men. LIMITED: Only one card can be used per turn."
+    },
+    "illustrator": null,
+    "image_url": "https://hololive-official-cardgame.com/wp-content/images/cardlist/hBP01/hBP01-108_U.png",
+    "source_url": "https://hololive-official-cardgame.com/cardlist/?id=149"
+  },
+  {
     "id": 150,
     "card_number": "hBP01-109",
     "set_code": "hBP01",
@@ -14409,7 +14430,7 @@
       "#Baby"
     ],
     "abilities": {
-      "arts": "I asked for your support 30\nMikopee! (｀・ω・´)🌸 50 You can roll the dice once: When it's 2, 4, or 6, deal 20 special damage to the opponent's center Holomen. When it is 3 or 5, deals 20 special damage to the opponent's center Holomen and collaboration Holomen."
+      "arts": "I asked for your support 30\nMikopee! (｀・ω・´)🌸 50 You can roll the dice once: When it's 2, 4, or 6, deal 20 special damage to the opponent's center Holomen. When it is 3 or 5, deal 20 special damage to the opponent's center Holomen and collaboration Holomen."
     },
     "illustrator": null,
     "image_url": "https://hololive-official-cardgame.com/wp-content/images/cardlist/hBP03/hBP03-028_U.png",
@@ -17278,7 +17299,7 @@
       "#Baby"
     ],
     "abilities": {
-      "arts": "I asked for your support 30\nMikopee! (｀・ω・´)🌸 50 You can roll the dice once: When it's 2, 4, or 6, deal 20 special damage to the opponent's center Holomen. When it is 3 or 5, deals 20 special damage to the opponent's center Holomen and collaboration Holomen."
+      "arts": "I asked for your support 30\nMikopee! (｀・ω・´)🌸 50 You can roll the dice once: When it's 2, 4, or 6, deal 20 special damage to the opponent's center Holomen. When it is 3 or 5, deal 20 special damage to the opponent's center Holomen and collaboration Holomen."
     },
     "illustrator": null,
     "image_url": "https://hololive-official-cardgame.com/wp-content/images/cardlist/hBP03/hBP03-028_S.png",
