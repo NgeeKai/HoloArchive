@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#005fa3"/>
+      <stop offset="55%" stop-color="#00a8e8"/>
+      <stop offset="100%" stop-color="#00d4ff"/>
+    </linearGradient>
+    <linearGradient id="shineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.22)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded square bg -->
+  <rect x="12" y="12" width="216" height="216" rx="52" fill="url(#bgGrad)"/>
+  <rect x="12" y="12" width="216" height="108" rx="52" fill="url(#shineGrad)"/>
+
+  <!-- Outer hololive-style circle ring -->
+  <circle cx="120" cy="108" r="66" fill="none" stroke="white" stroke-width="5" stroke-opacity="0.2"/>
+
+  <!-- Open book left page -->
+  <path d="M56 92 C56 81 64 76 74 76 L115 81 L115 140 L74 135 C64 135 56 130 56 119 Z"
+        fill="white" fill-opacity="0.95"/>
+  <!-- Open book right page -->
+  <path d="M184 92 C184 81 176 76 166 76 L125 81 L125 140 L166 135 C176 135 184 130 184 119 Z"
+        fill="white" fill-opacity="0.72"/>
+  <!-- Book spine -->
+  <line x1="120" y1="78" x2="120" y2="142"
+        stroke="#00a8e8" stroke-width="4" stroke-linecap="round"/>
+  <!-- Spine shadow left -->
+  <line x1="115" y1="80" x2="115" y2="140"
+        stroke="rgba(0,80,140,0.15)" stroke-width="2"/>
+
+  <!-- Lines on left page (card data rows) -->
+  <line x1="70"  y1="96"  x2="108" y2="97"  stroke="#0077cc" stroke-width="2.8" stroke-linecap="round" stroke-opacity="0.55"/>
+  <line x1="70"  y1="107" x2="108" y2="108" stroke="#0077cc" stroke-width="2.8" stroke-linecap="round" stroke-opacity="0.55"/>
+  <line x1="70"  y1="118" x2="108" y2="119" stroke="#0077cc" stroke-width="2.8" stroke-linecap="round" stroke-opacity="0.55"/>
+  <line x1="70"  y1="129" x2="94"  y2="130" stroke="#0077cc" stroke-width="2.8" stroke-linecap="round" stroke-opacity="0.4"/>
+
+  <!-- Lines on right page (lighter) -->
+  <line x1="132" y1="97"  x2="170" y2="96"  stroke="#0077cc" stroke-width="2.8" stroke-linecap="round" stroke-opacity="0.3"/>
+  <line x1="132" y1="108" x2="170" y2="107" stroke="#0077cc" stroke-width="2.8" stroke-linecap="round" stroke-opacity="0.3"/>
+  <line x1="132" y1="119" x2="162" y2="118" stroke="#0077cc" stroke-width="2.8" stroke-linecap="round" stroke-opacity="0.3"/>
+
+  <!-- 4-pointed star sparkle top-right (idol energy) -->
+  <g transform="translate(176,58)">
+    <path d="M0,-13 L3,-3 L13,0 L3,3 L0,13 L-3,3 L-13,0 L-3,-3 Z"
+          fill="white" fill-opacity="0.9"/>
+  </g>
+  <!-- Small sparkle -->
+  <g transform="translate(158,44)">
+    <path d="M0,-6 L1.4,-1.4 L6,0 L1.4,1.4 L0,6 L-1.4,1.4 L-6,0 L-1.4,-1.4 Z"
+          fill="white" fill-opacity="0.65"/>
+  </g>
+  <!-- Tiny dot -->
+  <circle cx="192" cy="72" r="3" fill="white" fill-opacity="0.45"/>
+</svg>
