@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080e1a"/>
+      <stop offset="100%" stop-color="#0c1f3a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#005fa3"/>
+      <stop offset="50%" stop-color="#00a8e8"/>
+      <stop offset="100%" stop-color="#00d4ff"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d2040"/>
+      <stop offset="100%" stop-color="#0a1830"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Subtle grid lines -->
+  <g stroke="rgba(0,168,232,0.06)" stroke-width="1">
+    <line x1="0" y1="105" x2="1200" y2="105"/>
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <line x1="200" y1="0" x2="200" y2="630"/>
+    <line x1="400" y1="0" x2="400" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="800" y1="0" x2="800" y2="630"/>
+    <line x1="1000" y1="0" x2="1000" y2="630"/>
+  </g>
+
+  <!-- Accent bar at top -->
+  <rect width="1200" height="5" fill="url(#accent)"/>
+
+  <!-- Decorative card shapes in background (right side) -->
+  <g opacity="0.12">
+    <rect x="720" y="60" width="160" height="224" rx="12" fill="none" stroke="#00a8e8" stroke-width="1.5" transform="rotate(-8,800,172)"/>
+    <rect x="820" y="80" width="160" height="224" rx="12" fill="none" stroke="#00a8e8" stroke-width="1.5" transform="rotate(-2,900,192)"/>
+    <rect x="920" y="50" width="160" height="224" rx="12" fill="none" stroke="#00a8e8" stroke-width="1.5" transform="rotate(6,1000,162)"/>
+    <rect x="780" y="320" width="160" height="224" rx="12" fill="none" stroke="#00d4ff" stroke-width="1.5" transform="rotate(4,860,432)"/>
+    <rect x="940" y="300" width="160" height="224" rx="12" fill="none" stroke="#00d4ff" stroke-width="1.5" transform="rotate(-5,1020,412)"/>
+  </g>
+
+  <!-- Logo mark -->
+  <g transform="translate(80, 200)">
+    <rect width="90" height="90" rx="22" fill="url(#accent)"/>
+    <!-- Book icon scaled up -->
+    <path d="M14 28C14 24 17 22 21 22L43 25L43 68L21 65C17 65 14 63 14 59Z" fill="white" fill-opacity="0.95"/>
+    <path d="M76 28C76 24 73 22 69 22L47 25L47 68L69 65C73 65 76 63 76 59Z" fill="white" fill-opacity="0.7"/>
+    <line x1="45" y1="23" x2="45" y2="69" stroke="#00d4ff" stroke-width="3" stroke-linecap="round"/>
+    <line x1="20" y1="32" x2="40" y2="33" stroke="#005fa3" stroke-width="2" stroke-linecap="round" stroke-opacity="0.6"/>
+    <line x1="20" y1="40" x2="40" y2="41" stroke="#005fa3" stroke-width="2" stroke-linecap="round" stroke-opacity="0.6"/>
+    <line x1="20" y1="48" x2="40" y2="49" stroke="#005fa3" stroke-width="2" stroke-linecap="round" stroke-opacity="0.6"/>
+    <path d="M73,14 L74.5,18.5 L79,18.5 L75.5,21.5 L77,26 L73,23 L69,26 L70.5,21.5 L67,18.5 L71.5,18.5 Z" fill="white" fill-opacity="0.9"/>
+  </g>
+
+  <!-- Main title -->
+  <text x="80" y="180" font-family="system-ui,-apple-system,sans-serif" font-size="64" font-weight="700" fill="white" letter-spacing="-1">Holoarchive</text>
+
+  <!-- Accent underline -->
+  <rect x="80" y="192" width="420" height="4" rx="2" fill="url(#accent)"/>
+
+  <!-- Subtitle -->
+  <text x="80" y="248" font-family="system-ui,-apple-system,sans-serif" font-size="28" fill="#7ab8d8">hololive OFFICIAL CARD GAME — Card Database</text>
+
+  <!-- Feature pills -->
+  <g transform="translate(80, 300)">
+    <!-- Pill 1 -->
+    <rect width="160" height="40" rx="20" fill="rgba(0,168,232,0.15)" stroke="rgba(0,168,232,0.35)" stroke-width="1"/>
+    <text x="80" y="26" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" fill="#00d4ff">Search &amp; Filter</text>
+    <!-- Pill 2 -->
+    <rect x="176" width="160" height="40" rx="20" fill="rgba(0,168,232,0.15)" stroke="rgba(0,168,232,0.35)" stroke-width="1"/>
+    <text x="256" y="26" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" fill="#00d4ff">All Sets</text>
+    <!-- Pill 3 -->
+    <rect x="352" width="180" height="40" rx="20" fill="rgba(0,168,232,0.15)" stroke="rgba(0,168,232,0.35)" stroke-width="1"/>
+    <text x="442" y="26" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" fill="#00d4ff">Card Details</text>
+    <!-- Pill 4 -->
+    <rect x="548" width="160" height="40" rx="20" fill="rgba(0,168,232,0.15)" stroke="rgba(0,168,232,0.35)" stroke-width="1"/>
+    <text x="628" y="26" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" fill="#00d4ff">Free to use</text>
+  </g>
+
+  <!-- Stats row -->
+  <g transform="translate(80, 400)">
+    <text font-family="system-ui,sans-serif" font-size="42" font-weight="700" fill="white">2,000+</text>
+    <text y="52" font-family="system-ui,sans-serif" font-size="16" fill="#7ab8d8">cards indexed</text>
+    <text x="220" font-family="system-ui,sans-serif" font-size="42" font-weight="700" fill="white">14</text>
+    <text x="220" y="52" font-family="system-ui,sans-serif" font-size="16" fill="#7ab8d8">sets covered</text>
+    <text x="360" font-family="system-ui,sans-serif" font-size="42" font-weight="700" fill="white">7</text>
+    <text x="360" y="52" font-family="system-ui,sans-serif" font-size="16" fill="#7ab8d8">card colors</text>
+  </g>
+
+  <!-- Footer bar -->
+  <rect y="590" width="1200" height="40" fill="rgba(0,168,232,0.08)"/>
+  <text x="80" y="614" font-family="system-ui,sans-serif" font-size="15" fill="rgba(255,255,255,0.4)">Fan project — not affiliated with COVER Corp. or hololive production</text>
+  <text x="1120" y="614" text-anchor="end" font-family="system-ui,sans-serif" font-size="15" fill="rgba(0,168,232,0.7)">https://holoarchive.netlify.app</text>
+</svg>

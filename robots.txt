@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap location — update https://holoarchive.netlify.app once you have one
+Sitemap: https://https://holoarchive.netlify.app/sitemap.xml
