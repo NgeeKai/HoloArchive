@@ -390,7 +390,7 @@ img { display: block; max-width: 100%; }
 /* ── Modal ─────────────────────────────────────────────────────────── */
 #modalOverlay {
   position: fixed; inset: 0;
-  background: rgba(0,0,0,0.75); backdrop-filter: blur(4px);
+  background: rgba(0,0,0,0.78); backdrop-filter: blur(6px);
   display: flex; align-items: center; justify-content: center;
   z-index: 500; padding: 16px;
   opacity: 0; pointer-events: none; transition: opacity 0.2s;
@@ -398,72 +398,134 @@ img { display: block; max-width: 100%; }
 #modalOverlay.open { opacity: 1; pointer-events: all; }
 #modal {
   background: var(--bg2); border: 1px solid var(--border2);
-  border-radius: var(--radius-lg);
-  width: 100%; max-width: 800px; max-height: 92vh;
-  overflow: hidden; display: grid; grid-template-columns: 280px 1fr;
-  transform: scale(0.96) translateY(8px); transition: transform 0.2s;
-  position: relative;
+  border-radius: 20px;
+  width: 100%; max-width: 860px; max-height: 92vh;
+  overflow: hidden; display: grid; grid-template-columns: 300px 1fr;
+  transform: scale(0.96) translateY(10px); transition: transform 0.22s cubic-bezier(0.34,1.2,0.64,1);
+  position: relative; box-shadow: 0 32px 80px rgba(0,0,0,0.6);
 }
 #modalOverlay.open #modal { transform: scale(1) translateY(0); }
 
+/* Left — card image */
 #modalArt {
   position: relative; overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
-  min-height: 380px; background: var(--bg3);
+  display: flex; align-items: flex-start; justify-content: center;
+  background: var(--bg3); padding: 20px;
 }
 #modalArt img {
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%; border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  object-fit: contain;
 }
 #modalArt .no-img {
   display: flex; flex-direction: column; align-items: center;
-  gap: 8px; color: var(--text3); font-size: 13px;
+  gap: 8px; color: var(--text3); font-size: 13px; padding-top: 40px;
 }
-#modalColorBar { position: absolute; bottom: 0; left: 0; right: 0; height: 4px; }
 
+/* Right — card info */
 #modalBody {
-  padding: 24px; overflow-y: auto;
-  display: flex; flex-direction: column; gap: 14px;
-  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  padding: 28px 28px 24px;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 0;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
 }
-#modalName { font-size: 22px; font-weight: 600; line-height: 1.2; }
-#modalCardNum { font-size: 12px; color: var(--text3); font-family: var(--mono); margin-top: 3px; }
 
-.modal-section { display: flex; flex-direction: column; gap: 5px; }
-.modal-field-row { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; }
-.modal-key { color: var(--text3); min-width: 88px; flex-shrink: 0; font-size: 12px; margin-top: 1px; }
-.modal-val { color: var(--text); font-weight: 500; }
+/* Card name */
+#modalName {
+  font-size: 28px; font-weight: 700; line-height: 1.15;
+  color: var(--text); margin-bottom: 20px;
+}
 
-.modal-divider { height: 1px; background: var(--border); }
+/* Labeled field rows — pill label + plain value */
+.modal-fields-table { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.modal-field-row { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+.modal-key {
+  background: var(--accent); color: #fff;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+  padding: 4px 12px; border-radius: 99px;
+  white-space: nowrap; flex-shrink: 0; min-width: 80px; text-align: center;
+}
+.modal-val { color: var(--text); font-size: 14px; }
 
+/* Tag row — inline after fields */
+.modal-tags-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+/* Tag row in modal */
+#modalTagsRow { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+.tag-chip {
+  padding: 4px 11px; border-radius: 99px;
+  background: var(--bg3); border: 1px solid var(--border2);
+  font-size: 12px; color: var(--text2); font-weight: 500;
+}
+
+/* Inline stats bar — Color / HP / Bloom / Baton in a row */
+#modalStatsRow {
+  display: flex; align-items: center; gap: 8px;
+  flex-wrap: wrap; margin-bottom: 20px;
+  padding: 12px 14px; background: var(--bg3);
+  border-radius: var(--radius); border: 1px solid var(--border);
+}
+.modal-stat-pill {
+  display: flex; align-items: center; gap: 6px;
+}
+.modal-stat-label {
+  background: #1e3a5f; color: #7ec2ff;
+  font-size: 11px; font-weight: 600;
+  padding: 3px 10px; border-radius: 99px; white-space: nowrap;
+}
+.modal-stat-val {
+  font-size: 13px; font-weight: 600; color: var(--text);
+}
+.modal-stat-divider { width: 1px; height: 16px; background: var(--border2); }
+.modal-color-dot {
+  width: 14px; height: 14px; border-radius: 50%; display: inline-block;
+}
+
+/* Ability blocks */
+.modal-divider { height: 1px; background: var(--border); margin: 4px 0 16px; }
+#modalAbilities { display: flex; flex-direction: column; gap: 10px; }
 .ability-block {
-  background: var(--bg3); border-radius: var(--radius);
-  padding: 12px 14px; font-size: 13px; line-height: 1.6;
+  border-radius: var(--radius); padding: 12px 14px;
+  font-size: 13px; line-height: 1.65;
   border: 1px solid var(--border);
 }
-.ability-block + .ability-block { margin-top: 8px; }
 .ability-label {
-  font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--accent2); margin-bottom: 5px;
+  display: inline-block;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+  padding: 3px 10px; border-radius: 99px;
+  margin-bottom: 8px;
 }
-.ability-text { color: var(--text2); }
+.ability-text { color: var(--text2); white-space: pre-line; }
 
-.tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
-.tag-chip {
-  padding: 3px 9px; border-radius: 99px;
-  background: var(--bg3); border: 1px solid var(--border);
-  font-size: 11px; color: var(--text2);
+/* Ability label colours matching EN site */
+.abl-keyword      { background: rgba(100,180,255,0.15); color: #64b4ff; border: 1px solid rgba(100,180,255,0.25); }
+.abl-arts         { background: rgba(255,200,60,0.12);  color: #ffc83c; border: 1px solid rgba(255,200,60,0.25); }
+.abl-oshi_skill   { background: rgba(200,100,255,0.12); color: #c864ff; border: 1px solid rgba(200,100,255,0.25); }
+.abl-sp_oshi_skill{ background: rgba(255,80,120,0.12);  color: #ff5078; border: 1px solid rgba(255,80,120,0.25); }
+.abl-bloom_effect { background: rgba(60,220,160,0.12);  color: #3cdca0; border: 1px solid rgba(60,220,160,0.25); }
+.abl-collab_effect{ background: rgba(60,200,255,0.12);  color: #3cc8ff; border: 1px solid rgba(60,200,255,0.25); }
+.abl-ability_text { background: rgba(140,140,160,0.12); color: #a0a0c0; border: 1px solid rgba(140,140,160,0.2); }
+.abl-extra        { background: rgba(255,160,60,0.12);  color: #ffa03c; border: 1px solid rgba(255,160,60,0.25); }
+.abl-gift         { background: rgba(255,100,200,0.12); color: #ff64c8; border: 1px solid rgba(255,100,200,0.25); }
+
+/* Footer info — illustrator / card number */
+#modalFooterInfo {
+  margin-top: 16px; padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--text3);
+  display: flex; flex-direction: column; gap: 3px;
 }
 
+/* Close button */
 #modalClose {
-  position: absolute; top: 12px; right: 12px;
-  width: 30px; height: 30px; border-radius: 50%;
-  background: rgba(0,0,0,0.5); color: var(--text2);
-  font-size: 16px; display: flex; align-items: center; justify-content: center;
+  position: absolute; top: 14px; right: 14px;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(0,0,0,0.55); color: var(--text2);
+  font-size: 18px; display: flex; align-items: center; justify-content: center;
   transition: background 0.15s, color 0.15s; z-index: 10;
+  border: 1px solid rgba(255,255,255,0.1);
 }
-#modalClose:hover { background: var(--accent); color: #fff; }
+#modalClose:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
 
 /* ── Rarity colors ─────────────────────────────────────────────────── */
 .r-C   { background: rgba(100,116,139,0.25); color: #94a3b8; }
@@ -753,19 +815,27 @@ img { display: block; max-width: 100%; }
     width: 100%;
   }
   #modalArt {
-    min-height: 200px;
-    max-height: 240px;
-    border-radius: 20px 20px 0 0;
+    padding: 16px 16px 0;
+    background: var(--bg3);
+  }
+  #modalArt img {
+    max-height: 200px;
+    width: auto;
+    margin: 0 auto;
   }
   #modalBody {
     padding: 16px 16px max(28px, env(safe-area-inset-bottom));
-    gap: 12px;
   }
-  #modalName { font-size: 17px; }
-  #modalClose { top: 10px; right: 10px; width: 28px; height: 28px; }
+  #modalName { font-size: 20px; margin-bottom: 14px; }
+  #modalClose { top: 10px; right: 10px; width: 28px; height: 28px; font-size: 16px; }
+  .modal-key { font-size: 10px; padding: 3px 9px; min-width: 70px; }
+  .modal-val { font-size: 13px; }
   .ability-block { padding: 10px 12px; font-size: 12px; }
-  .modal-field-row { font-size: 12px; }
-  .modal-key { min-width: 72px; font-size: 11px; }
+  .ability-label { font-size: 10px; }
+  #modalStatsRow { gap: 6px; padding: 10px 12px; flex-wrap: wrap; }
+  .modal-stat-label { font-size: 10px; padding: 2px 8px; }
+  .modal-stat-val { font-size: 12px; }
+  #modalFooterInfo { font-size: 11px; }
 
   /* Sets grid */
   .sets-grid { grid-template-columns: 1fr; gap: 10px; }
@@ -1371,17 +1441,15 @@ img { display: block; max-width: 100%; }
     <div id="modalArt">
       <div class="no-img" id="modalNoImg" style="display:none">No image</div>
       <img id="modalImg" src="" alt="" onerror="handleImgError(this)">
-      <div id="modalColorBar"></div>
     </div>
     <div id="modalBody">
-      <div>
-        <div id="modalName"></div>
-        <div id="modalCardNum"></div>
-      </div>
-      <div id="modalFields"></div>
+      <div id="modalName"></div>
+      <div id="modalFields" class="modal-fields-table"></div>
+      <div id="modalTagsRow" class="modal-tags-row"></div>
+      <div id="modalStatsRow"></div>
       <div class="modal-divider"></div>
       <div id="modalAbilities"></div>
-      <div id="modalTags"></div>
+      <div id="modalFooterInfo"></div>
     </div>
     <button id="modalClose" onclick="closeModal()">×</button>
   </div>
@@ -2022,8 +2090,8 @@ function clearSearch() {
 function openModal(card) {
   const overlay = document.getElementById('modalOverlay');
 
-  // Art
-  const img = document.getElementById('modalImg');
+  // ── Card image ───────────────────────────────────────────────────
+  const img   = document.getElementById('modalImg');
   const noImg = document.getElementById('modalNoImg');
   if (card.image_url) {
     img.src = proxyImg(card.image_url);
@@ -2035,17 +2103,10 @@ function openModal(card) {
     noImg.style.display = 'flex';
   }
 
-  // Color bar
-  const bar = document.getElementById('modalColorBar');
-  bar.className = 'color-stripe ' + colorStripeClass(card.color);
-  bar.style.height = '4px';
-
-  // Name & number
+  // ── Card name ────────────────────────────────────────────────────
   document.getElementById('modalName').textContent = card.name || 'Unknown';
-  document.getElementById('modalCardNum').textContent = card.card_number || '';
 
-  // Fields
-  const fields = [];
+  // ── Labeled fields (Card Type, Rarity, Card Set) ─────────────────
   const MODAL_TYPE_LABELS = {
     '推しホロメン':'Oshi Holomem', 'ホロメン':'Holomem', 'Buzzホロメン':'Buzz Holomem',
     'サポート・アイテム':'Support — Item',
@@ -2059,69 +2120,92 @@ function openModal(card) {
     'サポート・スタッフ・LIMITED':'Support — Staff (Limited)',
     'チア':'Cheer', 'エール':'Cheer', 'Cheer':'Cheer',
   };
-  if (card.card_type) fields.push(['Type', MODAL_TYPE_LABELS[card.card_type] || card.card_type]);
-  if (card.rarity)    fields.push(['Rarity',      card.rarity]);
+
+  const labeledFields = [];
+  if (card.card_type) labeledFields.push(['Card Type', MODAL_TYPE_LABELS[card.card_type] || card.card_type]);
+  if (card.rarity)    labeledFields.push(['Rarity', card.rarity]);
+  const setName = card.set_name || getSetName(card.set_code);
+  if (setName)        labeledFields.push(['Card Set', setName]);
+
+  document.getElementById('modalFields').innerHTML = labeledFields
+    .filter(([,v]) => v)
+    .map(([k,v]) => `
+      <div class="modal-field-row">
+        <span class="modal-key">${escHtml(k)}</span>
+        <span class="modal-val">${escHtml(String(v))}</span>
+      </div>`).join('');
+
+  // ── Tags row ─────────────────────────────────────────────────────
+  const tags = card.tags || [];
+  document.getElementById('modalTagsRow').innerHTML = tags.length
+    ? tags.map(t => `<span class="tag-chip">${escHtml(t)}</span>`).join('')
+    : '';
+
+  // ── Stats row: Color / HP or Life / Bloom Level / Baton Pass ─────
   const COLOR_LABELS = {
-    white:'White', green:'Green', red:'Red',
-    blue:'Blue', purple:'Purple', yellow:'Yellow', colorless:'Colorless',
-    // JP text fallbacks (in case old scraped data has these)
-    '白':'White', '緑':'Green', '赤':'Red',
-    '青':'Blue', '紫':'Purple', '黄':'Yellow',
+    white:'White', green:'Green', red:'Red', blue:'Blue',
+    purple:'Purple', yellow:'Yellow', colorless:'Colorless',
+    '白':'White','緑':'Green','赤':'Red','青':'Blue','紫':'Purple','黄':'Yellow',
   };
-  if (card.color) fields.push(['Color', COLOR_LABELS[card.color] || cap(card.color)]);
-  if (card.hp)        fields.push(['HP',          card.hp]);
-  if (card.life)      fields.push(['Life',        card.life]);
-  if (card.bloom_level) fields.push(['Bloom',     card.bloom_level]);
-  // Baton Pass: ◇=0 cost, ◇◇=1 cost etc — show as-is (symbols are universal)
-  if (card.baton_pass && card.baton_pass !== 'None') {
-    fields.push(['Baton Pass', card.baton_pass]);
+  const COLOR_HEX_MODAL = {
+    white:'#e2e8f0', green:'#22c55e', red:'#ef4444',
+    blue:'#3b82f6', purple:'#a855f7', yellow:'#eab308', colorless:'#64748b'
+  };
+
+  const stats = [];
+  if (card.color) {
+    const hex = COLOR_HEX_MODAL[card.color] || '#888';
+    const lbl = COLOR_LABELS[card.color] || cap(card.color);
+    stats.push(`<div class="modal-stat-pill">
+      <span class="modal-stat-label">Color</span>
+      <span class="modal-stat-val" style="display:flex;align-items:center;gap:5px">
+        <span class="modal-color-dot" style="background:${escHtml(hex)}"></span>${escHtml(lbl)}
+      </span>
+    </div>`);
   }
-  const _sname = card.set_name || getSetName(card.set_code);
-  if (_sname)           fields.push(['Set', _sname]);
-  if (card.illustrator) fields.push(['Art',       card.illustrator]);
+  if (card.hp)   stats.push(`<div class="modal-stat-pill"><span class="modal-stat-label">HP</span><span class="modal-stat-val">${card.hp}</span></div>`);
+  if (card.life) stats.push(`<div class="modal-stat-pill"><span class="modal-stat-label">Life</span><span class="modal-stat-val">${card.life}</span></div>`);
+  if (card.bloom_level) stats.push(`<div class="modal-stat-pill"><span class="modal-stat-label">Bloom Level</span><span class="modal-stat-val">${escHtml(card.bloom_level)}</span></div>`);
+  if (card.baton_pass && card.baton_pass !== 'None') stats.push(`<div class="modal-stat-pill"><span class="modal-stat-label">Baton Pass</span><span class="modal-stat-val">${escHtml(card.baton_pass)}</span></div>`);
 
-  // Filter out null/undefined/empty values before rendering
-  const cleanFields = fields.filter(([k,v]) =>
-    v !== null && v !== undefined && v !== '' && v !== 'None' && v !== 'null'
-  );
-  document.getElementById('modalFields').innerHTML = `
-    <div class="modal-section">
-      ${cleanFields.map(([k,v]) =>
-        `<div class="modal-field-row">
-          <span class="modal-key">${escHtml(k)}</span>
-          <span class="modal-val">${escHtml(String(v))}</span>
-        </div>`
-      ).join('')}
-    </div>`;
+  // Interleave dividers
+  const statsHtml = stats.map((s,i) =>
+    i < stats.length - 1 ? s + '<div class="modal-stat-divider"></div>' : s
+  ).join('');
+  document.getElementById('modalStatsRow').innerHTML = statsHtml;
+  document.getElementById('modalStatsRow').style.display = stats.length ? 'flex' : 'none';
 
-  // Abilities
-  const abs = card.abilities || {};
-  const ABILITY_LABELS = {
-    keyword:       'Keyword',
-    arts:          'Arts',
-    ability_text:  'Ability',
-    oshi_skill:    'Oshi Skill',
-    sp_oshi_skill: 'SP Oshi Skill',
-    bloom_effect:  'Bloom Effect',
-    collab_effect: 'Collab Effect',
-    gift:          'Gift',
-    extra:         'Extra',
+  // ── Ability blocks ───────────────────────────────────────────────
+  const ABILITY_META = {
+    keyword:       { label:'Keyword',       cls:'abl-keyword' },
+    arts:          { label:'Arts',          cls:'abl-arts' },
+    ability_text:  { label:'Ability',       cls:'abl-ability_text' },
+    oshi_skill:    { label:'Oshi Skill',    cls:'abl-oshi_skill' },
+    sp_oshi_skill: { label:'SP Oshi Skill', cls:'abl-sp_oshi_skill' },
+    bloom_effect:  { label:'Bloom Effect',  cls:'abl-bloom_effect' },
+    collab_effect: { label:'Collab Effect', cls:'abl-collab_effect' },
+    gift:          { label:'Gift',          cls:'abl-gift' },
+    extra:         { label:'Extra',         cls:'abl-extra' },
   };
+
+  const abs = card.abilities || {};
   const abHtml = Object.entries(abs)
     .filter(([,v]) => v && v.trim())
-    .map(([k,v]) => `
-      <div class="ability-block">
-        <div class="ability-label">${escHtml(ABILITY_LABELS[k] || k)}</div>
+    .map(([k,v]) => {
+      const meta = ABILITY_META[k] || { label: k, cls: 'abl-ability_text' };
+      return `<div class="ability-block ${meta.cls}">
+        <div class="ability-label ${meta.cls}">${escHtml(meta.label)}</div>
         <div class="ability-text">${escHtml(v)}</div>
-      </div>`)
-    .join('');
+      </div>`;
+    }).join('');
   document.getElementById('modalAbilities').innerHTML = abHtml || '';
 
-  // Tags
-  const tags = card.tags || [];
-  document.getElementById('modalTags').innerHTML = tags.length
-    ? `<div class="tag-row">${tags.map(t => `<span class="tag-chip">${escHtml(t)}</span>`).join('')}</div>`
-    : '';
+  // ── Footer: illustrator + card number ────────────────────────────
+  const footerParts = [];
+  if (card.illustrator) footerParts.push(`Illustrator: ${escHtml(card.illustrator)}`);
+  if (card.card_number) footerParts.push(`Card Number: ${escHtml(card.card_number)}`);
+  document.getElementById('modalFooterInfo').innerHTML = footerParts
+    .map(p => `<div>${p}</div>`).join('');
 
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
