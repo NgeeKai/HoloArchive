@@ -1029,6 +1029,13 @@ const SET_NAMES = {
   hBD24: 'Birthday Set 2024',
   hYS01: 'Start Cheer Set',
   hPR:   'Promo Cards',
+  // Cheer card sets (shared across multiple products)
+  hY01:  'White Cheer',
+  hY02:  'Green Cheer',
+  hY03:  'Red Cheer',
+  hY04:  'Blue Cheer',
+  hY05:  'Purple Cheer',
+  hY06:  'Yellow Cheer',
 };
 
 // Helper: get display name for a set code
@@ -1093,19 +1100,23 @@ function buildSetIndex() {
 // ── Normalizers ──────────────────────────────────────────────────────
 // JP type map — covers every type found in the real cards.json
 const JP_TYPE_MAP = {
-  '推しホロメン':              'oshi',
-  'ホロメン':                  'holomem',
-  'Buzzホロメン':              'buzz holomem',
-  'サポート・アイテム':        'support',
+  '推しホロメン':               'oshi',
+  'ホロメン':                   'holomem',
+  'Buzzホロメン':               'buzz holomem',
+  'サポート・アイテム':         'support',
   'サポート・アイテム・LIMITED':'support',
-  'サポート・イベント':        'support',
+  'サポート・イベント':         'support',
   'サポート・イベント・LIMITED':'support',
-  'サポート・ツール':          'support',
-  'サポート・マスコット':      'support',
-  'サポート・ファン':          'support',
-  'サポート・スタッフ':        'support',
+  'サポート・ツール':           'support',
+  'サポート・マスコット':       'support',
+  'サポート・ファン':           'support',
+  'サポート・スタッフ':         'support',
   'サポート・スタッフ・LIMITED':'support',
-  // English fallbacks (for EN site data)
+  // Cheer cards (JP and EN)
+  'チア':   'cheer',
+  'エール': 'cheer',
+  'Cheer':  'cheer',
+  // English fallbacks
   'oshi':         'oshi',
   'holomem':      'holomem',
   'buzz holomem': 'buzz holomem',
@@ -1334,6 +1345,7 @@ function makeCardTile(card, i) {
     'サポート・ツール': 'Tool', 'サポート・マスコット': 'Mascot',
     'サポート・ファン': 'Fan', 'サポート・スタッフ': 'Staff',
     'サポート・スタッフ・LIMITED': 'Staff (Ltd)',
+    'チア': 'Cheer', 'エール': 'Cheer', 'Cheer': 'Cheer',
   };
   const typeLabel = TYPE_LABELS[card.card_type] || card.card_type || '—';
   const isEager  = i < 20;
@@ -1507,20 +1519,47 @@ function openModal(card) {
 
   // Fields
   const fields = [];
-  if (card.card_type) fields.push(['Type',       card.card_type]);
+  const MODAL_TYPE_LABELS = {
+    '推しホロメン':'Oshi Holomem', 'ホロメン':'Holomem', 'Buzzホロメン':'Buzz Holomem',
+    'サポート・アイテム':'Support — Item',
+    'サポート・アイテム・LIMITED':'Support — Item (Limited)',
+    'サポート・イベント':'Support — Event',
+    'サポート・イベント・LIMITED':'Support — Event (Limited)',
+    'サポート・ツール':'Support — Tool',
+    'サポート・マスコット':'Support — Mascot',
+    'サポート・ファン':'Support — Fan',
+    'サポート・スタッフ':'Support — Staff',
+    'サポート・スタッフ・LIMITED':'Support — Staff (Limited)',
+    'チア':'Cheer', 'エール':'Cheer', 'Cheer':'Cheer',
+  };
+  if (card.card_type) fields.push(['Type', MODAL_TYPE_LABELS[card.card_type] || card.card_type]);
   if (card.rarity)    fields.push(['Rarity',      card.rarity]);
-  if (card.color)     fields.push(['Color',       cap(card.color)]);
+  const COLOR_LABELS = {
+    white:'White', green:'Green', red:'Red',
+    blue:'Blue', purple:'Purple', yellow:'Yellow', colorless:'Colorless',
+    // JP text fallbacks (in case old scraped data has these)
+    '白':'White', '緑':'Green', '赤':'Red',
+    '青':'Blue', '紫':'Purple', '黄':'Yellow',
+  };
+  if (card.color) fields.push(['Color', COLOR_LABELS[card.color] || cap(card.color)]);
   if (card.hp)        fields.push(['HP',          card.hp]);
   if (card.life)      fields.push(['Life',        card.life]);
   if (card.bloom_level) fields.push(['Bloom',     card.bloom_level]);
-  if (card.baton_pass)  fields.push(['Baton Pass',card.baton_pass]);
+  // Baton Pass: ◇=0 cost, ◇◇=1 cost etc — show as-is (symbols are universal)
+  if (card.baton_pass && card.baton_pass !== 'None') {
+    fields.push(['Baton Pass', card.baton_pass]);
+  }
   const _sname = card.set_name || getSetName(card.set_code);
   if (_sname)           fields.push(['Set', _sname]);
   if (card.illustrator) fields.push(['Art',       card.illustrator]);
 
+  // Filter out null/undefined/empty values before rendering
+  const cleanFields = fields.filter(([k,v]) =>
+    v !== null && v !== undefined && v !== '' && v !== 'None' && v !== 'null'
+  );
   document.getElementById('modalFields').innerHTML = `
     <div class="modal-section">
-      ${fields.map(([k,v]) =>
+      ${cleanFields.map(([k,v]) =>
         `<div class="modal-field-row">
           <span class="modal-key">${escHtml(k)}</span>
           <span class="modal-val">${escHtml(String(v))}</span>
@@ -1531,9 +1570,15 @@ function openModal(card) {
   // Abilities
   const abs = card.abilities || {};
   const ABILITY_LABELS = {
-    keyword:'Keyword', arts:'Arts', oshi_skill:'Oshi Skill',
-    sp_oshi_skill:'SP Oshi Skill', bloom_effect:'Bloom Effect',
-    collab_effect:'Collab Effect', gift:'Gift', extra:'Extra'
+    keyword:       'Keyword',
+    arts:          'Arts',
+    ability_text:  'Ability',
+    oshi_skill:    'Oshi Skill',
+    sp_oshi_skill: 'SP Oshi Skill',
+    bloom_effect:  'Bloom Effect',
+    collab_effect: 'Collab Effect',
+    gift:          'Gift',
+    extra:         'Extra',
   };
   const abHtml = Object.entries(abs)
     .filter(([,v]) => v && v.trim())
