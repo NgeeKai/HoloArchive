@@ -9,14 +9,14 @@
 <meta name="description" content="Search, filter and browse every card in the hololive OFFICIAL CARD GAME. Find cards by name, type, color, rarity, bloom level and set.">
 <meta name="keywords" content="hololive card game, hololive OCG, hOCG, hololive TCG, hololive official card game, card database, card list, hBP01, hSD01, oshi card, holomem">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://https://holoarchive.pages.dev/">
+<link rel="canonical" href="https://holoarchive.pages.dev/">
 
 <!-- ── Open Graph (Facebook, Discord, LINE previews) ───────────────── -->
 <meta property="og:type"        content="website">
-<meta property="og:url"         content="https://https://holoarchive.pages.dev/">
+<meta property="og:url"         content="https://holoarchive.pages.dev/">
 <meta property="og:title"       content="Holoarchive — hololive OCG Card Database">
 <meta property="og:description" content="Search, filter and browse every card in the hololive OFFICIAL CARD GAME. Find cards by name, type, color, rarity, bloom level and set.">
-<meta property="og:image"       content="https://https://holoarchive.pages.dev/og-image.png">
+<meta property="og:image"       content="https://holoarchive.pages.dev/og-image.png">
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale"      content="en_US">
@@ -27,7 +27,7 @@
 <meta name="twitter:site"        content="@holoarchive">
 <meta name="twitter:title"       content="Holoarchive — hololive OCG Card Database">
 <meta name="twitter:description" content="Search, filter and browse every card in the hololive OFFICIAL CARD GAME.">
-<meta name="twitter:image"       content="https://https://holoarchive.pages.dev/og-image.png">
+<meta name="twitter:image"       content="https://holoarchive.pages.dev/og-image.png">
 
 <!-- ── Structured Data (JSON-LD) ───────────────────────────────────── -->
 <script type="application/ld+json">
@@ -35,13 +35,13 @@
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "Holoarchive",
-  "url": "https://https://holoarchive.pages.dev/",
+  "url": "https://holoarchive.pages.dev/",
   "description": "Search, filter and browse every card in the hololive OFFICIAL CARD GAME.",
   "potentialAction": {
     "@type": "SearchAction",
     "target": {
       "@type": "EntryPoint",
-      "urlTemplate": "https://https://holoarchive.pages.dev/?q={search_term_string}"
+      "urlTemplate": "https://holoarchive.pages.dev/?q={search_term_string}"
     },
     "query-input": "required name=search_term_string"
   },
@@ -50,7 +50,7 @@
     "name": "Holoarchive",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://https://holoarchive.pages.dev/logo.svg"
+      "url": "https://holoarchive.pages.dev/logo.svg"
     }
   }
 }
@@ -616,7 +616,7 @@ img { display: block; max-width: 100%; }
   padding-bottom: env(safe-area-inset-bottom);
   z-index: 200;
   display: none;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 .bottom-nav-btn {
   display: flex; flex-direction: column; align-items: center;
@@ -755,6 +755,203 @@ img { display: block; max-width: 100%; }
 .skel-info { padding: 9px 10px 10px; display: flex; flex-direction: column; gap: 6px; }
 .skel-name { height: 13px; width: 75%; }
 .skel-meta { height: 10px; width: 45%; }
+
+/* ══════════════════════════════════════════════════════════════════
+   HOMEPAGE
+══════════════════════════════════════════════════════════════════ */
+
+/* Hero section */
+#heroSection {
+  position: relative; overflow: hidden;
+  border-radius: var(--radius-lg);
+  margin-bottom: 28px;
+  min-height: 320px;
+  display: flex; align-items: center;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+}
+#heroBg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(0,168,232,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(0,84,163,0.08) 0%, transparent 60%);
+}
+#heroBg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.4;
+}
+#heroContent {
+  position: relative; z-index: 1;
+  padding: 48px 52px;
+  max-width: 700px;
+}
+#heroLockup {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 20px;
+}
+#heroLogoMark {
+  width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
+  background: linear-gradient(135deg, #005fa3 0%, #00a8e8 60%, #00d4ff 100%);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 24px rgba(0,168,232,0.35);
+}
+#heroLogoMark svg { width: 30px; height: 30px; }
+#heroTitle {
+  font-size: 42px; font-weight: 600; letter-spacing: -0.5px;
+  line-height: 1; color: var(--text); margin: 0;
+}
+#heroTitle span { color: var(--accent); }
+#heroSub {
+  font-size: 13px; color: var(--text3); margin-top: 4px;
+  font-weight: 500; letter-spacing: 0.02em;
+}
+#heroDesc {
+  font-size: 15px; color: var(--text2); line-height: 1.65;
+  margin-bottom: 28px; max-width: 540px;
+}
+#heroActions { display: flex; gap: 10px; flex-wrap: wrap; }
+.hero-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 42px; padding: 0 20px; border-radius: var(--radius);
+  font-size: 14px; font-weight: 500; cursor: pointer;
+  border: none; transition: all 0.15s; white-space: nowrap;
+}
+.hero-btn-primary {
+  background: var(--accent); color: #fff;
+  box-shadow: 0 0 20px rgba(0,168,232,0.3);
+}
+.hero-btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+.hero-btn-secondary {
+  background: var(--bg3); color: var(--text);
+  border: 1px solid var(--border2);
+}
+.hero-btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Stats bar */
+#statsBar {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 20px 0;
+  margin-bottom: 36px; flex-wrap: wrap;
+}
+.stat-item {
+  flex: 1; min-width: 120px; text-align: center; padding: 8px 24px;
+}
+.stat-val {
+  font-size: 32px; font-weight: 600; color: var(--text);
+  line-height: 1; font-variant-numeric: tabular-nums;
+}
+.stat-lbl {
+  font-size: 12px; color: var(--text3); margin-top: 5px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.stat-divider {
+  width: 1px; height: 40px; background: var(--border);
+  flex-shrink: 0;
+}
+
+/* Home sections */
+#homeSections { display: flex; flex-direction: column; gap: 36px; margin-bottom: 48px; }
+.home-section {}
+.home-section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.home-section-title {
+  font-size: 17px; font-weight: 600; color: var(--text);
+}
+.home-section-link {
+  font-size: 13px; color: var(--accent); background: none;
+  border: none; cursor: pointer; padding: 0;
+  transition: color 0.12s;
+}
+.home-section-link:hover { color: var(--accent2); }
+
+/* Latest sets row */
+.home-sets-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+.home-set-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 16px 18px;
+  cursor: pointer; transition: border-color 0.12s, transform 0.12s;
+  display: flex; gap: 12px; align-items: center;
+}
+.home-set-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.home-set-icon {
+  width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+  background: rgba(0,168,232,0.12); border: 1px solid rgba(0,168,232,0.2);
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.home-set-info { min-width: 0; }
+.home-set-name { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.home-set-code { font-size: 11px; color: var(--text3); font-family: var(--mono); margin-top: 2px; }
+.home-set-count { font-size: 11px; color: var(--accent); margin-top: 3px; }
+
+/* Color grid */
+.home-color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+}
+.home-color-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 16px 14px;
+  cursor: pointer; transition: border-color 0.12s, transform 0.12s;
+  display: flex; align-items: center; gap: 10px;
+}
+.home-color-card:hover { transform: translateY(-2px); }
+.home-color-dot {
+  width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+}
+.home-color-name { font-size: 13px; font-weight: 500; color: var(--text); }
+.home-color-count { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+/* Type grid */
+.home-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+.home-type-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 14px 16px;
+  cursor: pointer; transition: border-color 0.12s, transform 0.12s;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.home-type-card:hover { transform: translateY(-2px); }
+.home-type-left { display: flex; align-items: center; gap: 10px; }
+.home-type-badge-large {
+  padding: 4px 10px; border-radius: 99px; font-size: 12px; font-weight: 500;
+}
+.home-type-name { font-size: 13px; font-weight: 500; color: var(--text); }
+.home-type-count { font-size: 12px; color: var(--text3); font-family: var(--mono); }
+
+/* Homepage responsive */
+@media (max-width: 900px) {
+  #heroContent { padding: 36px 28px; }
+  #heroTitle { font-size: 32px; }
+  #statsBar { gap: 0; }
+  .stat-item { padding: 8px 16px; min-width: 90px; }
+  .stat-val { font-size: 26px; }
+  .stat-divider { height: 32px; }
+}
+@media (max-width: 600px) {
+  #heroContent { padding: 28px 20px; }
+  #heroTitle { font-size: 28px; }
+  #heroDesc { font-size: 14px; }
+  .stat-divider { display: none; }
+  #statsBar { gap: 0; padding: 12px 0; }
+  .stat-item { min-width: 50%; padding: 10px 12px; }
+  .home-sets-row { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -794,6 +991,7 @@ img { display: block; max-width: 100%; }
   </div>
 
   <div class="topbar-right">
+    <button class="nav-btn" id="btnHome" onclick="switchView('home')">Home</button>
     <button class="nav-btn active" id="btnCards" onclick="switchView('cards')">Cards</button>
     <button class="nav-btn" id="btnSets" onclick="switchView('sets')">Sets</button>
   </div>
@@ -849,6 +1047,99 @@ img { display: block; max-width: 100%; }
       <code>pip install requests beautifulsoup4</code> then <code>python scrape_hocg.py</code><br>
       Then place the generated <code>cards.json</code> in the same folder as this <code>index.html</code> and reload.<br>
       <a href="https://hololive-official-cardgame.com/cardlist/" target="_blank">Browse the official site →</a>
+    </div>
+
+    <!-- Home View -->
+    <div id="homeView" style="display:none">
+
+      <!-- Hero -->
+      <div id="heroSection">
+        <div id="heroBg"></div>
+        <div id="heroContent">
+          <div id="heroLockup">
+            <div id="heroLogoMark">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 10.5C5 9 6 8 7.5 8L15.2 9L15.2 23L7.5 22C6 22 5 21 5 19.5Z" fill="white" fill-opacity="0.95"/>
+                <path d="M27 10.5C27 9 26 8 24.5 8L16.8 9L16.8 23L24.5 22C26 22 27 21 27 19.5Z" fill="white" fill-opacity="0.7"/>
+                <line x1="16" y1="8.5" x2="16" y2="23" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M26,5 L26.8,7 L29,7 L27.2,8.5 L28,10.5 L26,9 L24,10.5 L24.8,8.5 L23,7 L25.2,7 Z" fill="white" fill-opacity="0.9"/>
+              </svg>
+            </div>
+            <div>
+              <h1 id="heroTitle">Holo<span>archive</span></h1>
+              <p id="heroSub">hololive OFFICIAL CARD GAME — Card Database</p>
+            </div>
+          </div>
+          <p id="heroDesc">Search, filter and browse every card in the hololive OCG. Covers all sets from hSD01 through the latest booster packs — updated with every new release.</p>
+          <div id="heroActions">
+            <button class="hero-btn hero-btn-primary" onclick="switchView('cards')">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M11 11L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              Browse Cards
+            </button>
+            <button class="hero-btn hero-btn-secondary" onclick="switchView('sets')">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="2" y="3" width="12" height="2.5" rx="1" fill="currentColor"/>
+                <rect x="2" y="7" width="12" height="2.5" rx="1" fill="currentColor"/>
+                <rect x="2" y="11" width="7" height="2" rx="1" fill="currentColor"/>
+              </svg>
+              Browse Sets
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats bar -->
+      <div id="statsBar">
+        <div class="stat-item">
+          <div class="stat-val" id="homeStatCards">—</div>
+          <div class="stat-lbl">cards indexed</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-val" id="homeStatSets">—</div>
+          <div class="stat-lbl">sets covered</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-val" id="homeStatOshi">—</div>
+          <div class="stat-lbl">oshi cards</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-val" id="homeStatRare">—</div>
+          <div class="stat-lbl">rare+ cards</div>
+        </div>
+      </div>
+
+      <!-- Recent sets -->
+      <div id="homeSections">
+
+        <section class="home-section">
+          <div class="home-section-header">
+            <h2 class="home-section-title">Latest Sets</h2>
+            <button class="home-section-link" onclick="switchView('sets')">View all →</button>
+          </div>
+          <div id="homeLatestSets" class="home-sets-row"></div>
+        </section>
+
+        <section class="home-section">
+          <div class="home-section-header">
+            <h2 class="home-section-title">Browse by Color</h2>
+          </div>
+          <div id="homeColorGrid" class="home-color-grid"></div>
+        </section>
+
+        <section class="home-section">
+          <div class="home-section-header">
+            <h2 class="home-section-title">Browse by Type</h2>
+          </div>
+          <div id="homeTypeGrid" class="home-type-grid"></div>
+        </section>
+
+      </div>
     </div>
 
     <!-- Card View -->
@@ -935,6 +1226,14 @@ img { display: block; max-width: 100%; }
 
 <!-- ── Bottom Nav (mobile/tablet) ────────────────────────────────────── -->
 <nav id="bottomNav">
+  <button class="bottom-nav-btn" id="bnHome" onclick="switchView('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M3 12L12 4l9 8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9" stroke-linecap="round"/>
+    </svg>
+    <span>Home</span>
+    <div class="nav-dot"></div>
+  </button>
   <button class="bottom-nav-btn active" id="bnCards" onclick="switchView('cards')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
       <rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/>
@@ -1070,7 +1369,8 @@ async function init() {
     buildSetIndex();
     buildFilterPills();
     buildSetsView();
-    applyFilters();
+    // Start on homepage, not cards
+    switchView('home');
   } catch (e) {
     document.getElementById('noJsonBanner').style.display = 'block';
     const grid = document.getElementById('cardGrid');
@@ -1439,15 +1739,126 @@ function filterBySet(code) {
 // ── View switching ───────────────────────────────────────────────────
 function switchView(v) {
   currentView = v;
+
+  // Show/hide views
+  document.getElementById('homeView').style.display  = v === 'home'  ? '' : 'none';
   document.getElementById('cardView').classList.toggle('hidden', v !== 'cards');
   document.getElementById('setsView').classList.toggle('active', v === 'sets');
+
+  // Sidebar only on cards view
   document.getElementById('sidebar').style.display = v === 'cards' ? '' : 'none';
+
+  // Search bar only relevant on cards view — dim it on other views
+  document.getElementById('searchWrap').style.opacity = v === 'cards' ? '1' : '0.4';
+  document.getElementById('searchInput').disabled = v !== 'cards';
+
   // Topbar nav (desktop)
+  document.getElementById('btnHome').classList.toggle('active',  v === 'home');
   document.getElementById('btnCards').classList.toggle('active', v === 'cards');
-  document.getElementById('btnSets').classList.toggle('active', v === 'sets');
+  document.getElementById('btnSets').classList.toggle('active',  v === 'sets');
+
   // Bottom nav (mobile)
+  document.getElementById('bnHome').classList.toggle('active',  v === 'home');
   document.getElementById('bnCards').classList.toggle('active', v === 'cards');
-  document.getElementById('bnSets').classList.toggle('active', v === 'sets');
+  document.getElementById('bnSets').classList.toggle('active',  v === 'sets');
+
+  // Populate homepage when switching to it
+  if (v === 'home') buildHomepage();
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Homepage ──────────────────────────────────────────────────────────
+function buildHomepage() {
+  if (!ALL_CARDS.length) return;
+
+  // Stats
+  const rarePlus = ALL_CARDS.filter(c => ['RR','OSR','SR','SEC','OUR','UR','HR','SY'].includes(c.rarity)).length;
+  const oshiCount = ALL_CARDS.filter(c => normalizeType(c.card_type) === 'oshi').length;
+  document.getElementById('homeStatCards').textContent = ALL_CARDS.length.toLocaleString();
+  document.getElementById('homeStatSets').textContent  = ALL_SETS.length;
+  document.getElementById('homeStatOshi').textContent  = oshiCount;
+  document.getElementById('homeStatRare').textContent  = rarePlus.toLocaleString();
+
+  // Latest sets (last 6 by code, reversed)
+  const latestSets = [...ALL_SETS].reverse().slice(0, 6);
+  document.getElementById('homeLatestSets').innerHTML = latestSets.map(s => {
+    const icon = SET_ICONS[s.code] || '📦';
+    return `<div class="home-set-card" onclick="filterBySet('${escHtml(s.code)}')">
+      <div class="home-set-icon">${icon}</div>
+      <div class="home-set-info">
+        <div class="home-set-name">${escHtml(s.name)}</div>
+        <div class="home-set-code">${escHtml(s.code)}</div>
+        <div class="home-set-count">${s.cards} cards</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Color grid
+  const COLOR_HEX_FULL = {
+    white:'#e2e8f0', green:'#22c55e', red:'#ef4444',
+    blue:'#3b82f6', purple:'#a855f7', yellow:'#eab308', colorless:'#64748b'
+  };
+  const COLOR_DISPLAY = {
+    white:'White', green:'Green', red:'Red',
+    blue:'Blue', purple:'Purple', yellow:'Yellow', colorless:'Colorless'
+  };
+  const colorCounts = {};
+  ALL_CARDS.forEach(c => {
+    const col = c.color || 'colorless';
+    colorCounts[col] = (colorCounts[col] || 0) + 1;
+  });
+  const colors = ['white','green','red','blue','purple','yellow'];
+  document.getElementById('homeColorGrid').innerHTML = colors.map(col => {
+    const count = colorCounts[col] || 0;
+    const hex = COLOR_HEX_FULL[col] || '#888';
+    return `<div class="home-color-card" onclick="filterByColor('${col}')" style="border-color:${hex}22">
+      <div class="home-color-dot" style="background:${hex}"></div>
+      <div>
+        <div class="home-color-name">${COLOR_DISPLAY[col]}</div>
+        <div class="home-color-count">${count.toLocaleString()} cards</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Type grid
+  const TYPE_DISPLAY_HOME = {
+    'oshi':         { label:'Oshi',        cls:'t-oshi' },
+    'holomem':      { label:'Holomem',     cls:'t-holomem' },
+    'buzz holomem': { label:'Buzz Holomem',cls:'t-buzz' },
+    'support':      { label:'Support',     cls:'t-support' },
+    'cheer':        { label:'Cheer',       cls:'t-cheer' },
+  };
+  const typeCounts = {};
+  ALL_CARDS.forEach(c => {
+    const t = normalizeType(c.card_type);
+    typeCounts[t] = (typeCounts[t] || 0) + 1;
+  });
+  document.getElementById('homeTypeGrid').innerHTML = Object.entries(TYPE_DISPLAY_HOME)
+    .filter(([t]) => typeCounts[t])
+    .map(([t, {label, cls}]) =>
+      `<div class="home-type-card" onclick="filterByType('${label}')">
+        <div class="home-type-left">
+          <span class="type-badge home-type-badge-large ${cls}">${label}</span>
+        </div>
+        <span class="home-type-count">${(typeCounts[t] || 0).toLocaleString()}</span>
+      </div>`
+    ).join('');
+}
+
+function filterByColor(color) {
+  filters.color = color.charAt(0).toUpperCase() + color.slice(1);
+  switchView('cards');
+  buildFilterPills();
+  applyFilters();
+}
+
+function filterByType(typeLabel) {
+  filters.type = typeLabel;
+  switchView('cards');
+  buildFilterPills();
+  applyFilters();
 }
 
 // ── Filter Drawer ─────────────────────────────────────────────────────
