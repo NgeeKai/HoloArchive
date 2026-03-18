@@ -3,31 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HoloCard DB — hololive OCG Card Database</title>
+<title>Holoarchive — hololive OCG Card Database</title>
 <meta name="description" content="Search, filter and browse every card in the hololive OFFICIAL CARD GAME.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ── Reset & Base ───────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg:          #0d0f14;
-  --bg2:         #13161e;
-  --bg3:         #1a1d27;
-  --border:      rgba(255,255,255,0.07);
-  --border2:     rgba(255,255,255,0.13);
-  --text:        #e8eaf0;
-  --text2:       #8b8fa8;
-  --text3:       #555870;
-  --pink:        #e8427a;
-  --pink2:       #ff6699;
-  --pink-glow:   rgba(232,66,122,0.15);
-  --blue:        #4a9eff;
-  --green:       #3dd68c;
-  --yellow:      #f5c842;
-  --red:         #ff5757;
-  --purple:      #a78bfa;
-  --white-card:  #cbd5e1;
+  /* ── Hololive brand palette ─────────────────────────────────────────
+     Primary:  Sky blue  #00a8e8  (hololive logo / OCG accent)
+     Dark bg:  Deep navy #080e1a → #0c1424 → #111c30
+     Accent 2: Cyan-teal #00d4ff  (bright highlight)
+     Accent 3: Soft lavender #c8b4ff (secondary accent, JP idol energy)
+  ─────────────────────────────────────────────────────────────────── */
+  --bg:          #080e1a;
+  --bg2:         #0c1424;
+  --bg3:         #111c30;
+  --border:      rgba(0,168,232,0.12);
+  --border2:     rgba(0,168,232,0.25);
+  --text:        #e4eef8;
+  --text2:       #7a9bbf;
+  --text3:       #3d5a78;
+  --accent:      #00a8e8;
+  --accent2:     #00d4ff;
+  --accent-glow: rgba(0,168,232,0.18);
+  /* keep semantic color names used elsewhere in CSS */
+  --pink:        #00a8e8;
+  --pink2:       #00d4ff;
+  --pink-glow:   rgba(0,168,232,0.18);
+  --blue:        #00a8e8;
+  --green:       #00e5a0;
+  --yellow:      #ffd84d;
+  --red:         #ff5c6a;
+  --purple:      #c8b4ff;
+  --white-card:  #c5ddf0;
   --font:        'DM Sans', system-ui, sans-serif;
   --mono:        'DM Mono', monospace;
   --radius:      10px;
@@ -50,7 +61,7 @@ img { display: block; max-width: 100%; }
 /* ── Top Bar ───────────────────────────────────────────────────────── */
 #topbar {
   position: fixed; top: 0; left: 0; right: 0; height: var(--topbar-h);
-  background: rgba(13,15,20,0.92); backdrop-filter: blur(12px);
+  background: rgba(8,14,26,0.94); backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center; gap: 16px;
   padding: 0 20px; z-index: 200;
@@ -60,13 +71,14 @@ img { display: block; max-width: 100%; }
   font-size: 16px; font-weight: 600; white-space: nowrap; flex-shrink: 0;
 }
 .logo-mark {
-  width: 32px; height: 32px; border-radius: 8px;
-  background: var(--pink); display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 16px var(--pink-glow);
+  width: 36px; height: 36px; border-radius: 9px;
+  background: linear-gradient(135deg, #005fa3 0%, #00a8e8 60%, #00d4ff 100%);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 20px rgba(0,168,232,0.4), 0 2px 8px rgba(0,0,0,0.3);
 }
-.logo-mark svg { width: 18px; height: 18px; }
+.logo-mark svg { width: 28px; height: 28px; }
 .logo-text { letter-spacing: -0.3px; }
-.logo-text span { color: var(--pink); }
+.logo-text span { color: var(--accent); }
 
 #searchWrap {
   flex: 1; max-width: 560px; position: relative;
@@ -82,7 +94,7 @@ img { display: block; max-width: 100%; }
   padding: 0 38px 0 38px; font-size: 14px;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
-#searchInput:focus { outline: none; border-color: var(--pink); box-shadow: 0 0 0 3px var(--pink-glow); }
+#searchInput:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
 #searchInput::placeholder { color: var(--text3); }
 #clearSearch {
   position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
@@ -99,7 +111,7 @@ img { display: block; max-width: 100%; }
   white-space: nowrap;
 }
 .nav-btn:hover { border-color: var(--border2); color: var(--text); }
-.nav-btn.active { background: var(--pink); border-color: var(--pink); color: #fff; }
+.nav-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
 /* ── Layout ────────────────────────────────────────────────────────── */
 #layout {
@@ -130,7 +142,7 @@ img { display: block; max-width: 100%; }
   white-space: nowrap;
 }
 .pill:hover { border-color: var(--border2); color: var(--text); }
-.pill.active { background: var(--pink); border-color: var(--pink); color: #fff; }
+.pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 .pill.color-pill { display: flex; align-items: center; gap: 5px; }
 .color-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
@@ -186,9 +198,9 @@ img { display: block; max-width: 100%; }
   animation: fadeUp 0.3s ease both;
 }
 .card-tile:hover {
-  border-color: var(--pink);
+  border-color: var(--accent);
   transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 0 1px var(--pink);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.5), 0 0 0 1px var(--accent);
 }
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(8px); }
@@ -268,7 +280,7 @@ img { display: block; max-width: 100%; }
 #loadingState { display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .spinner {
   width: 32px; height: 32px; border-radius: 50%;
-  border: 3px solid var(--border); border-top-color: var(--pink);
+  border: 3px solid var(--border); border-top-color: var(--accent);
   animation: spin 0.8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -289,7 +301,7 @@ img { display: block; max-width: 100%; }
   border-radius: var(--radius-lg); padding: 18px 20px;
   cursor: pointer; transition: border-color 0.15s, transform 0.15s;
 }
-.set-card:hover { border-color: var(--pink); transform: translateY(-2px); }
+.set-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 .set-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
 .set-icon {
   width: 44px; height: 44px; border-radius: 10px;
@@ -358,7 +370,7 @@ img { display: block; max-width: 100%; }
 .ability-block + .ability-block { margin-top: 8px; }
 .ability-label {
   font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--pink); margin-bottom: 5px;
+  text-transform: uppercase; color: var(--accent2); margin-bottom: 5px;
 }
 .ability-text { color: var(--text2); }
 
@@ -376,7 +388,7 @@ img { display: block; max-width: 100%; }
   font-size: 16px; display: flex; align-items: center; justify-content: center;
   transition: background 0.15s, color 0.15s; z-index: 10;
 }
-#modalClose:hover { background: var(--pink); color: #fff; }
+#modalClose:hover { background: var(--accent); color: #fff; }
 
 /* ── Rarity colors ─────────────────────────────────────────────────── */
 .r-C   { background: rgba(100,116,139,0.25); color: #94a3b8; }
@@ -384,18 +396,18 @@ img { display: block; max-width: 100%; }
 .r-R   { background: rgba(61,214,140,0.2);   color: #5de0a0; }
 .r-RR  { background: rgba(245,200,66,0.2);   color: #f5d060; }
 .r-OSR { background: rgba(255,87,87,0.2);    color: #ff8080; }
-.r-SR  { background: rgba(232,66,122,0.2);   color: var(--pink2); }
+.r-SR  { background: rgba(0,168,232,0.2);    color: var(--accent2); }
 .r-SEC { background: rgba(167,139,250,0.2);  color: #c4b5fd; }
-.r-OUR { background: rgba(251,191,36,0.25);  color: #fcd34d; }
+.r-OUR { background: rgba(251,191,36,0.25);  color: #a0d8f0; }
 .r-UR  { background: rgba(253,230,138,0.2);  color: #fde68a; }
 .r-P   { background: rgba(100,100,100,0.2);  color: #9ca3af; }
 .r-HR  { background: rgba(255,165,0,0.2);    color: #ffb347; }
 .r-SY  { background: rgba(167,139,250,0.3);  color: #ddd6fe; }
-.r-S   { background: rgba(232,66,122,0.15);  color: var(--pink); }
+.r-S   { background: rgba(0,168,232,0.15);   color: var(--accent); }
 .r-OC  { background: rgba(100,116,139,0.15); color: #94a3b8; }
 
 /* ── Card type badge colors ────────────────────────────────────────── */
-.t-oshi     { background: rgba(232,66,122,0.15); color: var(--pink2); }
+.t-oshi     { background: rgba(0,168,232,0.15); color: var(--accent2); }
 .t-holomem  { background: rgba(167,139,250,0.15); color: var(--purple); }
 .t-buzz     { background: rgba(245,200,66,0.15); color: var(--yellow); }
 .t-support  { background: rgba(74,158,255,0.15); color: var(--blue); }
@@ -413,12 +425,12 @@ img { display: block; max-width: 100%; }
 
 /* ── No JSON notice ────────────────────────────────────────────────── */
 #noJsonBanner {
-  background: rgba(245,200,66,0.1); border: 1px solid rgba(245,200,66,0.3);
+  background: rgba(0,168,232,0.08); border: 1px solid rgba(0,168,232,0.25);
   border-radius: var(--radius); padding: 16px 20px;
-  margin-bottom: 20px; font-size: 13px; line-height: 1.6; color: #fcd34d;
+  margin-bottom: 20px; font-size: 13px; line-height: 1.6; color: #a0d8f0;
   display: none;
 }
-#noJsonBanner a { color: var(--pink); text-decoration: underline; }
+#noJsonBanner a { color: var(--accent2); text-decoration: underline; }
 #noJsonBanner code {
   background: rgba(255,255,255,0.1); border-radius: 4px;
   padding: 1px 5px; font-family: var(--mono); font-size: 12px;
@@ -447,11 +459,11 @@ img { display: block; max-width: 100%; }
   color: var(--text3);
 }
 .footer-line a {
-  color: var(--text2);
+  color: var(--accent2);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-.footer-line a:hover { color: var(--text); }
+.footer-line a:hover { color: var(--accent2); }
 .footer-divider {
   height: 1px;
   background: var(--border);
@@ -473,7 +485,7 @@ img { display: block; max-width: 100%; }
   font-weight: 600;
   color: var(--text2);
 }
-.footer-logo-small span { color: var(--pink); }
+.footer-logo-small span { color: var(--accent); }
 
 /* ── Responsive ────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
@@ -495,12 +507,25 @@ img { display: block; max-width: 100%; }
 <div id="topbar">
   <div class="logo">
     <div class="logo-mark">
-      <svg viewBox="0 0 18 18" fill="none">
-        <circle cx="9" cy="9" r="7" stroke="white" stroke-width="1.5"/>
-        <path d="M6 9.5L8 11.5L12 7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Left page -->
+        <path d="M5 10.5C5 9 6 8 7.5 8L15.2 9L15.2 23L7.5 22C6 22 5 21 5 19.5Z" fill="white" fill-opacity="0.95"/>
+        <!-- Right page -->
+        <path d="M27 10.5C27 9 26 8 24.5 8L16.8 9L16.8 23L24.5 22C26 22 27 21 27 19.5Z" fill="white" fill-opacity="0.7"/>
+        <!-- Spine -->
+        <line x1="16" y1="8.5" x2="16" y2="23" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Lines left page -->
+        <line x1="7.5" y1="12" x2="14" y2="12.2" stroke="#005fa3" stroke-width="1.4" stroke-linecap="round" stroke-opacity="0.6"/>
+        <line x1="7.5" y1="15" x2="14" y2="15.2" stroke="#005fa3" stroke-width="1.4" stroke-linecap="round" stroke-opacity="0.6"/>
+        <line x1="7.5" y1="18" x2="12" y2="18.2" stroke="#005fa3" stroke-width="1.4" stroke-linecap="round" stroke-opacity="0.45"/>
+        <!-- Lines right page -->
+        <line x1="18" y1="12.2" x2="24.5" y2="12" stroke="#005fa3" stroke-width="1.4" stroke-linecap="round" stroke-opacity="0.3"/>
+        <line x1="18" y1="15.2" x2="24.5" y2="15" stroke="#005fa3" stroke-width="1.4" stroke-linecap="round" stroke-opacity="0.3"/>
+        <!-- Star sparkle -->
+        <path d="M26,5 L26.8,7 L29,7 L27.2,8.5 L28,10.5 L26,9 L24,10.5 L24.8,8.5 L23,7 L25.2,7 Z" fill="white" fill-opacity="0.9"/>
       </svg>
     </div>
-    <span class="logo-text">Holo<span>Card</span>DB</span>
+    <span class="logo-text">Holo<span>archive</span></span>
   </div>
 
   <div id="searchWrap">
@@ -878,7 +903,7 @@ function buildSetsView() {
     const rareCnt = ALL_CARDS.filter(c => c.set_code === s.code && ['SR','OSR','RR','SEC','UR','OUR'].includes(c.rarity)).length;
     return `<div class="set-card" onclick="filterBySet('${escHtml(s.code)}')">
       <div class="set-card-header">
-        <div class="set-icon" style="background:rgba(232,66,122,0.1)">${icon}</div>
+        <div class="set-icon" style="background:rgba(0,168,232,0.12)">${icon}</div>
         <div>
           <div class="set-card-name">${escHtml(s.name)}</div>
           <div class="set-card-code">${escHtml(s.code)}</div>
@@ -1039,13 +1064,13 @@ init();
   <div class="footer-inner">
 
     <p class="footer-line">
-      HoloCardDB is an unofficial fan database and is not affiliated with, produced by, or endorsed by
+      Holoarchive is an unofficial fan database and is not affiliated with, produced by, or endorsed by
       <a href="https://cover-corp.com/en/" target="_blank" rel="noopener">COVER Corp.</a>
       or hololive production.
       The literal and graphical information presented on this site about the hololive OFFICIAL CARD GAME,
       including card images, card text, and character likenesses, is copyright
       <a href="https://cover-corp.com/en/" target="_blank" rel="noopener">COVER Corp.</a>
-      HoloCardDB is not produced by or endorsed by COVER Corp.
+      Holoarchive is not produced by or endorsed by COVER Corp.
     </p>
 
     <p class="footer-line">
@@ -1057,9 +1082,9 @@ init();
     <div class="footer-divider"></div>
 
     <div class="footer-copy">
-      <span class="footer-logo-small">Holo<span>Card</span>DB</span>
+      <span class="footer-logo-small">Holo<span>archive</span></span>
       <span>&mdash;</span>
-      <span>All other site content &copy; 2026 HoloCardDB. For fan use only.</span>
+      <span>All other site content &copy; 2026 Holoarchive. For fan use only.</span>
     </div>
 
   </div>
