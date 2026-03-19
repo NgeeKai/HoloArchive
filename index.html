@@ -1709,30 +1709,33 @@ const SET_ICONS = {
 
 // Official set names (set_name field is null in scraped JP data)
 const SET_NAMES = {
-  hBP01: 'Booster Pack — Blooming Radiance',
-  hBP02: 'Booster Pack — Quintet Spectrum',
-  hBP03: 'Booster Pack — Elite Spark',
-  hBP04: 'Booster Pack — Curious Universe',
-  hBP05: 'Booster Pack Vol.5',
-  hBP06: 'Booster Pack Vol.6',
-  hBP07: 'Booster Pack Vol.7',
-  hSD01: 'Start Deck — Tokino Sora & AZKi',
-  hSD02: 'Start Deck — Red Nakiri Ayame',
-  hSD03: 'Start Deck — Blue Nekomata Okayu',
-  hSD04: 'Start Deck — Purple Yuzuki Choco',
-  hSD05: 'Start Deck — White Todoroki',
-  hSD06: 'Start Deck — Green Kazama Iroha',
-  hSD07: 'Start Deck — Yellow Shiranui Flare',
-  hSD08: 'Start Deck Vol.8',
-  hSD09: 'Start Deck Vol.9',
-  hSD10: 'Start Deck Vol.10',
-  hSD11: 'Start Deck Vol.11',
-  hSD12: 'Start Deck Vol.12',
-  hSD13: 'Start Deck Vol.13',
+  // ── Booster Packs ──────────────────────────────────────────────────
+  hBP01: 'Booster Pack – Blooming Radiance',
+  hBP02: 'Booster Pack – Quintet Spectrum',
+  hBP03: 'Booster Pack – Elite Spark',
+  hBP04: 'Booster Pack – Curious Universe',
+  hBP05: 'Booster Pack – Diva Fever',          // JP: ディーヴァフィーバー (EN name TBC)
+  hBP06: 'Booster Pack – Ayakashi Vermillion', // JP: アヤカシヴァーミリオン (EN name TBC)
+  hBP07: 'Booster Pack – Diva Fever',          // JP: ディーヴァフィーバー Mar 2026
+  // ── Start Decks ────────────────────────────────────────────────────
+  hSD01: 'Start Deck – Tokino Sora & AZKi',
+  hSD02: 'Start Deck – Red Nakiri Ayame',
+  hSD03: 'Start Deck – Blue Nekomata Okayu',
+  hSD04: 'Start Deck – Purple Yuzuki Choco',
+  hSD05: 'Start Deck – White Todoroki',
+  hSD06: 'Start Deck – Green Kazama Iroha',
+  hSD07: 'Start Deck – Yellow Shiranui Flare',
+  hSD08: 'Start Deck – White Amane Kanata',    // JP: 白 天音かなた
+  hSD09: 'Start Deck – Red Houshou Marine',    // JP: 赤 宝鐘マリン
+  hSD10: 'Start Deck – Rindo Chihaya',         // JP: FLOW GLOW 推し 輪堂千速
+  hSD11: 'Start Deck – Koganei Niko',          // JP: FLOW GLOW 推し 虎金妃笑虎
+  hSD12: 'Start Deck – Oshi Advent',           // JP: 推し Advent
+  hSD13: 'Start Deck – Oshi Justice',          // JP: 推し Justice
+  // ── Special sets ───────────────────────────────────────────────────
   hBD24: 'Birthday Set 2024',
   hYS01: 'Start Cheer Set',
   hPR:   'Promo Cards',
-  // Cheer card sets (shared across multiple products)
+  // ── Cheer card sets ────────────────────────────────────────────────
   hY01:  'White Cheer',
   hY02:  'Green Cheer',
   hY03:  'Red Cheer',
@@ -2697,16 +2700,25 @@ if ('requestIdleCallback' in window) {
   <h2>Card Sets</h2>
   <ul>
     <li><strong>hBP01 — Booster Pack: Blooming Radiance</strong> — The first booster set. Features holomem from hololive JP, EN, and ID generations.</li>
-    <li><strong>hBP02 — Booster Pack: Quintet Spectrum</strong> — Second booster expansion with new Oshi cards and Bloom mechanics.</li>
+    <li><strong>hBP02 — Booster Pack: Quintet Spectrum</strong> — Second booster expansion released October 2025.</li>
     <li><strong>hBP03 — Booster Pack: Elite Spark</strong> — Third booster set released December 2025.</li>
-    <li><strong>hBP04 — Booster Pack: Curious Universe</strong> — Latest booster set released February 2026.</li>
-    <li><strong>hSD01 — Start Deck: Tokino Sora &amp; AZKi</strong> — Blue starter deck featuring 0th generation members.</li>
+    <li><strong>hBP04 — Booster Pack: Curious Universe</strong> — Fourth booster set released February 2026.</li>
+    <li><strong>hBP05 — Booster Pack: Ayakashi Vermillion</strong> — Fifth booster set released December 2025.</li>
+    <li><strong>hBP06 — Booster Pack: Ayakashi Vermillion</strong> — JP exclusive booster set.</li>
+    <li><strong>hBP07 — Booster Pack: Diva Fever</strong> — Latest JP booster set released March 2026.</li>
+    <li><strong>hSD01 — Start Deck: Tokino Sora &amp; AZKi</strong> — White starter deck featuring 0th generation members.</li>
     <li><strong>hSD02 — Start Deck: Red Nakiri Ayame</strong> — Red starter deck.</li>
-    <li><strong>hSD03 — Start Deck: Blue Nekomata Okayu</strong> — Blue starter deck featuring Gamers generation.</li>
+    <li><strong>hSD03 — Start Deck: Blue Nekomata Okayu</strong> — Blue starter deck.</li>
     <li><strong>hSD04 — Start Deck: Purple Yuzuki Choco</strong> — Purple starter deck.</li>
     <li><strong>hSD05 — Start Deck: White Todoroki</strong> — White starter deck released December 2025.</li>
     <li><strong>hSD06 — Start Deck: Green Kazama Iroha</strong> — Green starter deck released December 2025.</li>
     <li><strong>hSD07 — Start Deck: Yellow Shiranui Flare</strong> — Yellow starter deck released December 2025.</li>
+    <li><strong>hSD08 — Start Deck: White Amane Kanata</strong> — White starter deck featuring Amane Kanata.</li>
+    <li><strong>hSD09 — Start Deck: Red Houshou Marine</strong> — Red starter deck featuring Houshou Marine.</li>
+    <li><strong>hSD10 — Start Deck: Rindo Chihaya</strong> — FLOW GLOW Oshi starter deck.</li>
+    <li><strong>hSD11 — Start Deck: Koganei Niko</strong> — FLOW GLOW Oshi starter deck.</li>
+    <li><strong>hSD12 — Start Deck: Oshi Advent</strong> — hololive EN Advent Oshi starter deck.</li>
+    <li><strong>hSD13 — Start Deck: Oshi Justice</strong> — hololive EN Justice Oshi starter deck.</li>
   </ul>
   <h2>Card Types</h2>
   <ul>
