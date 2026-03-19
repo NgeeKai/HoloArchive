@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# Sitemap location — update https://holoarchive.pages.dev once you have one
-Sitemap: https://https://holoarchive.pages.dev/sitemap.xml
+Sitemap: https://holoarchive.pages.dev/sitemap.xml
