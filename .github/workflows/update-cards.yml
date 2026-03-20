@@ -27,7 +27,7 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: pip install requests beautifulsoup4 deep-translator
+        run: pip install -r requirements.txt
 
       - name: Validate cards.json (reset if corrupt/empty)
         run: |
