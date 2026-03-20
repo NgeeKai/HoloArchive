@@ -17,7 +17,7 @@ from datetime import date
 
 CARDS_FILE  = "cards.json"
 OUTPUT_FILE = "og-image.svg"
-DOMAIN      = "holoarchive.pages.dev"
+DOMAIN      = "holoarchiveocg.com"
 
 # ── Read cards.json and compute stats ────────────────────────────────────────
 if not os.path.exists(CARDS_FILE):
