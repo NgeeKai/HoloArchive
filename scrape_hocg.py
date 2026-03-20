@@ -118,6 +118,7 @@ def parse_dl(soup):
         "推しスキル":         "Oshi Skill",
         "SPおしスキル":       "SP Oshi Skill",
         "SPお仕スキル":       "SP Oshi Skill",  # typo variant seen in the wild
+        "SP推しスキル":       "SP Oshi Skill",  # correct JP form on real site
         "ブルーム効果":       "Bloom Effect",
         "コラボ効果":         "Collab Effect",
         "ギフト":             "Gift",
@@ -191,6 +192,7 @@ ABILITY_HEADINGS = {
     "推しスキル":   "oshi_skill",
     "SPお仕スキル": "sp_oshi_skill",
     "SPおしスキル": "sp_oshi_skill",
+    "SP推しスキル": "sp_oshi_skill",  # correct JP form on real site
     "ブルーム効果": "bloom_effect",
     "コラボ効果":   "collab_effect",
     "ギフト":       "gift",
@@ -218,8 +220,48 @@ def parse_abilities_from_page(soup):
     after the main <dl>. We scan all block elements for known label strings,
     then take the next sibling as the ability text.
     """
+
+    # Icons that indicate keyword type — prepended to the ability text
+    # All 3 confirmed from real card data:
+    # collabEF = Collab Effect (triggers at collab position)
+    # bloomEF  = Bloom Effect (triggers when holomem blooms)
+    # giftEF   = Gift (mascot support card abilities)
+    KEYWORD_TYPE_ICONS = {
+        "collabEF":   "Collab Effect",
+        "bloomEF":    "Bloom Effect",
+        "giftEF":     "Gift",
+    }
+    KEYWORD_TYPE_ALT = {
+        # JP alt text
+        "コラボエフェクト":   "Collab Effect",
+        "ブルームエフェクト": "Bloom Effect",
+        "ギフト":             "Gift",
+        # EN alt text
+        "Collab Effect":  "Collab Effect",
+        "Bloom Effect":   "Bloom Effect",
+        "Gift":           "Gift",
+    }
+
+    def extract_ability_text(el):
+        """Get text from element, prepending keyword type if an icon is present."""
+        keyword_type = None
+        for img in el.find_all("img"):
+            src = img.get("src", "")
+            alt = img.get("alt", "")
+            for icon_key, en_type in KEYWORD_TYPE_ICONS.items():
+                if icon_key in src:
+                    keyword_type = en_type
+                    break
+            if not keyword_type and alt in KEYWORD_TYPE_ALT:
+                keyword_type = KEYWORD_TYPE_ALT[alt]
+            if keyword_type:
+                break
+        text = re.sub(r'\s+', ' ', el.get_text(' ', strip=True)).strip()
+        if keyword_type and text:
+            return f"[{keyword_type}] {text}"
+        return text
+
     abilities = {}
-    # Scan p, h2, h3, dt, dd — covers all known variants across JP/EN/old/new pages
     elements = soup.find_all(["p", "h2", "h3", "h4", "dt", "dd"])
 
     i = 0
@@ -229,10 +271,9 @@ def parse_abilities_from_page(soup):
 
         if label in ABILITY_HEADINGS:
             key = ABILITY_HEADINGS[label]
-            # Next element must exist and must NOT itself be a heading
             if i + 1 < len(elements):
                 next_el = elements[i + 1]
-                next_text = re.sub(r'\s+', ' ', next_el.get_text(' ', strip=True)).strip()
+                next_text = extract_ability_text(next_el)
                 if next_text and next_text not in ABILITY_HEADINGS:
                     if key in abilities:
                         abilities[key] += "\n" + next_text
@@ -375,7 +416,36 @@ def parse_card_page(html, card_id, url):
     }
     bloom = BLOOM_VALUES.get(bloom_raw, bloom_raw) if bloom_raw else None
     baton_pass = fields.get("Baton Pass")
-    set_name   = fields.get("Card Set")
+
+    # Capture set_name and translate JP → English
+    JP_SET_NAME_MAP = {
+        'ブースターパック「ブルーミングレディアンス」':   'Booster Pack – Blooming Radiance',
+        'ブースターパック「クインテットスペクトラム」':   'Booster Pack – Quintet Spectrum',
+        'ブースターパック「エリートスパーク」':           'Booster Pack – Elite Spark',
+        'ブースターパック「キュリアスユニバース」':       'Booster Pack – Curious Universe',
+        'ブースターパック「アヤカシヴァーミリオン」':     'Booster Pack – Ayakashi Vermillion',
+        'ブースターパック「ディーヴァフィーバー」':       'Booster Pack – Diva Fever',
+        'ブースターパック「エンチャントレガリア」':       'Booster Pack – Enchant Regalia',
+        'スタートデッキ「ときのそら＆AZKi」':            'Start Deck – Tokino Sora & AZKi',
+        'スタートデッキ 赤 百鬼あやめ':                  'Start Deck – Red Nakiri Ayame',
+        'スタートデッキ 青 猫又おかゆ':                  'Start Deck – Blue Nekomata Okayu',
+        'スタートデッキ 紫 癒月ちょこ':                  'Start Deck – Purple Yuzuki Choco',
+        'スタートデッキ 白 轟はじめ':                    'Start Deck – White Todoroki',
+        'スタートデッキ 緑 風真いろは':                  'Start Deck – Green Kazama Iroha',
+        'スタートデッキ 黄 不知火フレア':                'Start Deck – Yellow Shiranui Flare',
+        'スタートデッキ 白 天音かなた':                  'Start Deck – White Amane Kanata',
+        'スタートデッキ 赤 宝鐘マリン':                  'Start Deck – Red Houshou Marine',
+        'スタートデッキ FLOW GLOW 推し 輪堂千速':        'Start Deck – Rindo Chihaya',
+        'スタートデッキ FLOW GLOW 推し 虎金妃笑虎':      'Start Deck – Koganei Niko',
+        'スタートデッキ 推し Advent':                    'Start Deck – Oshi Advent',
+        'スタートデッキ 推し Justice':                   'Start Deck – Oshi Justice',
+        'スタートエールセット':                          'Start Cheer Set',
+        'PRカード':                                      'Promo Cards',
+    }
+    raw_set_name = fields.get("Card Set") or ""
+    # Strip Japanese brackets from set name e.g. ブースターパック「name」→ cleaner lookup
+    raw_set_name = raw_set_name.strip()
+    set_name = JP_SET_NAME_MAP.get(raw_set_name) or (raw_set_name if raw_set_name else None)
 
     # Illustrator -- field first, then scan raw page text (covers both JP/EN format)
     illustrator_raw = fields.get("Illustrator") or ""
@@ -400,20 +470,41 @@ def parse_card_page(html, card_id, url):
     # Fallback: also check fields dict for any abilities that DID end up in dt/dd
     # (covers edge cases and older page formats)
     fallback_keys = {
+        # EN keys
         "Keyword": "keyword", "Arts": "arts", "Extra": "extra",
-        "Ability Text": "ability_text", "Oshi Skill": "oshi_skill",
-        "SP Oshi Skill": "sp_oshi_skill", "Bloom Effect": "bloom_effect",
-        "Collab Effect": "collab_effect", "Gift": "gift",
-        "キーワード": "keyword", "アーツ": "arts", "エクストラ": "extra",
-        "能力テキスト": "ability_text", "テキスト": "ability_text",
-        "推しスキル": "oshi_skill", "SPお仕スキル": "sp_oshi_skill",
-        "ブルーム効果": "bloom_effect", "コラボ効果": "collab_effect", "ギフト": "gift",
+        "Ability Text": "ability_text",
+        "Oshi Skill": "oshi_skill",
+        "SP Oshi Skill": "sp_oshi_skill",
+        "Bloom Effect": "bloom_effect",
+        "Collab Effect": "collab_effect",
+        "Gift": "gift",
+        # JP keys — all known variants
+        "キーワード": "keyword",
+        "アーツ": "arts",
+        "エクストラ": "extra",
+        "能力テキスト": "ability_text",
+        "テキスト": "ability_text",
+        "推しスキル": "oshi_skill",
+        "SPお仕スキル": "sp_oshi_skill",   # typo variant
+        "SPおしスキル": "sp_oshi_skill",   # hiragana variant
+        "SP推しスキル": "sp_oshi_skill",   # correct form on real site
+        "ブルーム効果": "bloom_effect",
+        "コラボ効果": "collab_effect",
+        "ギフト": "gift",
     }
     for label, key in fallback_keys.items():
         if key not in abilities:  # don't overwrite paragraph-parsed values
             val = fields.get(label)
             if val and val.strip():
                 abilities[key] = val.strip()
+
+    # Parallel prints are identified by rarity
+    PARALLEL_RARITIES = {'OUR', 'UR', 'SEC', 'SR', 'S', 'SY', 'HR'}
+    is_parallel = rarity in PARALLEL_RARITIES if rarity else False
+
+    # Multicolor cards have null color — label as 'colorless' for filtering
+    if not color:
+        color = 'colorless'
 
     card = {
         "id": card_id,
@@ -431,6 +522,7 @@ def parse_card_page(html, card_id, url):
         "tags": tags,
         "abilities": abilities,
         "illustrator": illustrator_raw.strip() if illustrator_raw else None,
+        "is_parallel": is_parallel,
         "image_url": image_url,
         "source_url": url,
     }
