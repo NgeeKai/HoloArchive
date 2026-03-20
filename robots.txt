@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://holoarchive.pages.dev/sitemap.xml
+Sitemap: https://holoarchiveocg.com/sitemap.xml
