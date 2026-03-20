@@ -74,20 +74,20 @@
 
   <!-- Stats (auto-generated from cards.json) -->
   <g transform="translate(80, 330)">
-    <text x="0"   y="44" font-family="system-ui,sans-serif" font-size="44" font-weight="700" fill="white">1,976</text>
+    <text x="0"   y="44" font-family="system-ui,sans-serif" font-size="44" font-weight="700" fill="white">2,048</text>
     <text x="0"   y="72" font-family="system-ui,sans-serif" font-size="15" fill="#7ab8d8">cards indexed</text>
-    <text x="210" y="44" font-family="system-ui,sans-serif" font-size="44" font-weight="700" fill="white">22</text>
+    <text x="210" y="44" font-family="system-ui,sans-serif" font-size="44" font-weight="700" fill="white">28</text>
     <text x="210" y="72" font-family="system-ui,sans-serif" font-size="15" fill="#7ab8d8">sets covered</text>
-    <text x="370" y="44" font-family="system-ui,sans-serif" font-size="44" font-weight="700" fill="white">6</text>
+    <text x="370" y="44" font-family="system-ui,sans-serif" font-size="44" font-weight="700" fill="white">7</text>
     <text x="370" y="72" font-family="system-ui,sans-serif" font-size="15" fill="#7ab8d8">colors</text>
-    <text x="490" y="44" font-family="system-ui,sans-serif" font-size="44" font-weight="700" fill="white">4</text>
+    <text x="490" y="44" font-family="system-ui,sans-serif" font-size="44" font-weight="700" fill="white">5</text>
     <text x="490" y="72" font-family="system-ui,sans-serif" font-size="15" fill="#7ab8d8">card types</text>
   </g>
 
   <line x1="80" y1="450" x2="680" y2="450" stroke="rgba(0,168,232,0.18)" stroke-width="1"/>
 
   <!-- Tagline with today's date -->
-  <text x="80" y="490" font-family="system-ui,sans-serif" font-size="18" fill="rgba(255,255,255,0.45)">Last updated March 18, 2026 &#8212; data from the official hololive OCG site</text>
+  <text x="80" y="490" font-family="system-ui,sans-serif" font-size="18" fill="rgba(255,255,255,0.45)">Last updated March 20, 2026 &#8212; data from the official hololive OCG site</text>
 
   <!-- Footer -->
   <rect y="590" width="1200" height="40" fill="rgba(0,168,232,0.07)"/>
