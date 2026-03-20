@@ -3,7 +3,7 @@ name: Update Card Database
 on:
   schedule:
     - cron: '0 6 * * 1'   # Every Monday at 6am UTC
-  workflow_dispatch:        # Also allow manual trigger from GitHub UI
+  workflow_dispatch:        # Manual trigger from GitHub Actions tab
 
 permissions:
   contents: write
@@ -11,21 +11,44 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 90    # Scraper takes ~30-40 min for full run
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0   # full history needed for pull/push
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: 'pip'
 
       - name: Install dependencies
         run: pip install requests beautifulsoup4 deep-translator
+
+      - name: Validate cards.json (reset if corrupt/empty)
+        run: |
+          python3 - << 'PYEOF'
+          import json, os
+          path = 'cards.json'
+          if not os.path.exists(path):
+              print("No cards.json — will start fresh")
+          else:
+              try:
+                  with open(path) as f:
+                      data = f.read().strip()
+                  if not data:
+                      raise ValueError("empty file")
+                  json.loads(data)
+                  print(f"cards.json valid ({len(json.loads(data))} cards)")
+              except Exception as e:
+                  print(f"cards.json corrupt ({e}) — resetting to []")
+                  with open(path, 'w') as f:
+                      f.write('[]')
+          PYEOF
 
       - name: Run scraper
         run: python scrape_hocg.py
@@ -33,11 +56,14 @@ jobs:
       - name: Run translator
         run: python translate_cards.py
 
+      - name: Regenerate OG image and sitemap
+        run: python generate_og.py
+
       - name: Commit and push if changed
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add cards.json
+          git add cards.json og-image.svg sitemap.xml
           git diff --staged --quiet && echo "No changes, skipping push" && exit 0
           git commit -m "auto: update card database $(date +'%Y-%m-%d')"
           git pull --rebase origin main
