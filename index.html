@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
+<meta name="application-name" content="Holoarchive">
+<meta name="author" content="Holoarchive">
+
 <!-- ── Primary SEO ─────────────────────────────────────────────────── -->
 <title>Holoarchive — hololive OCG Card Database</title>
 <meta name="description" content="Search, filter and browse every card in the hololive OFFICIAL CARD GAME. Find cards by name, type, color, rarity, bloom level and set.">
@@ -31,29 +34,37 @@
 
 <!-- ── Structured Data (JSON-LD) ───────────────────────────────────── -->
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Holoarchive",
-  "url": "https://holoarchive.pages.dev/",
-  "description": "Search, filter and browse every card in the hololive OFFICIAL CARD GAME.",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": "https://holoarchive.pages.dev/?q={search_term_string}"
-    },
-    "query-input": "required name=search_term_string"
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Holoarchive",
+    "alternateName": "Holo Archive",
+    "url": "https://holoarchive.pages.dev/",
+    "description": "Search, filter and browse every card in the hololive OFFICIAL CARD GAME.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://holoarchive.pages.dev/?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
   },
-  "publisher": {
+  {
+    "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Holoarchive",
+    "url": "https://holoarchive.pages.dev/",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://holoarchive.pages.dev/logo.svg"
-    }
+      "url": "https://holoarchive.pages.dev/logo.svg",
+      "width": 240,
+      "height": 240
+    },
+    "description": "Unofficial fan database for the hololive OFFICIAL CARD GAME."
   }
-}
+]
 </script>
 
 <!-- ── Favicon & icons ─────────────────────────────────────────────── -->
