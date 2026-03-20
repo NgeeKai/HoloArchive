@@ -2,190 +2,203 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>https://holoarchive.pages.dev/</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?view=cards</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?view=cards</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?view=sets</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?view=sets</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hBD24</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hBP01</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hBP01</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hBP02</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hBP02</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hBP03</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hBP03</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hBP04</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hBP04</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hBP05</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hBP05</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hBP06</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hBP06</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hBP07</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hBP07</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hSD01</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hSD01</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hSD02</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hSD02</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hSD03</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hSD03</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hSD04</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hSD04</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hSD05</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hSD05</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hSD06</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hSD06</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hSD07</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hSD07</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hSD08</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hSD08</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hSD09</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hSD09</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hSD10</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hSD10</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hSD11</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hSD11</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hSD12</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hSD12</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hSD13</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hSD13</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hBD24</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hY01</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hYS01</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hY02</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hPR</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hY03</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hY01</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hY04</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hY02</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hY05</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hY03</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hY06</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hY04</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://holoarchive.pages.dev/?set=hYS01</loc>
-    <lastmod>2026-03-20</lastmod>
+    <loc>https://holoarchiveocg.com/?set=hY05</loc>
+    <lastmod>2026-03-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://holoarchiveocg.com/?set=hY06</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
 </urlset>
+
+
+
+
+
+
+
