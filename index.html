@@ -1746,7 +1746,8 @@ const SET_NAMES = {
 
 // Helper: get display name for a set code
 function getSetName(code) {
-  return SET_NAMES[code] || code || 'Unknown Set';
+  // Always use the hardcoded English map — never show raw JP scraped set_name
+  return SET_NAMES[code] || code || '';
 }
 
 // ── Boot ─────────────────────────────────────────────────────────────
@@ -1776,7 +1777,7 @@ function buildSetIndex() {
     if (!c.set_code) return;
     if (!setMap[c.set_code]) {
       setMap[c.set_code] = {
-        code: c.set_code, name: c.set_name || getSetName(c.set_code),
+        code: c.set_code, name: getSetName(c.set_code) || c.set_name,
         cards: 0, types: {}
       };
     }
@@ -2357,7 +2358,7 @@ function _renderCardDetail(card) {
   const labeledFields = [];
   if (card.card_type) labeledFields.push(['Card Type', MODAL_TYPE_LABELS[card.card_type] || card.card_type]);
   if (card.rarity)    labeledFields.push(['Rarity', card.rarity]);
-  const setName = card.set_name || getSetName(card.set_code);
+  const setName = getSetName(card.set_code) || card.set_name;
   if (setName)        labeledFields.push(['Card Set', setName]);
 
   document.getElementById('cardDetailFields').innerHTML = labeledFields
@@ -2490,7 +2491,7 @@ function openModal(card) {
   const labeledFields = [];
   if (card.card_type) labeledFields.push(['Card Type', MODAL_TYPE_LABELS[card.card_type] || card.card_type]);
   if (card.rarity)    labeledFields.push(['Rarity', card.rarity]);
-  const setName = card.set_name || getSetName(card.set_code);
+  const setName = getSetName(card.set_code) || card.set_name;
   if (setName)        labeledFields.push(['Card Set', setName]);
 
   document.getElementById('modalFields').innerHTML = labeledFields
