@@ -1163,14 +1163,18 @@ img { display: block; max-width: 100%; }
 #cardDetailBack {
   display: inline-flex; align-items: center; gap: 8px;
   color: var(--text2); font-size: 13px; font-weight: 500;
-  background: none; border: none; cursor: pointer;
-  padding: 8px 0; margin-bottom: 20px;
-  transition: color 0.15s;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--radius); cursor: pointer;
+  padding: 8px 16px; margin-bottom: 20px;
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 38px;
 }
-#cardDetailBack:hover { color: var(--accent); }
+#cardDetailBack:hover { color: var(--accent); border-color: var(--accent); }
+#cardDetailBack:active { transform: scale(0.97); }
 #cardDetailBack svg { width: 16px; height: 16px; flex-shrink: 0; }
 #cardDetailBreadcrumb {
-  padding: 0 24px;
+  padding: 12px 24px 0;
   max-width: 1000px;
   margin: 0 auto;
 }
@@ -1285,24 +1289,34 @@ img { display: block; max-width: 100%; }
 @media (max-width: 900px) {
   #cardDetailInner {
     grid-template-columns: 1fr;
-    gap: 24px;
-    padding: 20px 16px 80px;
+    gap: 20px;
+    padding: 16px 16px 100px;
   }
   #cardDetailArt {
     position: static;
-    max-width: 280px;
+    max-width: 260px;
     margin: 0 auto;
   }
-  #cardDetailName { font-size: 26px; }
-  #cardDetailBreadcrumb { padding: 0 16px; }
+  #cardDetailName { font-size: 24px; }
+  #cardDetailBreadcrumb { padding: 8px 16px 0; }
+  #cardDetailStats { gap: 8px; flex-wrap: wrap; }
 }
 @media (max-width: 600px) {
-  #cardDetailInner { padding: 16px 12px 80px; }
-  #cardDetailArt { max-width: 220px; }
-  #cardDetailName { font-size: 22px; }
-  .cd-key { font-size: 10px; padding: 3px 10px; min-width: 72px; }
+  #cardDetailInner { padding: 12px 12px 100px; gap: 16px; }
+  #cardDetailArt { max-width: 200px; }
+  #cardDetailName { font-size: 20px; margin-bottom: 4px; }
+  #cardDetailCardNum { font-size: 11px; margin-bottom: 16px; }
+  .cd-key { font-size: 10px; padding: 3px 9px; min-width: 68px; }
   .cd-val { font-size: 13px; }
-  .cd-ability { padding: 12px 14px; font-size: 13px; }
+  .cd-field-row { gap: 8px; }
+  .cd-ability { padding: 10px 12px; font-size: 12.5px; }
+  .cd-ability-label { font-size: 10px; padding: 3px 9px; }
+  #cardDetailStats { padding: 10px 12px; gap: 6px; }
+  .cd-stat-label { font-size: 10px; padding: 3px 8px; }
+  .cd-stat-val { font-size: 12px; }
+  #cardDetailBack { font-size: 12px; padding: 6px 12px; }
+  #cardDetailOfficialLink { font-size: 11px; padding: 6px 10px; }
+  #cardDetailFooter { font-size: 11px; }
 }
 </style>
 </head>
@@ -1379,6 +1393,13 @@ img { display: block; max-width: 100%; }
     <div class="filter-group">
       <div class="filter-label">Bloom Level</div>
       <div class="filter-pills" id="bloomPills"></div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="filter-group">
+      <div class="filter-label">Print</div>
+      <div class="filter-pills" id="parallelPills"></div>
     </div>
 
     <div class="sidebar-divider"></div>
@@ -1570,6 +1591,11 @@ img { display: block; max-width: 100%; }
     </div>
     <div class="sidebar-divider"></div>
     <div class="filter-group">
+      <div class="filter-label">Print</div>
+      <div class="filter-pills" id="drawerParallelPills"></div>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="filter-group">
       <div class="filter-label">Set</div>
       <div class="filter-pills" id="drawerSetPills"></div>
     </div>
@@ -1692,7 +1718,7 @@ let ALL_CARDS = [];
 let ALL_SETS  = [];
 let currentView = 'cards';
 let viewMode    = 'grid';
-let filters = { type: 'All', color: 'All', rarity: 'All', bloom: 'All', set: 'All' };
+let filters = { type: 'All', color: 'All', rarity: 'All', bloom: 'All', set: 'All', parallel: 'All' };
 let searchQuery = '';
 
 const RARITY_ORDER = ['C','OC','U','R','RR','HR','SR','OSR','S','SY','P','OUR','UR','SEC'];
@@ -1745,8 +1771,11 @@ const SET_NAMES = {
 };
 
 // Helper: get display name for a set code
-function getSetName(code) {
-  // Always use the hardcoded English map — never show raw JP scraped set_name
+function getSetName(code, setNameOverride) {
+  // Use translated set_name from scraper if provided, else fall back to hardcoded map
+  if (setNameOverride && !/[\u3000-\u9FFF]/.test(setNameOverride)) {
+    return setNameOverride; // already English
+  }
   return SET_NAMES[code] || code || '';
 }
 
@@ -1777,7 +1806,7 @@ function buildSetIndex() {
     if (!c.set_code) return;
     if (!setMap[c.set_code]) {
       setMap[c.set_code] = {
-        code: c.set_code, name: getSetName(c.set_code) || c.set_name,
+        code: c.set_code, name: getSetName(c.set_code, c.set_name),
         cards: 0, types: {}
       };
     }
@@ -1850,22 +1879,25 @@ function buildFilterPills() {
   const types    = ['All','Oshi','Holomem','Buzz Holomem','Support','Cheer'];
   const colors   = ['All','White','Green','Red','Blue','Purple','Yellow','Colorless'];
   const rarities = ['All',...RARITY_ORDER];
-  const blooms   = ['All','Debut','1st','2nd','Spot'];
-  const sets     = ['All', ...ALL_SETS.map(s => s.code)];
+  const blooms    = ['All','Debut','1st','2nd','Spot'];
+  const parallels = ['All', 'Base', 'Parallel'];
+  const sets      = ['All', ...ALL_SETS.map(s => s.code)];
 
   // Sidebar (desktop)
   makePills('typePills',   types,    'type',   v => v);
   makePills('colorPills',  colors,   'color',  v => v, true);
   makePills('rarityPills', rarities, 'rarity', v => v);
-  makePills('bloomPills',  blooms,   'bloom',  v => v);
-  makePills('setPills',    sets,     'set',    v => v);
+  makePills('bloomPills',    blooms,    'bloom',    v => v);
+  makePills('parallelPills', parallels, 'parallel', v => v);
+  makePills('setPills',      sets,      'set',      v => v);
 
   // Drawer (mobile/tablet) — same content, separate elements
-  makePills('drawerTypePills',   types,    'type',   v => v);
-  makePills('drawerColorPills',  colors,   'color',  v => v, true);
-  makePills('drawerRarityPills', rarities, 'rarity', v => v);
-  makePills('drawerBloomPills',  blooms,   'bloom',  v => v);
-  makePills('drawerSetPills',    sets,     'set',    v => v);
+  makePills('drawerTypePills',    types,    'type',    v => v);
+  makePills('drawerColorPills',   colors,   'color',   v => v, true);
+  makePills('drawerRarityPills',  rarities, 'rarity',  v => v);
+  makePills('drawerBloomPills',   blooms,   'bloom',   v => v);
+  makePills('drawerParallelPills',parallels,'parallel',v => v);
+  makePills('drawerSetPills',     sets,     'set',     v => v);
 
   updateFilterCount();
 }
@@ -1922,6 +1954,11 @@ function applyFilters() {
     if (filters.bloom !== 'All') {
       if ((c.bloom_level || '').toLowerCase() !== filters.bloom.toLowerCase()) return false;
     }
+    if (filters.parallel !== 'All') {
+      const isParallel = c.is_parallel === true;
+      if (filters.parallel === 'Parallel' && !isParallel) return false;
+      if (filters.parallel === 'Base'     &&  isParallel) return false;
+    }
     if (filters.set !== 'All') {
       if (c.set_code !== filters.set) return false;
     }
@@ -1929,6 +1966,7 @@ function applyFilters() {
       const hay = [
         c.name, c.card_number, c.card_type, c.color, c.rarity,
         c.set_name, c.set_code, c.bloom_level, c.illustrator,
+        c.is_parallel ? 'parallel' : 'base',
         ...(c.tags || []),
         ...Object.values(c.abilities || {})
       ].join(' ').toLowerCase();
@@ -2131,6 +2169,9 @@ function filterBySet(code) {
 function switchView(v) {
   currentView = v;
 
+  // Always hide card detail when switching to a main view
+  document.getElementById('cardDetailView').classList.remove('active');
+
   // Show/hide views
   document.getElementById('homeView').style.display  = v === 'home'  ? '' : 'none';
   document.getElementById('cardView').classList.toggle('hidden', v !== 'cards');
@@ -2139,7 +2180,7 @@ function switchView(v) {
   // Sidebar only on cards view
   document.getElementById('sidebar').style.display = v === 'cards' ? '' : 'none';
 
-  // Search bar only relevant on cards view — dim it on other views
+  // Search bar only relevant on cards view
   document.getElementById('searchWrap').style.opacity = v === 'cards' ? '1' : '0.4';
   document.getElementById('searchInput').disabled = v !== 'cards';
 
@@ -2152,6 +2193,14 @@ function switchView(v) {
   document.getElementById('bnHome').classList.toggle('active',  v === 'home');
   document.getElementById('bnCards').classList.toggle('active', v === 'cards');
   document.getElementById('bnSets').classList.toggle('active',  v === 'sets');
+
+  // Update URL for main view navigation (home/cards/sets)
+  if (!window.location.search.includes('id=')) {
+    const url = new URL(window.location);
+    if (v !== 'home') { url.searchParams.set('view', v); }
+    else { url.searchParams.delete('view'); }
+    window.history.replaceState({ type: 'view', view: v }, '', url);
+  }
 
   // Populate views when switching to them
   if (v === 'home') buildHomepage();
@@ -2295,19 +2344,68 @@ function clearSearch() {
 }
 
 // ── Card Detail Page ─────────────────────────────────────────────────
+// State saved when opening a card so we can restore it on back
+let _prevViewState = {
+  view: 'cards',
+  scrollY: 0,
+  searchQuery: '',
+  filters: null,
+};
+
 function openCardDetail(card) {
-  // Push URL so back button works and cards are shareable
+  // Snapshot current state before navigating away
+  _prevViewState = {
+    view: currentView || 'cards',
+    scrollY: window.scrollY,
+    searchQuery: searchQuery,
+    filters: Object.assign({}, filters),
+  };
+
+  // Push a new history entry — this is what makes browser back work
   const url = new URL(window.location);
-  url.searchParams.set('card', card.card_number + (card.rarity ? '_' + card.rarity : ''));
   url.searchParams.set('id', card.id);
-  window.history.pushState({ cardId: card.id }, '', url);
+  url.searchParams.set('card', card.card_number + (card.rarity ? '_' + card.rarity : ''));
+  window.history.pushState(
+    { type: 'card', cardId: card.id, prevState: _prevViewState },
+    card.name || card.card_number,
+    url
+  );
 
   _renderCardDetail(card);
 }
 
 function closeCardDetail() {
-  // Go back in history or return to cards view
+  // Use browser back — triggers popstate which does the restore
   window.history.back();
+}
+
+function _restorePrevView(state) {
+  // Restore the view that was showing before card detail
+  const prev = (state && state.prevState) || _prevViewState;
+
+  document.getElementById('cardDetailView').classList.remove('active');
+  document.title = 'Holoarchive — hololive OCG Card Database';
+
+  // Restore filters and search
+  if (prev.filters) {
+    Object.assign(filters, prev.filters);
+  }
+  if (prev.searchQuery !== undefined) {
+    searchQuery = prev.searchQuery;
+    const inp = document.getElementById('searchInput');
+    if (inp) {
+      inp.value = searchQuery;
+      document.getElementById('clearSearch').style.display = searchQuery ? 'block' : 'none';
+    }
+  }
+
+  // Switch to the previous view
+  switchView(prev.view || 'cards');
+
+  // Restore scroll position after render
+  requestAnimationFrame(() => {
+    window.scrollTo({ top: prev.scrollY || 0, behavior: 'instant' });
+  });
 }
 
 function _renderCardDetail(card) {
@@ -2358,7 +2456,7 @@ function _renderCardDetail(card) {
   const labeledFields = [];
   if (card.card_type) labeledFields.push(['Card Type', MODAL_TYPE_LABELS[card.card_type] || card.card_type]);
   if (card.rarity)    labeledFields.push(['Rarity', card.rarity]);
-  const setName = getSetName(card.set_code) || card.set_name;
+  const setName = getSetName(card.set_code, card.set_name);
   if (setName)        labeledFields.push(['Card Set', setName]);
 
   document.getElementById('cardDetailFields').innerHTML = labeledFields
@@ -2422,9 +2520,22 @@ function _renderCardDetail(card) {
     .filter(([,v]) => v && v.trim())
     .map(([k,v]) => {
       const meta = ABILITY_META[k] || { label: k, cls: 'abl-ability_text' };
+      // For keyword abilities, extract [Type] prefix e.g. [Collab Effect]
+      let typeLabel = '';
+      let abilityText = v;
+      if (k === 'keyword') {
+        const typeMatch = v.match(/^\[([^\]]+)\]\s*/);
+        if (typeMatch) {
+          typeLabel = typeMatch[1];
+          abilityText = v.slice(typeMatch[0].length);
+        }
+      }
       return `<div class="cd-ability">
-        <div class="cd-ability-label ${meta.cls}">${escHtml(meta.label)}</div>
-        <div class="cd-ability-text">${escHtml(v)}</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+          <div class="cd-ability-label ${meta.cls}">${escHtml(meta.label)}</div>
+          ${typeLabel ? `<div class="cd-ability-label abl-collab_effect">${escHtml(typeLabel)}</div>` : ''}
+        </div>
+        <div class="cd-ability-text">${escHtml(abilityText)}</div>
       </div>`;
     }).join('') || '';
 
@@ -2435,6 +2546,12 @@ function _renderCardDetail(card) {
   document.getElementById('cardDetailFooter').innerHTML = footerParts
     .map(p => `<div>${p}</div>`).join('');
 
+  // Update nav state — show card detail as active in bottom nav
+  // Highlight the nav button that was previously active (came from cards/sets/home)
+  document.getElementById('bnHome').classList.toggle('active',  _previousView === 'home');
+  document.getElementById('bnCards').classList.toggle('active', _previousView === 'cards');
+  document.getElementById('bnSets').classList.toggle('active',  _previousView === 'sets');
+
   // Scroll to top
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
@@ -2443,12 +2560,21 @@ function _renderCardDetail(card) {
 window.addEventListener('popstate', (e) => {
   const params = new URLSearchParams(window.location.search);
   const cardId = params.get('id');
-  if (cardId && ALL_CARDS.length) {
+  const state = e.state || {};
+
+  if (state.type === 'card' && cardId && ALL_CARDS.length) {
+    // Navigating forward to a card detail page
     const card = ALL_CARDS.find(c => String(c.id) === cardId);
     if (card) { _renderCardDetail(card); return; }
   }
-  // No card param — return to previous view
-  document.getElementById('cardDetailView').classList.remove('active');
+
+  if (document.getElementById('cardDetailView').classList.contains('active')) {
+    // We're on a card detail — browser back was pressed — restore previous view
+    _restorePrevView(state);
+    return;
+  }
+
+  // Otherwise handle view navigation (home/cards/sets)
   const view = params.get('view') || 'home';
   switchView(view);
 });
@@ -2491,7 +2617,7 @@ function openModal(card) {
   const labeledFields = [];
   if (card.card_type) labeledFields.push(['Card Type', MODAL_TYPE_LABELS[card.card_type] || card.card_type]);
   if (card.rarity)    labeledFields.push(['Rarity', card.rarity]);
-  const setName = getSetName(card.set_code) || card.set_name;
+  const setName = getSetName(card.set_code, card.set_name);
   if (setName)        labeledFields.push(['Card Set', setName]);
 
   document.getElementById('modalFields').innerHTML = labeledFields
@@ -2560,9 +2686,22 @@ function openModal(card) {
     .filter(([,v]) => v && v.trim())
     .map(([k,v]) => {
       const meta = ABILITY_META[k] || { label: k, cls: 'abl-ability_text' };
+      // For keyword abilities, extract [Type] prefix e.g. [Collab Effect]
+      let typeLabel = '';
+      let abilityText = v;
+      if (k === 'keyword') {
+        const typeMatch = v.match(/^\[([^\]]+)\]\s*/);
+        if (typeMatch) {
+          typeLabel = typeMatch[1];
+          abilityText = v.slice(typeMatch[0].length);
+        }
+      }
       return `<div class="ability-block ${meta.cls}">
-        <div class="ability-label ${meta.cls}">${escHtml(meta.label)}</div>
-        <div class="ability-text">${escHtml(v)}</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+          <div class="ability-label ${meta.cls}">${escHtml(meta.label)}</div>
+          ${typeLabel ? `<div class="ability-label abl-collab_effect">${escHtml(typeLabel)}</div>` : ''}
+        </div>
+        <div class="ability-text">${escHtml(abilityText)}</div>
       </div>`;
     }).join('');
   document.getElementById('modalAbilities').innerHTML = abHtml || '';
@@ -2634,6 +2773,8 @@ async function init() {
       if (card) { _renderCardDetail(card); return; }
     }
 
+    // Push initial state so popstate has something to pop back to
+    window.history.replaceState({ type: 'view', view: 'home' }, '', window.location.href);
     switchView('home');
   } catch (e) {
     document.getElementById('noJsonBanner').style.display = 'block';
