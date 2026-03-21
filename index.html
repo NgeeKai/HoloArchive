@@ -784,7 +784,6 @@ img { display: block; max-width: 100%; }
   #toolrow { gap: 8px; }
 
   /* Homepage tablet */
-  #heroSection { min-height: 260px; }
   .home-sets-row { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
   .home-color-grid { grid-template-columns: repeat(3, 1fr); }
   .home-type-grid { grid-template-columns: repeat(2, 1fr); }
@@ -874,7 +873,6 @@ img { display: block; max-width: 100%; }
   #cardGrid.list-mode .card-name { font-size: 13px; }
 
   /* Homepage phone */
-  #heroSection { min-height: auto; }
   #heroContent { padding: 24px 18px; }
   #heroTitle { font-size: 26px; }
   #heroSub { font-size: 11px; }
@@ -883,13 +881,13 @@ img { display: block; max-width: 100%; }
   #heroLogoMark svg { width: 26px; height: 26px; }
   .hero-btn { height: 38px; padding: 0 16px; font-size: 13px; }
 
-  #statsBar { padding: 10px 0; }
+
   .stat-divider { display: none; }
   .stat-item { min-width: 50%; padding: 8px 10px; }
   .stat-val { font-size: 24px; }
   .stat-lbl { font-size: 11px; }
 
-  #homeSections { gap: 24px; }
+
   .home-section-title { font-size: 15px; }
   .home-sets-row { grid-template-columns: 1fr; gap: 8px; }
   .home-set-card { padding: 12px 14px; }
@@ -975,180 +973,140 @@ img { display: block; max-width: 100%; }
 ══════════════════════════════════════════════════════════════════ */
 
 /* Hero section */
-#heroSection {
-  position: relative; overflow: hidden;
-  border-radius: var(--radius-lg);
-  margin-bottom: 28px;
-  min-height: 320px;
-  display: flex; align-items: center;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-}
-#heroBg {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(0,168,232,0.12) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(0,84,163,0.08) 0%, transparent 60%);
-}
-#heroBg::after {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(var(--border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border) 1px, transparent 1px);
-  background-size: 40px 40px;
-  opacity: 0.4;
-}
-#heroContent {
-  position: relative; z-index: 1;
-  padding: 48px 52px;
-  max-width: 700px;
-}
-#heroLockup {
-  display: flex; align-items: center; gap: 14px;
-  margin-bottom: 20px;
-}
-#heroLogoMark {
-  width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
-  background: linear-gradient(135deg, #005fa3 0%, #00a8e8 60%, #00d4ff 100%);
+/* ══════════════════════════════════════════════════════════════════
+   HOMEPAGE
+══════════════════════════════════════════════════════════════════ */
+#homeView {
+  min-height: calc(100vh - var(--topbar-h));
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 24px rgba(0,168,232,0.35);
 }
-#heroLogoMark svg { width: 30px; height: 30px; }
-#heroTitle {
-  font-size: 42px; font-weight: 600; letter-spacing: -0.5px;
-  line-height: 1; color: var(--text); margin: 0;
-}
-#heroTitle span { color: var(--accent); }
-#heroSub {
-  font-size: 13px; color: var(--text3); margin-top: 4px;
-  font-weight: 500; letter-spacing: 0.02em;
-}
-#heroDesc {
-  font-size: 15px; color: var(--text2); line-height: 1.65;
-  margin-bottom: 28px; max-width: 540px;
-}
-#heroActions { display: flex; gap: 10px; flex-wrap: wrap; }
-.hero-btn {
-  display: inline-flex; align-items: center; gap: 7px;
-  height: 42px; padding: 0 20px; border-radius: var(--radius);
-  font-size: 14px; font-weight: 500; cursor: pointer;
-  border: none; transition: all 0.15s; white-space: nowrap;
-}
-.hero-btn-primary {
-  background: var(--accent); color: #fff;
-  box-shadow: 0 0 20px rgba(0,168,232,0.3);
-}
-.hero-btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
-.hero-btn-secondary {
-  background: var(--bg3); color: var(--text);
-  border: 1px solid var(--border2);
-}
-.hero-btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-
-/* Stats bar */
-#statsBar {
-  display: flex; align-items: center; justify-content: center;
-  gap: 0; background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 20px 0;
-  margin-bottom: 36px; flex-wrap: wrap;
-}
-.stat-item {
-  flex: 1; min-width: 120px; text-align: center; padding: 8px 24px;
-}
-.stat-val {
-  font-size: 32px; font-weight: 600; color: var(--text);
-  line-height: 1; font-variant-numeric: tabular-nums;
-}
-.stat-lbl {
-  font-size: 12px; color: var(--text3); margin-top: 5px;
-  text-transform: uppercase; letter-spacing: 0.06em;
-}
-.stat-divider {
-  width: 1px; height: 40px; background: var(--border);
-  flex-shrink: 0;
+#homeCenter {
+  width: 100%; max-width: 600px;
+  padding: 60px 28px 100px;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
 }
 
-/* Home sections */
-#homeSections { display: flex; flex-direction: column; gap: 36px; margin-bottom: 48px; }
-.home-section {}
-.home-section-header {
-  display: flex; align-items: center; justify-content: space-between;
+/* Branding */
+#homeBrand {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 8px;
+}
+#homeLogoMark {
+  width: 48px; height: 48px; flex-shrink: 0;
+  background: linear-gradient(135deg, #005fa3, #00d4ff);
+  border-radius: 14px; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 28px rgba(0,168,232,0.3);
+}
+#homeLogoMark svg { width: 28px; height: 28px; }
+#homeTitle {
+  font-size: 36px; font-weight: 700; letter-spacing: -0.5px;
+  color: var(--text); margin: 0; line-height: 1;
+}
+#homeTitle span { color: var(--accent); }
+#homeSub {
+  font-size: 13px; color: var(--text3); margin: 3px 0 0;
+  font-weight: 400;
+}
+
+/* Search */
+#homeSearchWrap {
+  width: 100%; margin-top: 32px;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: var(--radius-lg); padding: 11px 14px;
+  transition: border-color 0.15s, box-shadow 0.15s;
   margin-bottom: 14px;
 }
-.home-section-title {
-  font-size: 17px; font-weight: 600; color: var(--text);
+#homeSearchWrap:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0,168,232,0.1);
 }
-.home-section-link {
-  font-size: 13px; color: var(--accent); background: none;
-  border: none; cursor: pointer; padding: 0;
-  transition: color 0.12s;
+#homeSearchWrap svg { color: var(--text3); flex-shrink: 0; }
+#homeSearchInput {
+  flex: 1; background: none; border: none; outline: none;
+  color: var(--text); font-size: 15px; font-family: var(--font);
 }
-.home-section-link:hover { color: var(--accent2); }
+#homeSearchInput::placeholder { color: var(--text3); }
+#homeSearchBtn {
+  background: var(--accent); color: #fff; border: none;
+  border-radius: var(--radius); padding: 7px 16px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  font-family: var(--font); flex-shrink: 0;
+  transition: opacity 0.15s;
+}
+#homeSearchBtn:hover { opacity: 0.85; }
 
-/* Latest sets row */
-.home-sets-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 12px;
+/* Quick action buttons */
+#homeActions {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  justify-content: center; margin-bottom: 32px;
 }
-.home-set-card {
+.home-action-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: var(--radius);
   background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 16px 18px;
-  cursor: pointer; transition: border-color 0.12s, transform 0.12s;
-  display: flex; gap: 12px; align-items: center;
+  color: var(--text2); font-size: 13px; font-weight: 500;
+  cursor: pointer; font-family: var(--font);
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
 }
-.home-set-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-.home-set-icon {
-  width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
-  background: rgba(0,168,232,0.12); border: 1px solid rgba(0,168,232,0.2);
-  display: flex; align-items: center; justify-content: center; font-size: 18px;
+.home-action-btn:hover {
+  border-color: var(--accent); color: var(--text);
+  background: var(--bg3);
 }
-.home-set-info { min-width: 0; }
-.home-set-name { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.home-set-code { font-size: 11px; color: var(--text3); font-family: var(--mono); margin-top: 2px; }
-.home-set-count { font-size: 11px; color: var(--accent); margin-top: 3px; }
 
-/* Color grid */
-.home-color-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 10px;
+/* Divider */
+.home-rule {
+  width: 100%; height: 1px;
+  background: var(--border); margin-bottom: 24px;
 }
-.home-color-card {
+
+/* Bottom — stats + sets */
+#homeBottom {
+  width: 100%;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+}
+#homeStatLine {
+  font-size: 12px; color: var(--text3);
+}
+#homeStatCards, #homeStatSets {
+  color: var(--text2); font-weight: 600;
+}
+
+/* Latest sets */
+#homeNewSets {
+  width: 100%; display: flex; flex-wrap: wrap;
+  gap: 8px; justify-content: center;
+}
+.home-new-set {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border-radius: var(--radius);
   background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 16px 14px;
-  cursor: pointer; transition: border-color 0.12s, transform 0.12s;
-  display: flex; align-items: center; gap: 10px;
+  cursor: pointer; transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
 }
-.home-color-card:hover { transform: translateY(-2px); }
-.home-color-dot {
-  width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+.home-new-set:hover { border-color: var(--accent); }
+.home-new-set-icon { font-size: 15px; line-height: 1; }
+.home-new-set-name {
+  font-size: 12px; font-weight: 500; color: var(--text2);
+  white-space: nowrap;
 }
-.home-color-name { font-size: 13px; font-weight: 500; color: var(--text); }
-.home-color-count { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.home-new-set-count { font-size: 11px; color: var(--text3); }
+.home-new-badge {
+  background: rgba(0,168,232,0.15); color: var(--accent);
+  font-size: 9px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0,168,232,0.25);
+  flex-shrink: 0; text-transform: uppercase;
+}
 
-/* Type grid */
-.home-type-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 10px;
+@media (max-width: 600px) {
+  #homeCenter { padding: 40px 16px 100px; }
+  #homeTitle { font-size: 28px; }
+  #homeLogoMark { width: 40px; height: 40px; border-radius: 11px; }
+  #homeLogoMark svg { width: 22px; height: 22px; }
+  #homeSearchInput { font-size: 14px; }
 }
-.home-type-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 14px 16px;
-  cursor: pointer; transition: border-color 0.12s, transform 0.12s;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.home-type-card:hover { transform: translateY(-2px); }
-.home-type-left { display: flex; align-items: center; gap: 10px; }
-.home-type-badge-large {
-  padding: 4px 10px; border-radius: 99px; font-size: 12px; font-weight: 500;
-}
-.home-type-name { font-size: 13px; font-weight: 500; color: var(--text); }
-.home-type-count { font-size: 12px; color: var(--text3); font-family: var(--mono); }
-
-/* Homepage responsive — handled in main responsive block above */
 
 /* ══════════════════════════════════════════════════════════════════
    CARD DETAIL PAGE
@@ -1435,93 +1393,75 @@ img { display: block; max-width: 100%; }
 
     <!-- Home View -->
     <div id="homeView" style="display:none">
+      <div id="homeCenter">
 
-      <!-- Hero -->
-      <div id="heroSection">
-        <div id="heroBg"></div>
-        <div id="heroContent">
-          <div id="heroLockup">
-            <div id="heroLogoMark">
-              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 10.5C5 9 6 8 7.5 8L15.2 9L15.2 23L7.5 22C6 22 5 21 5 19.5Z" fill="white" fill-opacity="0.95"/>
-                <path d="M27 10.5C27 9 26 8 24.5 8L16.8 9L16.8 23L24.5 22C26 22 27 21 27 19.5Z" fill="white" fill-opacity="0.7"/>
-                <line x1="16" y1="8.5" x2="16" y2="23" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M26,5 L26.8,7 L29,7 L27.2,8.5 L28,10.5 L26,9 L24,10.5 L24.8,8.5 L23,7 L25.2,7 Z" fill="white" fill-opacity="0.9"/>
-              </svg>
-            </div>
-            <div>
-              <h1 id="heroTitle">Holo<span>archive</span></h1>
-              <p id="heroSub">hololive OFFICIAL CARD GAME — Card Database</p>
-            </div>
+        <!-- Branding -->
+        <div id="homeBrand">
+          <div id="homeLogoMark">
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 10.5C5 9 6 8 7.5 8L15.2 9L15.2 23L7.5 22C6 22 5 21 5 19.5Z" fill="white" fill-opacity="0.95"/>
+              <path d="M27 10.5C27 9 26 8 24.5 8L16.8 9L16.8 23L24.5 22C26 22 27 21 27 19.5Z" fill="white" fill-opacity="0.7"/>
+              <line x1="16" y1="8.5" x2="16" y2="23" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M26,5 L26.8,7 L29,7 L27.2,8.5 L28,10.5 L26,9 L24,10.5 L24.8,8.5 L23,7 L25.2,7 Z" fill="white" fill-opacity="0.9"/>
+            </svg>
           </div>
-          <p id="heroDesc">Search, filter and browse every card in the hololive OCG. Covers all sets from hSD01 through the latest booster packs — updated with every new release.</p>
-          <div id="heroActions">
-            <button class="hero-btn hero-btn-primary" onclick="switchView('cards')">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/>
-                <path d="M11 11L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-              Browse Cards
-            </button>
-            <button class="hero-btn hero-btn-secondary" onclick="switchView('sets')">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <rect x="2" y="3" width="12" height="2.5" rx="1" fill="currentColor"/>
-                <rect x="2" y="7" width="12" height="2.5" rx="1" fill="currentColor"/>
-                <rect x="2" y="11" width="7" height="2" rx="1" fill="currentColor"/>
-              </svg>
-              Browse Sets
-            </button>
+          <div>
+            <h1 id="homeTitle">Holo<span>archive</span></h1>
+            <p id="homeSub">hololive OFFICIAL CARD GAME — Card Database</p>
           </div>
         </div>
-      </div>
 
-      <!-- Stats bar -->
-      <div id="statsBar">
-        <div class="stat-item">
-          <div class="stat-val" id="homeStatCards">—</div>
-          <div class="stat-lbl">cards indexed</div>
+        <!-- Search -->
+        <div id="homeSearchWrap">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M11 11L14.5 14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <input
+            type="text"
+            id="homeSearchInput"
+            placeholder="Search cards, members, tags, abilities…"
+            autocomplete="off"
+            spellcheck="false"
+            onkeydown="handleHomeSearch(event)"
+          >
+          <button id="homeSearchBtn" onclick="submitHomeSearch()">Search</button>
         </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <div class="stat-val" id="homeStatSets">—</div>
-          <div class="stat-lbl">sets covered</div>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <div class="stat-val" id="homeStatOshi">—</div>
-          <div class="stat-lbl">oshi cards</div>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <div class="stat-val" id="homeStatRare">—</div>
-          <div class="stat-lbl">rare+ cards</div>
-        </div>
-      </div>
 
-      <!-- Recent sets -->
-      <div id="homeSections">
+        <!-- Quick actions -->
+        <div id="homeActions">
+          <button class="home-action-btn" onclick="switchView('cards')">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/>
+              <rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor"/>
+              <rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor"/>
+              <rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor"/>
+            </svg>
+            All Cards
+          </button>
+          <button class="home-action-btn" onclick="switchView('sets')">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <rect x="1" y="2" width="12" height="2.5" rx="1" fill="currentColor"/>
+              <rect x="1" y="6" width="12" height="2.5" rx="1" fill="currentColor"/>
+              <rect x="1" y="10" width="7" height="2" rx="1" fill="currentColor"/>
+            </svg>
+            All Sets
+          </button>
+          <button class="home-action-btn" onclick="homeFilterCards('type','Oshi Holomem')">Oshi</button>
+          <button class="home-action-btn" onclick="homeFilterCards('type','Holomem')">Holomem</button>
+          <button class="home-action-btn" onclick="homeFilterCards('parallel','Parallel')">Parallels</button>
+        </div>
 
-        <section class="home-section">
-          <div class="home-section-header">
-            <h2 class="home-section-title">Latest Sets</h2>
-            <button class="home-section-link" onclick="switchView('sets')">View all →</button>
+        <!-- Divider -->
+        <div class="home-rule"></div>
+
+        <!-- Stats + latest sets -->
+        <div id="homeBottom">
+          <div id="homeStatLine">
+            <span id="homeStatCards">—</span> cards across <span id="homeStatSets">—</span> sets
           </div>
-          <div id="homeLatestSets" class="home-sets-row"></div>
-        </section>
-
-        <section class="home-section">
-          <div class="home-section-header">
-            <h2 class="home-section-title">Browse by Color</h2>
-          </div>
-          <div id="homeColorGrid" class="home-color-grid"></div>
-        </section>
-
-        <section class="home-section">
-          <div class="home-section-header">
-            <h2 class="home-section-title">Browse by Type</h2>
-          </div>
-          <div id="homeTypeGrid" class="home-type-grid"></div>
-        </section>
+          <div id="homeNewSets"></div>
+        </div>
 
       </div>
     </div>
@@ -2226,77 +2166,48 @@ function buildHomepage() {
   if (!ALL_CARDS.length) return;
 
   // Stats
-  const rarePlus = ALL_CARDS.filter(c => ['RR','OSR','SR','SEC','OUR','UR','HR','SY'].includes(c.rarity)).length;
-  const oshiCount = ALL_CARDS.filter(c => normalizeType(c.card_type) === 'oshi').length;
   document.getElementById('homeStatCards').textContent = ALL_CARDS.length.toLocaleString();
   document.getElementById('homeStatSets').textContent  = ALL_SETS.length;
-  document.getElementById('homeStatOshi').textContent  = oshiCount;
-  document.getElementById('homeStatRare').textContent  = rarePlus.toLocaleString();
 
-  // Latest sets (last 6 by code, reversed)
-  const latestSets = [...ALL_SETS].reverse().slice(0, 6);
-  document.getElementById('homeLatestSets').innerHTML = latestSets.map(s => {
+  // Latest 5 sets as compact chips with NEW badge on the most recent
+  const latestSets = [...ALL_SETS].reverse().slice(0, 5);
+  document.getElementById('homeNewSets').innerHTML = latestSets.map((s, i) => {
     const icon = SET_ICONS[s.code] || '📦';
-    return `<div class="home-set-card" onclick="filterBySet('${escHtml(s.code)}')">
-      <div class="home-set-icon">${icon}</div>
-      <div class="home-set-info">
-        <div class="home-set-name">${escHtml(s.name)}</div>
-        <div class="home-set-code">${escHtml(s.code)}</div>
-        <div class="home-set-count">${s.cards} cards</div>
-      </div>
-    </div>`;
-  }).join('');
-
-  // Color grid
-  const COLOR_HEX_FULL = {
-    white:'#e2e8f0', green:'#22c55e', red:'#ef4444',
-    blue:'#3b82f6', purple:'#a855f7', yellow:'#eab308', colorless:'#64748b'
-  };
-  const COLOR_DISPLAY = {
-    white:'White', green:'Green', red:'Red',
-    blue:'Blue', purple:'Purple', yellow:'Yellow', colorless:'Colorless'
-  };
-  const colorCounts = {};
-  ALL_CARDS.forEach(c => {
-    const col = c.color || 'colorless';
-    colorCounts[col] = (colorCounts[col] || 0) + 1;
-  });
-  const colors = ['white','green','red','blue','purple','yellow'];
-  document.getElementById('homeColorGrid').innerHTML = colors.map(col => {
-    const count = colorCounts[col] || 0;
-    const hex = COLOR_HEX_FULL[col] || '#888';
-    return `<div class="home-color-card" onclick="filterByColor('${col}')" style="border-color:${hex}22">
-      <div class="home-color-dot" style="background:${hex}"></div>
+    return `<div class="home-new-set" onclick="filterBySet('${escHtml(s.code)}')">
+      ${i === 0 ? '<span class="home-new-badge">New</span>' : ''}
+      <span class="home-new-set-icon">${icon}</span>
       <div>
-        <div class="home-color-name">${COLOR_DISPLAY[col]}</div>
-        <div class="home-color-count">${count.toLocaleString()} cards</div>
+        <div class="home-new-set-name">${escHtml(s.name)}</div>
+        <div class="home-new-set-count">${s.cards} cards</div>
       </div>
     </div>`;
   }).join('');
+}
 
-  // Type grid
-  const TYPE_DISPLAY_HOME = {
-    'oshi':         { label:'Oshi',        cls:'t-oshi' },
-    'holomem':      { label:'Holomem',     cls:'t-holomem' },
-    'buzz holomem': { label:'Buzz Holomem',cls:'t-buzz' },
-    'support':      { label:'Support',     cls:'t-support' },
-    'cheer':        { label:'Cheer',       cls:'t-cheer' },
-  };
-  const typeCounts = {};
-  ALL_CARDS.forEach(c => {
-    const t = normalizeType(c.card_type);
-    typeCounts[t] = (typeCounts[t] || 0) + 1;
-  });
-  document.getElementById('homeTypeGrid').innerHTML = Object.entries(TYPE_DISPLAY_HOME)
-    .filter(([t]) => typeCounts[t])
-    .map(([t, {label, cls}]) =>
-      `<div class="home-type-card" onclick="filterByType('${label}')">
-        <div class="home-type-left">
-          <span class="type-badge home-type-badge-large ${cls}">${label}</span>
-        </div>
-        <span class="home-type-count">${(typeCounts[t] || 0).toLocaleString()}</span>
-      </div>`
-    ).join('');
+function homeFilterCards(key, value) {
+  filters[key] = key === 'color'
+    ? value.charAt(0).toUpperCase() + value.slice(1)
+    : value;
+  switchView('cards');
+  buildFilterPills();
+  applyFilters();
+}
+
+function handleHomeSearch(e) {
+  if (e.key === 'Enter') submitHomeSearch();
+}
+
+function submitHomeSearch() {
+  const q = document.getElementById('homeSearchInput').value.trim();
+  if (!q) { switchView('cards'); return; }
+  searchQuery = q;
+  const inp = document.getElementById('searchInput');
+  if (inp) {
+    inp.value = q;
+    document.getElementById('clearSearch').style.display = 'block';
+  }
+  switchView('cards');
+  applyFilters();
 }
 
 function filterByColor(color) {
