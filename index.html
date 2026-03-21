@@ -2117,11 +2117,15 @@ function filterBySet(code) {
 }
 
 // ── View switching ───────────────────────────────────────────────────
-function switchView(v) {
+// Track whether this is the very first view load
+let _historyReady = false;
+
+function switchView(v, opts = {}) {
   currentView = v;
 
   // Always hide card detail when switching to a main view
   document.getElementById('cardDetailView').classList.remove('active');
+  document.title = 'Holoarchive — hololive OCG Card Database';
 
   // Show/hide views
   document.getElementById('homeView').style.display  = v === 'home'  ? '' : 'none';
@@ -2145,12 +2149,23 @@ function switchView(v) {
   document.getElementById('bnCards').classList.toggle('active', v === 'cards');
   document.getElementById('bnSets').classList.toggle('active',  v === 'sets');
 
-  // Update URL for main view navigation (home/cards/sets)
-  if (!window.location.search.includes('id=')) {
-    const url = new URL(window.location);
-    if (v !== 'home') { url.searchParams.set('view', v); }
-    else { url.searchParams.delete('view'); }
-    window.history.replaceState({ type: 'view', view: v }, '', url);
+  // ── History management ──────────────────────────────────────────────
+  // Build clean URL for this view
+  const url = new URL(window.location);
+  url.searchParams.delete('id');
+  url.searchParams.delete('card');
+  if (v === 'home') { url.searchParams.delete('view'); }
+  else { url.searchParams.set('view', v); }
+
+  const state = { type: 'view', view: v };
+
+  if (!_historyReady || opts.replace) {
+    // First load or explicit replace — don't add to history stack
+    window.history.replaceState(state, '', url);
+    _historyReady = true;
+  } else {
+    // User-initiated navigation — push so back button works
+    window.history.pushState(state, '', url);
   }
 
   // Populate views when switching to them
@@ -2158,7 +2173,7 @@ function switchView(v) {
   if (v === 'cards' && ALL_CARDS.length) applyFilters();
 
   // Scroll to top
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 // ── Homepage ──────────────────────────────────────────────────────────
@@ -2321,8 +2336,8 @@ function _restorePrevView(state) {
     }
   }
 
-  // Switch to the previous view
-  switchView(prev.view || 'cards');
+  // Switch to the previous view — use replace since popstate already moved history
+  switchView(prev.view || 'cards', { replace: true });
 
   // Restore scroll position after render
   requestAnimationFrame(() => {
@@ -2481,24 +2496,27 @@ function _renderCardDetail(card) {
 // Handle browser back/forward buttons
 window.addEventListener('popstate', (e) => {
   const params = new URLSearchParams(window.location.search);
-  const cardId = params.get('id');
-  const state = e.state || {};
+  const cardId  = params.get('id');
+  const state   = e.state || {};
 
-  if (state.type === 'card' && cardId && ALL_CARDS.length) {
-    // Navigating forward to a card detail page
-    const card = ALL_CARDS.find(c => String(c.id) === cardId);
-    if (card) { _renderCardDetail(card); return; }
+  // ── Case 1: navigating to a card detail ──────────────────────────
+  if (state.type === 'card' || cardId) {
+    if (cardId && ALL_CARDS.length) {
+      const card = ALL_CARDS.find(c => String(c.id) === cardId);
+      if (card) { _renderCardDetail(card); return; }
+    }
   }
 
+  // ── Case 2: leaving card detail (back from card to view) ─────────
   if (document.getElementById('cardDetailView').classList.contains('active')) {
-    // We're on a card detail — browser back was pressed — restore previous view
     _restorePrevView(state);
     return;
   }
 
-  // Otherwise handle view navigation (home/cards/sets)
-  const view = params.get('view') || 'home';
-  switchView(view);
+  // ── Case 3: navigating between home/cards/sets ───────────────────
+  const view = state.view || params.get('view') || 'home';
+  // Use replace so we don't add another entry while handling popstate
+  switchView(view, { replace: true });
 });
 
 // ── Modal (kept for potential future use but not used for cards) ──────
@@ -2697,7 +2715,7 @@ async function init() {
 
     // Push initial state so popstate has something to pop back to
     window.history.replaceState({ type: 'view', view: 'home' }, '', window.location.href);
-    switchView('home');
+    switchView('home', { replace: true });
   } catch (e) {
     document.getElementById('noJsonBanner').style.display = 'block';
     const grid = document.getElementById('cardGrid');
