@@ -443,9 +443,37 @@ def parse_card_page(html, card_id, url):
         'PRカード':                                      'Promo Cards',
     }
     raw_set_name = fields.get("Card Set") or ""
-    # Strip Japanese brackets from set name e.g. ブースターパック「name」→ cleaner lookup
     raw_set_name = raw_set_name.strip()
     set_name = JP_SET_NAME_MAP.get(raw_set_name) or (raw_set_name if raw_set_name else None)
+
+    # Derive product_set_code from the actual product name
+    # This is different from set_code (which comes from card number)
+    # For reprints, set_code = original set, product_set_code = the set it was actually printed in
+    SET_NAME_TO_CODE = {v: k for k, v in {
+        'hSD01': 'Start Deck – Tokino Sora & AZKi',
+        'hBP01': 'Booster Pack – Blooming Radiance',
+        'hYS01': 'Start Cheer Set',
+        'hBP02': 'Booster Pack – Quintet Spectrum',
+        'hSD02': 'Start Deck – Red Nakiri Ayame',
+        'hSD03': 'Start Deck – Blue Nekomata Okayu',
+        'hSD04': 'Start Deck – Purple Yuzuki Choco',
+        'hSD05': 'Start Deck – White Todoroki',
+        'hSD06': 'Start Deck – Green Kazama Iroha',
+        'hSD07': 'Start Deck – Yellow Shiranui Flare',
+        'hBP03': 'Booster Pack – Elite Spark',
+        'hBP04': 'Booster Pack – Curious Universe',
+        'hSD08': 'Start Deck – White Amane Kanata',
+        'hSD09': 'Start Deck – Red Houshou Marine',
+        'hBP05': 'Booster Pack – Ayakashi Vermillion',
+        'hSD10': 'Start Deck – Rindo Chihaya',
+        'hSD11': 'Start Deck – Koganei Niko',
+        'hBP06': 'Booster Pack – Diva Fever',
+        'hSD12': 'Start Deck – Oshi Advent',
+        'hSD13': 'Start Deck – Oshi Justice',
+        'hBP07': 'Booster Pack – Enchant Regalia',
+        'hPR':   'Promo Cards',
+    }.items()}
+    product_set_code = SET_NAME_TO_CODE.get(set_name) or set_code
 
     # Illustrator -- field first, then scan raw page text (covers both JP/EN format)
     illustrator_raw = fields.get("Illustrator") or ""
@@ -509,7 +537,8 @@ def parse_card_page(html, card_id, url):
     card = {
         "id": card_id,
         "card_number": card_number,
-        "set_code": set_code,
+        "set_code": set_code,              # derived from card number (e.g. hBP01 from hBP01-092)
+        "product_set_code": product_set_code,  # actual product printed in (may differ for reprints)
         "set_name": set_name,
         "name": card_name,
         "card_type": card_type,
