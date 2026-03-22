@@ -7,29 +7,40 @@ Translates Japanese text in cards.json to English.
 Card NAMES use a hardcoded lookup table of official hololive member
 names — so ときのそら → "Tokino Sora" not "Time's Sky".
 
-Ability TEXT uses Google Translate (free, no API key).
+Ability TEXT uses Claude API for natural, accurate card game translation.
+Falls back to Google Translate if ANTHROPIC_API_KEY is not set.
 
 Usage:
-    pip install deep-translator
+    pip install requests deep-translator
+    ANTHROPIC_API_KEY=your_key python translate_cards.py
+
+    # Or without Claude (uses Google Translate):
     python translate_cards.py
 
 Resume-safe: skips already-translated cards on re-run.
 """
 
-import json, time, os, sys, re
+import json, time, os, sys, re, requests
 
 try:
     from deep_translator import GoogleTranslator
+    _GT_AVAILABLE = True
 except ImportError:
-    print("Installing deep-translator...")
-    os.system(f"{sys.executable} -m pip install deep-translator")
-    from deep_translator import GoogleTranslator
+    _GT_AVAILABLE = False
 
 # ── CONFIG ────────────────────────────────────────────────────────────
-INPUT_FILE  = "cards.json"
-OUTPUT_FILE = "cards.json"
-BACKUP_FILE = "cards_jp_backup.json"
-DELAY       = 0.3   # seconds between Google Translate calls
+INPUT_FILE       = "cards.json"
+OUTPUT_FILE      = "cards.json"
+BACKUP_FILE      = "cards_jp_backup.json"
+GT_DELAY         = 0.3    # seconds between Google Translate calls
+CLAUDE_DELAY     = 0.5    # seconds between Claude API calls
+CLAUDE_BATCH     = 8      # translate N ability texts per Claude API call
+
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+GEMINI_API_KEY    = os.environ.get("GEMINI_API_KEY", "")
+USE_CLAUDE  = bool(ANTHROPIC_API_KEY)
+USE_GEMINI  = bool(GEMINI_API_KEY) and not USE_CLAUDE  # Gemini if no Claude key
+USE_AI      = USE_CLAUDE or USE_GEMINI
 
 # ── OFFICIAL MEMBER NAME TABLE ────────────────────────────────────────
 # JP name → Official English name
@@ -105,7 +116,8 @@ MEMBER_NAMES = {
     "ベールズ・ゾエタ":     "Hakos Baelz",
     "IRyS":                 "IRyS",
     # ── hololive EN — Advent ─────────────────────────────────────
-    "シオリ・ノベラ":       "Shiori Novella",
+    "シオリ・ノベラ":       "Shiori Novella",   # alternate spelling
+    "シオリ・ノヴェラ":     "Shiori Novella",   # correct card spelling
     "古石ビジュ":           "Koseki Bijou",
     "コセキ・ビジュ":       "Koseki Bijou",
     "ネリッサ・レイヴンクロフト": "Nerissa Ravencroft",
@@ -213,20 +225,147 @@ def is_japanese(text):
             return True
     return False
 
-translator = GoogleTranslator(source='ja', target='en')
 
-def translate_text(text):
-    """Translate Japanese text to English via Google Translate."""
-    if not text or not is_japanese(text):
-        return text
+# ── TRANSLATORS ───────────────────────────────────────────────────────
+
+CLAUDE_SYSTEM = """You are a translator for the hololive OFFICIAL CARD GAME (hOCG), a Japanese trading card game.
+
+Translate Japanese card ability text to natural, readable English.
+
+GAME TERMINOLOGY — always use these exact terms:
+- ホロメン → Holomem (never "holo member" or "holomember")
+- エール → Cheer (never "yell" or "ale") — these are energy cards
+- 推しホロメン → Oshi Holomem
+- Buzzホロメン → Buzz Holomem
+- ブルーム/Bloom → Bloom (card evolution mechanic)
+- ダウン → Down (eliminated/KO'd)
+- アーカイブ → Archive (discard pile)
+- ホロパワー → Holo Power
+- センター/Center → Center position
+- バック/Back → Back position
+- コラボ/Collab → Collab position
+- 特殊ダメージ → Special Damage
+- デッキ → deck
+- 手札 → hand
+- ライフ → Life
+- ステージ → stage
+
+PRONOUN RULE:
+- 自分 = "you" / "your" (NOT "I" / "my") — abilities are written from the player's perspective
+- 相手 = "your opponent" / "opponent's"
+
+STRUCTURE:
+- Arts text starts with: [Ability Name] [Cost/Damage number] [Effect]
+  e.g. 早送り　60　自分の... → "Fast Forward: 60 — [effect]"
+- Costs in brackets: [ホロパワー：-2] → "[Holo Power: -2]"
+- "ターンに１回" → "once per turn"
+- "ゲームに１回" → "once per game"
+
+OUTPUT: Return ONLY the translated text. No explanations, no notes."""
+
+def translate_with_claude(texts):
+    """Translate ability texts using Claude API (best quality)."""
+    if not texts:
+        return texts
+
+    numbered = "\n".join(f"{i+1}. {t}" for i, t in enumerate(texts))
+    prompt = f"""Translate each numbered ability text from Japanese to English.\nReturn exactly the same number of lines, each starting with the number.\n\n{numbered}"""
+
     try:
-        result = translator.translate(text)
-        time.sleep(DELAY)
+        resp = requests.post(
+            "https://api.anthropic.com/v1/messages",
+            headers={
+                "x-api-key": ANTHROPIC_API_KEY,
+                "anthropic-version": "2023-06-01",
+                "content-type": "application/json",
+            },
+            json={
+                "model": "claude-haiku-4-5-20251001",
+                "max_tokens": 2048,
+                "system": CLAUDE_SYSTEM,
+                "messages": [{"role": "user", "content": prompt}],
+            },
+            timeout=30,
+        )
+        resp.raise_for_status()
+        raw = resp.json()["content"][0]["text"].strip()
+        time.sleep(CLAUDE_DELAY)
+        return _parse_numbered(raw, texts)
+    except Exception as e:
+        print(f"    ⚠ Claude API error: {e} — falling back")
+        return [_gt_translate(t) for t in texts]
+
+
+def translate_with_gemini(texts):
+    """Translate ability texts using Gemini API (free alternative)."""
+    if not texts:
+        return texts
+
+    numbered = "\n".join(f"{i+1}. {t}" for i, t in enumerate(texts))
+    prompt = f"{CLAUDE_SYSTEM}\n\nTranslate each numbered ability text from Japanese to English.\nReturn exactly the same number of lines, each starting with the number.\n\n{numbered}"
+
+    try:
+        resp = requests.post(
+            f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}",
+            headers={"content-type": "application/json"},
+            json={"contents": [{"parts": [{"text": prompt}]}]},
+            timeout=30,
+        )
+        resp.raise_for_status()
+        raw = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
+        time.sleep(CLAUDE_DELAY)
+        return _parse_numbered(raw, texts)
+    except Exception as e:
+        print(f"    ⚠ Gemini API error: {e} — falling back to Google Translate")
+        return [_gt_translate(t) for t in texts]
+
+
+def translate_batch(texts):
+    """Route to best available translator."""
+    if USE_CLAUDE:
+        return translate_with_claude(texts)
+    elif USE_GEMINI:
+        return translate_with_gemini(texts)
+    else:
+        return [_gt_translate(t) for t in texts]
+
+
+def _parse_numbered(raw, originals):
+    """Parse numbered list response back into a list."""
+    results = [""] * len(originals)
+    for line in raw.split("\n"):
+        m = re.match(r'^(\d+)[.)]\s*(.*)', line.strip())
+        if m:
+            idx = int(m.group(1)) - 1
+            if 0 <= idx < len(results):
+                results[idx] = m.group(2).strip()
+    return [results[i] or originals[i] for i in range(len(originals))]
+
+
+_gt = None
+def _gt_translate(text):
+    """Google Translate fallback."""
+    global _gt
+    if not _GT_AVAILABLE:
+        return text
+    if _gt is None:
+        _gt = GoogleTranslator(source='ja', target='en')
+    try:
+        result = _gt.translate(text)
+        time.sleep(GT_DELAY)
         return result or text
     except Exception as e:
-        print(f"    ⚠ Translation error: {e} — keeping original")
+        print(f"    ⚠ Google Translate error: {e}")
         time.sleep(2)
         return text
+
+
+def translate_text(text):
+    """Translate a single text — uses Google Translate (for names/tags)."""
+    if not text or not is_japanese(text):
+        return text
+    return _gt_translate(text)
+
 
 # ── MEMBER NAME REPLACEMENT IN ABILITY TEXT ───────────────────────────
 # Applied BEFORE and AFTER Google Translate to ensure names are never mangled.
@@ -304,7 +443,8 @@ FULL_NAME_MAP = {
     "ベールズ・ゾエタ":           "Hakos Baelz",
     "IRyS":                       "IRyS",
     # EN Advent
-    "シオリ・ノベラ":             "Shiori Novella",
+    "シオリ・ノベラ":             "Shiori Novella",   # alternate spelling
+    "シオリ・ノヴェラ":           "Shiori Novella",   # correct card spelling
     "古石ビジュ":                 "Koseki Bijou",
     "コセキ・ビジュ":             "Koseki Bijou",
     "ネリッサ・レイヴンクロフト": "Nerissa Ravencroft",
@@ -481,37 +621,24 @@ def fix_game_terms(text):
     return text.strip()
 
 def translate_ability(text):
-    """
-    Translate a card ability text from JP to readable English.
-    Applies name replacement before translation (to protect names from GT)
-    and after (to fix any that slipped through or were garbled).
-    """
+    """Translate a single ability text — used for fallback cases."""
     if not text:
         return text
-
-    # Pre-processing: replace full-width numbers with ASCII
-    text = text.replace('１', '1').replace('２', '2').replace('３', '3')
-    text = text.replace('４', '4').replace('５', '5').replace('６', '6')
-    text = text.replace('７', '7').replace('８', '8').replace('９', '9')
-    text = text.replace('０', '0')
-
-    # Step 1: Replace JP member names BEFORE translation
-    # This protects them — GT won't try to translate "ときのそら" → "Time Sky"
+    text = _preprocess(text)
     text = replace_names_in_text(text)
-
-    # Step 2: Translate remaining JP text
     if is_japanese(text):
-        translated = translate_text(text)
-        if not translated:
-            return text
-        text = translated
-
-    # Step 3: Replace any names that survived/garbled through GT
+        result = translate_batch([text])
+        text = result[0]
     text = replace_names_in_text(text)
-
-    # Step 4: Fix game terms
     text = fix_game_terms(text)
+    return text
 
+
+def _preprocess(text):
+    """Normalize full-width characters before translation."""
+    for fw, hw in zip('１２３４５６７８９０', '1234567890'):
+        text = text.replace(fw, hw)
+    text = text.replace('　', ' ')
     return text
 
 def translate_tag(tag):
@@ -539,6 +666,14 @@ def main():
             json.dump(cards, f, ensure_ascii=False, indent=2)
         print(f"✓ Backed up original to {BACKUP_FILE}")
 
+    if USE_CLAUDE:
+        print(f"✓ Using Claude API (haiku) for translation")
+    elif USE_GEMINI:
+        print(f"✓ Using Gemini API (gemini-2.0-flash, free) for translation")
+    else:
+        print(f"⚠ No AI API key set — using Google Translate (lower quality)")
+        print(f"  For better results set ANTHROPIC_API_KEY or GEMINI_API_KEY")
+
     total = len(cards)
     print(f"Translating {total} cards...\n")
 
@@ -547,9 +682,13 @@ def main():
             is_japanese(card.get('name', '')) or
             any(is_japanese(v) for v in (card.get('abilities') or {}).values()) or
             any(is_japanese(t) for t in (card.get('tags') or []))
-            # NOTE: illustrator is intentionally excluded — never translated
         )
         if not needs_work:
+            # Still apply term/name fixes to already-translated text
+            if card.get('abilities'):
+                for key, val in card['abilities'].items():
+                    if val and not is_japanese(val):
+                        card['abilities'][key] = fix_game_terms(replace_names_in_text(val))
             continue
 
         print(f"  [{card['id']:>4}] {card['card_number']:<16} {card.get('name','')[:25]}")
@@ -559,35 +698,50 @@ def main():
             official = lookup_name(card['name'])
             if official:
                 card['name'] = official
-                print(f"         name → {card['name']} (official lookup)")
+                print(f"         name → {card['name']} (lookup)")
             else:
-                # Try name replacement first (handles full names not in MEMBER_NAMES)
                 replaced = replace_names_in_text(card['name'])
                 if not is_japanese(replaced):
                     card['name'] = replaced
                     print(f"         name → {card['name']} (name map)")
                 else:
-                    # Fall back to Google Translate
                     card['name'] = translate_text(card['name'])
                     print(f"         name → {card['name']} (google translate)")
 
-        # ── Translate abilities ───────────────────────────────────
+        # ── Translate abilities — batch with Claude ───────────────
         if card.get('abilities'):
-            for key, val in card['abilities'].items():
-                if is_japanese(val):
-                    card['abilities'][key] = translate_ability(val)
-                elif val:
-                    # Even already-translated text may have bad game terms from a previous run
-                    card['abilities'][key] = fix_game_terms(val)
+            ab_keys   = list(card['abilities'].keys())
+            ab_values = list(card['abilities'].values())
+
+            # Pre-process all values
+            processed = []
+            for v in ab_values:
+                v = _preprocess(v) if v else v
+                v = replace_names_in_text(v) if v else v
+                processed.append(v)
+
+            # Translate JP ones in one Claude batch call
+            jp_indices = [j for j, v in enumerate(processed) if v and is_japanese(v)]
+            if jp_indices:
+                jp_texts = [processed[j] for j in jp_indices]
+                translated = translate_batch(jp_texts)
+                for j, t in zip(jp_indices, translated):
+                    processed[j] = t
+
+            # Post-process all
+            for j in range(len(processed)):
+                if processed[j]:
+                    processed[j] = replace_names_in_text(processed[j])
+                    processed[j] = fix_game_terms(processed[j])
+
+            card['abilities'] = dict(zip(ab_keys, processed))
 
         # ── Translate tags ────────────────────────────────────────
         if card.get('tags'):
             card['tags'] = [translate_tag(t) for t in card['tags']]
 
-        # ── Illustrator — NEVER translate, keep original ──────────
-        # Illustrator names are proper nouns — 高崎律, あずーる, Nekojira etc.
-        # should always display exactly as written on the card.
-        # (No code needed — we simply never touch card['illustrator'])
+        # ── Illustrator — NEVER translate ─────────────────────────
+        # Names like 高崎律, あずーる, Nekojira stay exactly as written on the card.
 
         # Checkpoint every 50 cards
         if (i + 1) % 50 == 0:
