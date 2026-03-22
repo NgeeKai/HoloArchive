@@ -3202,7 +3202,7 @@
       "#Song"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Memories of the Snowy Mountains You can roll the dice once: If the number is odd, knock down one Back whose HP has decreased by 40 or more (even if the opponent goes down, the opponent's life does not decrease).",
+      "keyword": "[Collab Effect] Memories of the Snowy Mountains You can roll the dice once: If the number is odd, knock down one Backwhose HP has decreased by 40 or more (even if the opponent goes down, the opponent's life does not decrease).",
       "arts": "fighting maid 70"
     },
     "illustrator": "でいりー",
@@ -3663,8 +3663,8 @@
       "#Promise"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Rewind Return one of your opponent's Back to Debut Holomem (after eliminating damage, leave one Debut Holomem and all Cheer, and return all other cards to hand).",
-      "arts": "Fast Forward 60 You can bloom one Debut Back you played this turn into the 1st Holomem in your hand."
+      "keyword": "[Collab Effect] Rewind Return one of your opponent's Backto Debut Holomem (after eliminating damage, leave one Debut Holomem and all Cheer, and return all other cards to hand).",
+      "arts": "Fast Forward 60 You can bloom one Debut Backyou played this turn into the 1st Holomem in your hand."
     },
     "illustrator": "syow",
     "is_parallel": false,
@@ -3720,7 +3720,7 @@
       "#HalfElf"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] It's a \"story of love and bonds\" Swap your Center Holomen with one Back who is not on vacation.",
+      "keyword": "[Collab Effect] It's a \"story of love and bonds\" Swap your Center Holomen with one Backwho is not on vacation.",
       "arts": "Flare ~To the other side of the door~ 20",
       "extra": "This Holomen cannot Bloom."
     },
@@ -3953,7 +3953,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Swap your Center Holomen with one Back who is not on vacation."
+      "ability_text": "Swap your Center Holomen with one Backwho is not on vacation."
     },
     "illustrator": "JinArt KABAKURA",
     "is_parallel": false,
@@ -6456,7 +6456,7 @@
       "#AnimalEars"
     ],
     "abilities": {
-      "keyword": "[Gift] Thief Construction CEO [Center only] Arts +20 for all [Takane Lui, Ookami Mio, Shirakami Fubuki, La+ Darknesssss, and Inugami Korone] on your stage.",
+      "keyword": "[Gift] Thief Construction CEO [Center only] Arts +20 for all [Takane Lui, Ookami Mio, Shirakami Fubuki, La+ Darknessssss, and Inugami Korone] on your stage.",
       "arts": "The Most Great Nekomata Okayu~ 60",
       "extra": "When this Holomen goes down, your life -2"
     },
@@ -6565,7 +6565,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "This card cannot be used unless you have 6 or fewer cards in your hand, not including this card. Look at the top four cards of your deck. From among them, reveal any number of Nekomata Okayu, Takane Lui, Ookami Mio, Shirakami Fubuki, La+ Darknesssss, and Inugami Korone, and add the revealed Holomen to your hand. Then return the remaining cards to the bottom of the deck in any order. LIMITED: Only one card can be used per turn."
+      "ability_text": "This card cannot be used unless you have 6 or fewer cards in your hand, not including this card. Look at the top four cards of your deck. From among them, reveal any number of Nekomata Okayu, Takane Lui, Ookami Mio, Shirakami Fubuki, La+ Darknessssss, and Inugami Korone, and add the revealed Holomen to your hand. Then return the remaining cards to the bottom of the deck in any order. LIMITED: Only one card can be used per turn."
     },
     "illustrator": "ぴ助",
     "is_parallel": false,
@@ -9533,7 +9533,7 @@
       "#Shirakami'sCharacter"
     ],
     "abilities": {
-      "ability_text": "Holomen with this mascot have +20 HP. ◆Additional ability if attached to Shirakami Fubuki [Back only] Holomen with this mascot attached will not receive damage from the opponent. Only one mascot can be attached to each of your Holomen."
+      "ability_text": "Holomen with this mascot have +20 HP. ◆Additional ability if attached to Shirakami Fubuki [Backonly] Holomen with this mascot attached will not receive damage from the opponent. Only one mascot can be attached to each of your Holomen."
     },
     "illustrator": "JinArt こばやかわやまと",
     "is_parallel": false,
@@ -12387,7 +12387,7 @@
       "#Shirakami'sCharacter"
     ],
     "abilities": {
-      "ability_text": "Holomen with this mascot have +20 HP. ◆Additional ability if attached to Shirakami Fubuki [Back only] Holomen with this mascot attached will not receive damage from the opponent. Only one mascot can be attached to each of your Holomen."
+      "ability_text": "Holomen with this mascot have +20 HP. ◆Additional ability if attached to Shirakami Fubuki [Backonly] Holomen with this mascot attached will not receive damage from the opponent. Only one mascot can be attached to each of your Holomen."
     },
     "illustrator": "JinArt こばやかわやまと",
     "is_parallel": true,
@@ -13073,8 +13073,8 @@
       "#Promise"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Rewind Return one of your opponent's Back to Debut Holomem (after eliminating damage, leave one Debut Holomem and all Cheer, and return all other cards to hand).",
-      "arts": "Fast Forward 60 You can bloom one Debut Back you played this turn into the 1st Holomem in your hand."
+      "keyword": "[Collab Effect] Rewind Return one of your opponent's Backto Debut Holomem (after eliminating damage, leave one Debut Holomem and all Cheer, and return all other cards to hand).",
+      "arts": "Fast Forward 60 You can bloom one Debut Backyou played this turn into the 1st Holomem in your hand."
     },
     "illustrator": "syow",
     "is_parallel": false,
@@ -14428,7 +14428,7 @@
     "tags": [],
     "abilities": {
       "oshi_skill": "[Holo Power: -2] Yellow Mike [once per turn] During this turn, your Yellow Center Holomen's Arts +20.",
-      "sp_oshi_skill": "[Holo Power: -1] I took care of the rest! [once per game] Swap your Center Holomen with one Back who is not on vacation. In addition, Holomen who moves to the Back recovers 30 HP."
+      "sp_oshi_skill": "[Holo Power: -1] I took care of the rest! [once per game] Swap your Center Holomen with one Backwho is not on vacation. In addition, Holomen who moves to the Backrecovers 30 HP."
     },
     "illustrator": "松尾 省吾",
     "is_parallel": false,
@@ -14593,7 +14593,7 @@
       "#HalfElf"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] I have grown even more. [Back only] You can exchange this Holomen with a collaboration Holomen whose remaining HP is 70 or less.",
+      "keyword": "[Bloom Effect] I have grown even more. [Backonly] You can exchange this Holomen with a collaboration Holomen whose remaining HP is 70 or less.",
       "arts": "I want you to see it! 40"
     },
     "illustrator": null,
@@ -14954,7 +14954,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "oshi_skill": "[Holo Power: -2] poi [once per turn] Send 1 Cheer from your archive to your Back Shishiro Botan.",
+      "oshi_skill": "[Holo Power: -2] poi [once per turn] Send 1 Cheer from your archive to your BackShishiro Botan.",
       "sp_oshi_skill": "[Holo Power: -2] Sniper [once per game] Can be used when the color of your Center Holomen is green: Deals 100 Special Damage to the opponent's Center Holomen other than Debut."
     },
     "illustrator": "すなれ",
@@ -15294,7 +15294,7 @@
     ],
     "abilities": {
       "keyword": "[Gift] Melancholyak [Center only] -20 damage received by the collaboration Holomen with your own #ReGLOSS.",
-      "arts": "This is the power of the Banchou. 110+ When there are 4 or more Back with #ReGLOSS, this Holomen's Arts +40."
+      "arts": "This is the power of the Banchou. 110+ When there are 4 or more Backwith #ReGLOSS, this Holomen's Arts +40."
     },
     "illustrator": "© 2016 COVER Corp. MariA",
     "is_parallel": false,
@@ -15466,7 +15466,7 @@
       "#Shooter"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] Shishiro Botan will do something about it You can send 1 Green Cheer from your archive to 1 or 2 Back who have your #Shooter.",
+      "keyword": "[Bloom Effect] Shishiro Botan will do something about it You can send 1 Green Cheer from your archive to 1 or 2 Backwho have your #Shooter.",
       "arts": "Divine Aim 110 When your favorite Holomen is Shishiro Botan, you can archive one yell from your Back: Deal 40 Special Damage to the opponent's Center Holomen or collaboration Holomen."
     },
     "illustrator": "江田藤",
@@ -16138,7 +16138,7 @@
     ],
     "abilities": {
       "keyword": "[Bloom Effect] Blue Rain You can archive 1 yell of the Holomen with your own #ID: Deal Special Damage of 30 to the opponent's Back, divided by 10. However, even if you go down, your opponent's life does not decrease.",
-      "arts": "Full of energy! 40+ This art +10 for each Back whose HP is reduced.",
+      "arts": "Full of energy! 40+ This art +10 for each Backwhose HP is reduced.",
       "extra": "When this Holomen goes down, your life -2"
     },
     "illustrator": "きな",
@@ -16221,7 +16221,7 @@
       "#Art"
     ],
     "abilities": {
-      "arts": "I'm cool, right? 30\nBoyish person in charge of ReGLOSS 40 You can replace this Holomen Cheer with your own Back with #ReGLOSS."
+      "arts": "I'm cool, right? 30\nBoyish person in charge of ReGLOSS 40 You can replace this Holomen Cheer with your own Backwith #ReGLOSS."
     },
     "illustrator": null,
     "is_parallel": false,
@@ -16249,7 +16249,7 @@
     ],
     "abilities": {
       "keyword": "[Bloom Effect] Princesses in Trouble Reveal 1 ale of the same color as the Center Holomen with your #ReGLOSS from your Cheer deck, and send it to the Holomen with your #ReGLOSS. Then shuffle the ale deck.",
-      "arts": "Leave it to the Handsome Men 50 Deal 10 Special Damage to either your opponent's Center Holomen or Back for each Back with a different card name #ReGLOSS.",
+      "arts": "Leave it to the Handsome Men 50 Deal 10 Special Damage to either your opponent's Center Holomen or Backfor each Backwith a different card name #ReGLOSS.",
       "extra": "When this Holomen goes down, your life -2"
     },
     "illustrator": "Qiu",
@@ -16420,7 +16420,7 @@
       "#Shooter"
     ],
     "abilities": {
-      "arts": "It's okay to go on a date with Towa at home 40\nTenQ 50 When there is a Back with your own #song, deal 20 Special Damage to the opponent's collaboration Holomen."
+      "arts": "It's okay to go on a date with Towa at home 40\nTenQ 50 When there is a Backwith your own #song, deal 20 Special Damage to the opponent's collaboration Holomen."
     },
     "illustrator": "雨傘ゆん",
     "is_parallel": false,
@@ -16448,7 +16448,7 @@
       "#Shooter"
     ],
     "abilities": {
-      "arts": "Break the stereotypes that bind me 30 Deal 30 Special Damage to the opponent's Center Holomen or Collaboration Holomen.\nBreak your ××× 80 Deal 20 Special Damage to either the opponent's Center Holomen or collaboration Holomen for each Back who has your own #song. However, only up to 4 people can be counted."
+      "arts": "Break the stereotypes that bind me 30 Deal 30 Special Damage to the opponent's Center Holomen or Collaboration Holomen.\nBreak your ××× 80 Deal 20 Special Damage to either the opponent's Center Holomen or collaboration Holomen for each Backwho has your own #song. However, only up to 4 people can be counted."
     },
     "illustrator": "Mr.Lime",
     "is_parallel": false,
@@ -17324,7 +17324,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "This card can only be used when your life is less than your opponent's. When the opponent's collaboration Holomen is not there, the opponent moves one of their Back to the collaboration position (movement is not treated as collaboration). LIMITED: Only one card can be used per turn."
+      "ability_text": "This card can only be used when your life is less than your opponent's. When the opponent's collaboration Holomen is not there, the opponent moves one of their Backto the collaboration position (movement is not treated as collaboration). LIMITED: Only one card can be used per turn."
     },
     "illustrator": "さかなへん",
     "is_parallel": false,
@@ -17948,7 +17948,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "oshi_skill": "[Holo Power: -2] poi [once per turn] Send 1 Cheer from your archive to your Back Shishiro Botan.",
+      "oshi_skill": "[Holo Power: -2] poi [once per turn] Send 1 Cheer from your archive to your BackShishiro Botan.",
       "sp_oshi_skill": "[Holo Power: -2] Sniper [once per game] Can be used when the color of your Center Holomen is green: Deals 100 Special Damage to the opponent's Center Holomen other than Debut."
     },
     "illustrator": "すなれ",
@@ -17972,7 +17972,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "oshi_skill": "[Holo Power: -2] poi [once per turn] Send 1 Cheer from your archive to your Back Shishiro Botan.",
+      "oshi_skill": "[Holo Power: -2] poi [once per turn] Send 1 Cheer from your archive to your BackShishiro Botan.",
       "sp_oshi_skill": "[Holo Power: -2] Sniper [once per game] Can be used when the color of your Center Holomen is green: Deals 100 Special Damage to the opponent's Center Holomen other than Debut."
     },
     "illustrator": "すなれ",
@@ -18384,7 +18384,7 @@
     ],
     "abilities": {
       "keyword": "[Gift] Melancholyak [Center only] -20 damage received by the collaboration Holomen with your own #ReGLOSS.",
-      "arts": "This is the power of the Banchou. 110+ When there are 4 or more Back with #ReGLOSS, this Holomen's Arts +40."
+      "arts": "This is the power of the Banchou. 110+ When there are 4 or more Backwith #ReGLOSS, this Holomen's Arts +40."
     },
     "illustrator": "© 2016 COVER Corp. MariA",
     "is_parallel": true,
@@ -18412,7 +18412,7 @@
     ],
     "abilities": {
       "keyword": "[Gift] Melancholyak [Center only] -20 damage received by the collaboration Holomen with your own #ReGLOSS.",
-      "arts": "This is the power of the Banchou. 110+ When there are 4 or more Back with #ReGLOSS, this Holomen's Arts +40."
+      "arts": "This is the power of the Banchou. 110+ When there are 4 or more Backwith #ReGLOSS, this Holomen's Arts +40."
     },
     "illustrator": "© 2016 COVER Corp. MariA",
     "is_parallel": true,
@@ -18555,7 +18555,7 @@
       "#Shooter"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] Shishiro Botan will do something about it You can send 1 Green Cheer from your archive to 1 or 2 Back who have your #Shooter.",
+      "keyword": "[Bloom Effect] Shishiro Botan will do something about it You can send 1 Green Cheer from your archive to 1 or 2 Backwho have your #Shooter.",
       "arts": "Divine Aim 110 When your favorite Holomen is Shishiro Botan, you can archive one yell from your Back: Deal 40 Special Damage to the opponent's Center Holomen or collaboration Holomen."
     },
     "illustrator": "江田藤",
@@ -18584,7 +18584,7 @@
       "#Shooter"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] Shishiro Botan will do something about it You can send 1 Green Cheer from your archive to 1 or 2 Back who have your #Shooter.",
+      "keyword": "[Bloom Effect] Shishiro Botan will do something about it You can send 1 Green Cheer from your archive to 1 or 2 Backwho have your #Shooter.",
       "arts": "Divine Aim 110 When your favorite Holomen is Shishiro Botan, you can archive one yell from your Back: Deal 40 Special Damage to the opponent's Center Holomen or collaboration Holomen."
     },
     "illustrator": "江田藤",
@@ -19255,7 +19255,7 @@
     ],
     "abilities": {
       "keyword": "[Bloom Effect] Blue Rain You can archive 1 yell of the Holomen with your own #ID: Deal Special Damage of 30 to the opponent's Back, divided by 10. However, even if you go down, your opponent's life does not decrease.",
-      "arts": "Full of energy! 40+ This art +10 for each Back whose HP is reduced.",
+      "arts": "Full of energy! 40+ This art +10 for each Backwhose HP is reduced.",
       "extra": "When this Holomen goes down, your life -2"
     },
     "illustrator": "きな",
@@ -19310,7 +19310,7 @@
       "#Art"
     ],
     "abilities": {
-      "arts": "I'm cool, right? 30\nBoyish person in charge of ReGLOSS 40 You can replace this Holomen Cheer with your own Back with #ReGLOSS."
+      "arts": "I'm cool, right? 30\nBoyish person in charge of ReGLOSS 40 You can replace this Holomen Cheer with your own Backwith #ReGLOSS."
     },
     "illustrator": null,
     "is_parallel": true,
@@ -19338,7 +19338,7 @@
     ],
     "abilities": {
       "keyword": "[Bloom Effect] Princesses in Trouble Reveal 1 ale of the same color as the Center Holomen with your #ReGLOSS from your Cheer deck, and send it to the Holomen with your #ReGLOSS. Then shuffle the ale deck.",
-      "arts": "Leave it to the Handsome Men 50 Deal 10 Special Damage to either your opponent's Center Holomen or Back for each Back with a different card name #ReGLOSS.",
+      "arts": "Leave it to the Handsome Men 50 Deal 10 Special Damage to either your opponent's Center Holomen or Backfor each Backwith a different card name #ReGLOSS.",
       "extra": "When this Holomen goes down, your life -2"
     },
     "illustrator": "Qiu",
@@ -19480,7 +19480,7 @@
       "#Shooter"
     ],
     "abilities": {
-      "arts": "It's okay to go on a date with Towa at home 40\nTenQ 50 When there is a Back with your own #song, deal 20 Special Damage to the opponent's collaboration Holomen."
+      "arts": "It's okay to go on a date with Towa at home 40\nTenQ 50 When there is a Backwith your own #song, deal 20 Special Damage to the opponent's collaboration Holomen."
     },
     "illustrator": "雨傘ゆん",
     "is_parallel": true,
@@ -19508,7 +19508,7 @@
       "#Shooter"
     ],
     "abilities": {
-      "arts": "Break the stereotypes that bind me 30 Deal 30 Special Damage to the opponent's Center Holomen or Collaboration Holomen.\nBreak your ××× 80 Deal 20 Special Damage to either the opponent's Center Holomen or collaboration Holomen for each Back who has your own #song. However, only up to 4 people can be counted."
+      "arts": "Break the stereotypes that bind me 30 Deal 30 Special Damage to the opponent's Center Holomen or Collaboration Holomen.\nBreak your ××× 80 Deal 20 Special Damage to either the opponent's Center Holomen or collaboration Holomen for each Backwho has your own #song. However, only up to 4 people can be counted."
     },
     "illustrator": "Mr.Lime",
     "is_parallel": true,
@@ -19536,7 +19536,7 @@
       "#Shooter"
     ],
     "abilities": {
-      "arts": "Break the stereotypes that bind me 30 Deal 30 Special Damage to the opponent's Center Holomen or Collaboration Holomen.\nBreak your ××× 80 Deal 20 Special Damage to either the opponent's Center Holomen or collaboration Holomen for each Back who has your own #song. However, only up to 4 people can be counted."
+      "arts": "Break the stereotypes that bind me 30 Deal 30 Special Damage to the opponent's Center Holomen or Collaboration Holomen.\nBreak your ××× 80 Deal 20 Special Damage to either the opponent's Center Holomen or collaboration Holomen for each Backwho has your own #song. However, only up to 4 people can be counted."
     },
     "illustrator": "菊月",
     "is_parallel": true,
@@ -20468,7 +20468,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "This card can only be used when your life is less than your opponent's. When the opponent's collaboration Holomen is not there, the opponent moves one of their Back to the collaboration position (movement is not treated as collaboration). LIMITED: Only one card can be used per turn."
+      "ability_text": "This card can only be used when your life is less than your opponent's. When the opponent's collaboration Holomen is not there, the opponent moves one of their Backto the collaboration position (movement is not treated as collaboration). LIMITED: Only one card can be used per turn."
     },
     "illustrator": "さかなへん",
     "is_parallel": true,
@@ -21651,7 +21651,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "This card can only be used when your life is less than your opponent's. When the opponent's collaboration Holomen is not there, the opponent moves one of their Back to the collaboration position (movement is not treated as collaboration). LIMITED: Only one card can be used per turn."
+      "ability_text": "This card can only be used when your life is less than your opponent's. When the opponent's collaboration Holomen is not there, the opponent moves one of their Backto the collaboration position (movement is not treated as collaboration). LIMITED: Only one card can be used per turn."
     },
     "illustrator": "夏色まつり",
     "is_parallel": false,
@@ -21674,7 +21674,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "This card can only be used when your life is less than your opponent's. When the opponent's collaboration Holomen is not there, the opponent moves one of their Back to the collaboration position (movement is not treated as collaboration). LIMITED: Only one card can be used per turn."
+      "ability_text": "This card can only be used when your life is less than your opponent's. When the opponent's collaboration Holomen is not there, the opponent moves one of their Backto the collaboration position (movement is not treated as collaboration). LIMITED: Only one card can be used per turn."
     },
     "illustrator": "森カリオペ",
     "is_parallel": false,
@@ -21697,7 +21697,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "This card can only be used when your life is less than your opponent's. When the opponent's collaboration Holomen is not there, the opponent moves one of their Back to the collaboration position (movement is not treated as collaboration). LIMITED: Only one card can be used per turn."
+      "ability_text": "This card can only be used when your life is less than your opponent's. When the opponent's collaboration Holomen is not there, the opponent moves one of their Backto the collaboration position (movement is not treated as collaboration). LIMITED: Only one card can be used per turn."
     },
     "illustrator": "綺々羅々ヴィヴィ",
     "is_parallel": false,
@@ -23647,7 +23647,7 @@
       "#Language"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] KPG You can roll the dice once: When it is 4 or more, if there is no collaboration Holomen of the opponent, the opponent moves one of their Back to the collaboration position (movement is not treated as collaboration).",
+      "keyword": "[Bloom Effect] KPG You can roll the dice once: When it is 4 or more, if there is no collaboration Holomen of the opponent, the opponent moves one of their Backto the collaboration position (movement is not treated as collaboration).",
       "arts": "oh? Are you going to fight? 80 Deals 50 Special Damage to the opponent's Center Holomen. After that, when you used a limit meal this turn, deal 30 Special Damage to your opponent's Center Holomen or Collaboration Holomen."
     },
     "illustrator": "Fajyobore",
@@ -24146,7 +24146,7 @@
       "#Shooter"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Kneel there! You can roll the dice once: If it's 3 or more, put one of your opponent's Back to rest.",
+      "keyword": "[Collab Effect] Kneel there! You can roll the dice once: If it's 3 or more, put one of your opponent's Backto rest.",
       "arts": "We are the ones who rule the planet of Eden! 30+ This art +10 for each Holomen who is absent from the opponent."
     },
     "illustrator": "TAiGA",
@@ -25450,7 +25450,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Arts +10 for Holomen with this mascot. ◆ Added ability if attached to 1st or higher Holomen with #5 generation [Back only] Holomen with this mascot attached will not receive damage from the opponent. Only one mascot can be attached to each of your Holomen."
+      "ability_text": "Arts +10 for Holomen with this mascot. ◆ Added ability if attached to 1st or higher Holomen with #5 generation [Backonly] Holomen with this mascot attached will not receive damage from the opponent. Only one mascot can be attached to each of your Holomen."
     },
     "illustrator": "JinArt すぎもと",
     "is_parallel": false,
@@ -25473,7 +25473,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Arts +10 for Holomen with this mascot. ◆ Added ability if attached to La+ Darknesssss [Collaboration position only] [once per turn] During your main step, you can roll the dice once: If the number is odd, move the Holomen with this mascot to the Back. Only one mascot can be attached to each of your Holomen."
+      "ability_text": "Arts +10 for Holomen with this mascot. ◆ Added ability if attached to La+ Darknessssss [Collaboration position only] [once per turn] During your main step, you can roll the dice once: If the number is odd, move the Holomen with this mascot to the Back. Only one mascot can be attached to each of your Holomen."
     },
     "illustrator": "はずき",
     "is_parallel": false,
@@ -26471,7 +26471,7 @@
       "#Language"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] KPG You can roll the dice once: When it is 4 or more, if there is no collaboration Holomen of the opponent, the opponent moves one of their Back to the collaboration position (movement is not treated as collaboration).",
+      "keyword": "[Bloom Effect] KPG You can roll the dice once: When it is 4 or more, if there is no collaboration Holomen of the opponent, the opponent moves one of their Backto the collaboration position (movement is not treated as collaboration).",
       "arts": "oh? Are you going to fight? 80 Deals 50 Special Damage to the opponent's Center Holomen. After that, when you used a limit meal this turn, deal 30 Special Damage to your opponent's Center Holomen or Collaboration Holomen."
     },
     "illustrator": "Fajyobore",
@@ -26500,7 +26500,7 @@
       "#Language"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] KPG You can roll the dice once: When it is 4 or more, if there is no collaboration Holomen of the opponent, the opponent moves one of their Back to the collaboration position (movement is not treated as collaboration).",
+      "keyword": "[Bloom Effect] KPG You can roll the dice once: When it is 4 or more, if there is no collaboration Holomen of the opponent, the opponent moves one of their Backto the collaboration position (movement is not treated as collaboration).",
       "arts": "oh? Are you going to fight? 80 Deals 50 Special Damage to the opponent's Center Holomen. After that, when you used a limit meal this turn, deal 30 Special Damage to your opponent's Center Holomen or Collaboration Holomen."
     },
     "illustrator": "江田藤",
@@ -27000,7 +27000,7 @@
       "#Shooter"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Kneel there! You can roll the dice once: If it's 3 or more, put one of your opponent's Back to rest.",
+      "keyword": "[Collab Effect] Kneel there! You can roll the dice once: If it's 3 or more, put one of your opponent's Backto rest.",
       "arts": "We are the ones who rule the planet of Eden! 30+ This art +10 for each Holomen who is absent from the opponent."
     },
     "illustrator": "TAiGA",
@@ -28330,7 +28330,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Arts +10 for Holomen with this mascot. ◆ Added ability if attached to 1st or higher Holomen with #5 generation [Back only] Holomen with this mascot attached will not receive damage from the opponent. Only one mascot can be attached to each of your Holomen."
+      "ability_text": "Arts +10 for Holomen with this mascot. ◆ Added ability if attached to 1st or higher Holomen with #5 generation [Backonly] Holomen with this mascot attached will not receive damage from the opponent. Only one mascot can be attached to each of your Holomen."
     },
     "illustrator": "JinArt すぎもと",
     "is_parallel": true,
@@ -28353,7 +28353,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Arts +10 for Holomen with this mascot. ◆ Added ability if attached to La+ Darknesssss [Collaboration position only] [once per turn] During your main step, you can roll the dice once: If the number is odd, move the Holomen with this mascot to the Back. Only one mascot can be attached to each of your Holomen."
+      "ability_text": "Arts +10 for Holomen with this mascot. ◆ Added ability if attached to La+ Darknessssss [Collaboration position only] [once per turn] During your main step, you can roll the dice once: If the number is odd, move the Holomen with this mascot to the Back. Only one mascot can be attached to each of your Holomen."
     },
     "illustrator": "はずき",
     "is_parallel": true,
@@ -31041,7 +31041,7 @@
     "tags": [],
     "abilities": {
       "oshi_skill": "[Holo Power: -1] Let's go [once per turn] Can be used if your Center Holomen is Nekomata Okayu: Deals 10 Special Damage to one opponent's Holomen.",
-      "sp_oshi_skill": "[Holo Power: -3] Yummy! [once per game] You can replace the opponent's Center Holomen with one Back whose HP is reduced. After that, if your Center Holomen is Nekomata Okayu, draw 3 cards from your deck."
+      "sp_oshi_skill": "[Holo Power: -3] Yummy! [once per game] You can replace the opponent's Center Holomen with one Backwhose HP is reduced. After that, if your Center Holomen is Nekomata Okayu, draw 3 cards from your deck."
     },
     "illustrator": "ふじさわ犬一",
     "is_parallel": false,
@@ -31921,7 +31921,7 @@
       "#Song"
     ],
     "abilities": {
-      "arts": "Great voice! 20+ If the HP of the opponent's Back is reduced, this art +20."
+      "arts": "Great voice! 20+ If the HP of the opponent's Backis reduced, this art +20."
     },
     "illustrator": "江田藤",
     "is_parallel": false,
@@ -32174,7 +32174,7 @@
     ],
     "abilities": {
       "keyword": "[Gift] A place where you can be yourself [Center only] Your favorite Holomen Nekomata Okayu and all Nekomata Okayu on your stage will deal +20 Special Damage to your opponent's Center Holomen.",
-      "arts": "Why don't you fall in love with me? 120 Deals 20 Special Damage to one opponent's Holomen. After that, you can send 1 Cheer from your archive to the Back who has your own #Gamers."
+      "arts": "Why don't you fall in love with me? 120 Deals 20 Special Damage to one opponent's Holomen. After that, you can send 1 Cheer from your archive to the Backwho has your own #Gamers."
     },
     "illustrator": "TOH.",
     "is_parallel": false,
@@ -32282,7 +32282,7 @@
       "#IDGen3"
     ],
     "abilities": {
-      "arts": "Trace the Rain 60 If the total HP of all of your opponent's Back has decreased by 80 or more, you can send 1 Blue Cheer from your archive to your Kobo Kanaeru.\nReverberating Rain Sound 120 You can archive these 2 Holomen Yells: Deal 30 Special Damage to all of your opponent's Back. However, even if you go down, your opponent's life does not decrease."
+      "arts": "Trace the Rain 60 If the total HP of all of your opponent's Backhas decreased by 80 or more, you can send 1 Blue Cheer from your archive to your Kobo Kanaeru.\nReverberating Rain Sound 120 You can archive these 2 Holomen Yells: Deal 30 Special Damage to all of your opponent's Back. However, even if you go down, your opponent's life does not decrease."
     },
     "illustrator": "株式会社スタジオヴィガ",
     "is_parallel": false,
@@ -32340,7 +32340,7 @@
     ],
     "abilities": {
       "keyword": "[Bloom Effect] Look only at me and look at the top three cards of your deck. From among them, reveal 1 Holomen with #alcohol and add it to your hand. Then return the remaining cards to the bottom of the deck in any order.",
-      "arts": "Champagne champagne! 20 If there are 3 or more Holomen with #alcohol on your stage, you can send 1 ale from your archive to the Back with #alcohol."
+      "arts": "Champagne champagne! 20 If there are 3 or more Holomen with #alcohol on your stage, you can send 1 ale from your archive to the Backwith #alcohol."
     },
     "illustrator": "江田藤",
     "is_parallel": false,
@@ -32850,7 +32850,7 @@
       "#Art"
     ],
     "abilities": {
-      "keyword": "[Gift] Extraordinary Smile [Back only] This Holomen will not take damage from the opponent.",
+      "keyword": "[Gift] Extraordinary Smile [Backonly] This Holomen will not take damage from the opponent.",
       "arts": "Full marks! 40 You can send the top card of your Cheer deck to this Holomen."
     },
     "illustrator": "葉桜ちこり",
@@ -33608,7 +33608,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Holomen with this mascot have +20 HP. ◆Ability added if attached to Kobo Kanaeru [Center only] [once per turn] When the opponent's Back goes down, draw one card from your deck. Only one mascot can be attached to each of your Holomen."
+      "ability_text": "Holomen with this mascot have +20 HP. ◆Ability added if attached to Kobo Kanaeru [Center only] [once per turn] When the opponent's Backgoes down, draw one card from your deck. Only one mascot can be attached to each of your Holomen."
     },
     "illustrator": "すぎもと",
     "is_parallel": false,
@@ -33798,7 +33798,7 @@
     "tags": [],
     "abilities": {
       "oshi_skill": "[Holo Power: -1] Let's go [once per turn] Can be used if your Center Holomen is Nekomata Okayu: Deals 10 Special Damage to one opponent's Holomen.",
-      "sp_oshi_skill": "[Holo Power: -3] Yummy! [once per game] You can replace the opponent's Center Holomen with one Back whose HP is reduced. After that, if your Center Holomen is Nekomata Okayu, draw 3 cards from your deck."
+      "sp_oshi_skill": "[Holo Power: -3] Yummy! [once per game] You can replace the opponent's Center Holomen with one Backwhose HP is reduced. After that, if your Center Holomen is Nekomata Okayu, draw 3 cards from your deck."
     },
     "illustrator": "ふじさわ犬一",
     "is_parallel": true,
@@ -34870,7 +34870,7 @@
       "#Song"
     ],
     "abilities": {
-      "arts": "Great voice! 20+ If the HP of the opponent's Back is reduced, this art +20."
+      "arts": "Great voice! 20+ If the HP of the opponent's Backis reduced, this art +20."
     },
     "illustrator": "江田藤",
     "is_parallel": true,
@@ -35150,7 +35150,7 @@
     ],
     "abilities": {
       "keyword": "[Gift] A place where you can be yourself [Center only] Your favorite Holomen Nekomata Okayu and all Nekomata Okayu on your stage will deal +20 Special Damage to your opponent's Center Holomen.",
-      "arts": "Why don't you fall in love with me? 120 Deals 20 Special Damage to one opponent's Holomen. After that, you can send 1 Cheer from your archive to the Back who has your own #Gamers."
+      "arts": "Why don't you fall in love with me? 120 Deals 20 Special Damage to one opponent's Holomen. After that, you can send 1 Cheer from your archive to the Backwho has your own #Gamers."
     },
     "illustrator": "TOH.",
     "is_parallel": true,
@@ -35178,7 +35178,7 @@
     ],
     "abilities": {
       "keyword": "[Gift] A place where you can be yourself [Center only] Your favorite Holomen Nekomata Okayu and all Nekomata Okayu on your stage will deal +20 Special Damage to your opponent's Center Holomen.",
-      "arts": "Why don't you fall in love with me? 120 Deals 20 Special Damage to one opponent's Holomen. After that, you can send 1 Cheer from your archive to the Back who has your own #Gamers."
+      "arts": "Why don't you fall in love with me? 120 Deals 20 Special Damage to one opponent's Holomen. After that, you can send 1 Cheer from your archive to the Backwho has your own #Gamers."
     },
     "illustrator": "TOH.",
     "is_parallel": true,
@@ -35286,7 +35286,7 @@
       "#IDGen3"
     ],
     "abilities": {
-      "arts": "Trace the Rain 60 If the total HP of all of your opponent's Back has decreased by 80 or more, you can send 1 Blue Cheer from your archive to your Kobo Kanaeru.\nReverberating Rain Sound 120 You can archive these 2 Holomen Yells: Deal 30 Special Damage to all of your opponent's Back. However, even if you go down, your opponent's life does not decrease."
+      "arts": "Trace the Rain 60 If the total HP of all of your opponent's Backhas decreased by 80 or more, you can send 1 Blue Cheer from your archive to your Kobo Kanaeru.\nReverberating Rain Sound 120 You can archive these 2 Holomen Yells: Deal 30 Special Damage to all of your opponent's Back. However, even if you go down, your opponent's life does not decrease."
     },
     "illustrator": "株式会社スタジオヴィガ",
     "is_parallel": true,
@@ -35312,7 +35312,7 @@
       "#IDGen3"
     ],
     "abilities": {
-      "arts": "Trace the Rain 60 If the total HP of all of your opponent's Back has decreased by 80 or more, you can send 1 Blue Cheer from your archive to your Kobo Kanaeru.\nReverberating Rain Sound 120 You can archive these 2 Holomen Yells: Deal 30 Special Damage to all of your opponent's Back. However, even if you go down, your opponent's life does not decrease."
+      "arts": "Trace the Rain 60 If the total HP of all of your opponent's Backhas decreased by 80 or more, you can send 1 Blue Cheer from your archive to your Kobo Kanaeru.\nReverberating Rain Sound 120 You can archive these 2 Holomen Yells: Deal 30 Special Damage to all of your opponent's Back. However, even if you go down, your opponent's life does not decrease."
     },
     "illustrator": "株式会社スタジオヴィガ",
     "is_parallel": true,
@@ -35370,7 +35370,7 @@
     ],
     "abilities": {
       "keyword": "[Bloom Effect] Look only at me and look at the top three cards of your deck. From among them, reveal 1 Holomen with #alcohol and add it to your hand. Then return the remaining cards to the bottom of the deck in any order.",
-      "arts": "Champagne champagne! 20 If there are 3 or more Holomen with #alcohol on your stage, you can send 1 ale from your archive to the Back with #alcohol."
+      "arts": "Champagne champagne! 20 If there are 3 or more Holomen with #alcohol on your stage, you can send 1 ale from your archive to the Backwith #alcohol."
     },
     "illustrator": "江田藤",
     "is_parallel": true,
@@ -35964,7 +35964,7 @@
       "#Art"
     ],
     "abilities": {
-      "keyword": "[Gift] Extraordinary Smile [Back only] This Holomen will not take damage from the opponent.",
+      "keyword": "[Gift] Extraordinary Smile [Backonly] This Holomen will not take damage from the opponent.",
       "arts": "Full marks! 40 You can send the top card of your Cheer deck to this Holomen."
     },
     "illustrator": "葉桜ちこり",
@@ -36605,7 +36605,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Holomen with this mascot have +20 HP. ◆Ability added if attached to Kobo Kanaeru [Center only] [once per turn] When the opponent's Back goes down, draw one card from your deck. Only one mascot can be attached to each of your Holomen."
+      "ability_text": "Holomen with this mascot have +20 HP. ◆Ability added if attached to Kobo Kanaeru [Center only] [once per turn] When the opponent's Backgoes down, draw one card from your deck. Only one mascot can be attached to each of your Holomen."
     },
     "illustrator": "すぎもと",
     "is_parallel": true,
@@ -38160,7 +38160,7 @@
       "#Song"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Memories of the Snowy Mountains You can roll the dice once: If the number is odd, knock down one Back whose HP has decreased by 40 or more (even if the opponent goes down, the opponent's life does not decrease).",
+      "keyword": "[Collab Effect] Memories of the Snowy Mountains You can roll the dice once: If the number is odd, knock down one Backwhose HP has decreased by 40 or more (even if the opponent goes down, the opponent's life does not decrease).",
       "arts": "fighting maid 70"
     },
     "illustrator": "でいりー",
@@ -38425,7 +38425,7 @@
       "#FLOW GLOW"
     ],
     "abilities": {
-      "arts": "Heartbeat Pilot 80+ If your Holomen bloomed this turn, this art +50.\nAccelerator Beat Blaze 140 When you knock down your opponent's Center Holomen with this art, if the damage dealt exceeds the remaining HP, send 1 card from the top of your Cheer deck to one of your Back for every 30 points of damage left over."
+      "arts": "Heartbeat Pilot 80+ If your Holomen bloomed this turn, this art +50.\nAccelerator Beat Blaze 140 When you knock down your opponent's Center Holomen with this art, if the damage dealt exceeds the remaining HP, send 1 card from the top of your Cheer deck to one of your Backfor every 30 points of damage left over."
     },
     "illustrator": "株式会社スタジオヴィガ",
     "is_parallel": false,
@@ -38733,7 +38733,7 @@
       "#FLOW GLOW"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Comedian of FLOW GLOW You can send one cheer from your archive to the Back who has your own #FLOW GLOW.",
+      "keyword": "[Collab Effect] Comedian of FLOW GLOW You can send one cheer from your archive to the Backwho has your own #FLOW GLOW.",
       "arts": "100 Folding Unyielding 30+ If there are 5 or more Yells on your stage, this art +20."
     },
     "illustrator": "鉄一",
@@ -39639,7 +39639,7 @@
       "#Baby"
     ],
     "abilities": {
-      "keyword": "[Gift] Thank you to everyone [Collaboration position only] When you archive the Runite attached to your Center Holomen during your opponent's turn, you can replace it with Himemori Luna from your Back instead of archiving it.",
+      "keyword": "[Gift] Thank you to everyone [Collaboration position only] When you archive the Runite attached to your Center Holomen during your opponent's turn, you can replace it with Himemori Luna from your Backinstead of archiving it.",
       "arts": "I want to deliver it! 20 You can attach 1 Runite from your archive to your Himemori Luna."
     },
     "illustrator": "かんざきひろ",
@@ -41477,7 +41477,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Holomen Arts +10 with this tool. ◆Add ability if attached to Nakiri Ayame When Holomen with this tool collaborate, if your life is 1 and your opponent has no collaboration Holomen, the opponent moves one of their Back to the collaboration position (movement is not treated as collaboration). Only one tool can be attached to each of your Holomen."
+      "ability_text": "Holomen Arts +10 with this tool. ◆Add ability if attached to Nakiri Ayame When Holomen with this tool collaborate, if your life is 1 and your opponent has no collaboration Holomen, the opponent moves one of their Backto the collaboration position (movement is not treated as collaboration). Only one tool can be attached to each of your Holomen."
     },
     "illustrator": "水鈴",
     "is_parallel": false,
@@ -42819,7 +42819,7 @@
       "#Baby"
     ],
     "abilities": {
-      "keyword": "[Gift] Thank you to everyone [Collaboration position only] When you archive the Runite attached to your Center Holomen during your opponent's turn, you can replace it with Himemori Luna from your Back instead of archiving it.",
+      "keyword": "[Gift] Thank you to everyone [Collaboration position only] When you archive the Runite attached to your Center Holomen during your opponent's turn, you can replace it with Himemori Luna from your Backinstead of archiving it.",
       "arts": "I want to deliver it! 20 You can attach 1 Runite from your archive to your Himemori Luna."
     },
     "illustrator": "かんざきひろ",
@@ -44698,7 +44698,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Holomen Arts +10 with this tool. ◆Add ability if attached to Nakiri Ayame When Holomen with this tool collaborate, if your life is 1 and your opponent has no collaboration Holomen, the opponent moves one of their Back to the collaboration position (movement is not treated as collaboration). Only one tool can be attached to each of your Holomen."
+      "ability_text": "Holomen Arts +10 with this tool. ◆Add ability if attached to Nakiri Ayame When Holomen with this tool collaborate, if your life is 1 and your opponent has no collaboration Holomen, the opponent moves one of their Backto the collaboration position (movement is not treated as collaboration). Only one tool can be attached to each of your Holomen."
     },
     "illustrator": "水鈴",
     "is_parallel": true,
@@ -44948,7 +44948,7 @@
       "#HalfElf"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] I have grown even more. [Back only] You can exchange this Holomen with a collaboration Holomen whose remaining HP is 70 or less.",
+      "keyword": "[Bloom Effect] I have grown even more. [Backonly] You can exchange this Holomen with a collaboration Holomen whose remaining HP is 70 or less.",
       "arts": "I want you to see it! 40"
     },
     "illustrator": "lack",
@@ -45603,7 +45603,7 @@
       "#Song"
     ],
     "abilities": {
-      "arts": "Great voice! 20+ If the HP of the opponent's Back is reduced, this art +20."
+      "arts": "Great voice! 20+ If the HP of the opponent's Backis reduced, this art +20."
     },
     "illustrator": "オットン",
     "is_parallel": false,
@@ -46128,7 +46128,7 @@
     "tags": [],
     "abilities": {
       "oshi_skill": "[Holo Power: -1] Collector [once per turn] Look at the top three cards of your deck. Reveal 1 support card from among them and add it to your hand. Then return the remaining cards to the bottom of the deck in any order.",
-      "sp_oshi_skill": "[Holo Power: -3] Rebellion [once per game] Deal 10 Special Damage to one opponent's Back other than Debut for each support card in your archive."
+      "sp_oshi_skill": "[Holo Power: -3] Rebellion [once per game] Deal 10 Special Damage to one opponent's Backother than Debut for each support card in your archive."
     },
     "illustrator": "村カルキ",
     "is_parallel": false,
@@ -46453,7 +46453,7 @@
       "#AnimalEars"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Happy☆Puppy -MOCOCO- If all Holomen on your stage are Holomen with #Advent, you can return one Debut Holomem in your Back to the bottom of your deck: Draw 2 cards from your deck.",
+      "keyword": "[Collab Effect] Happy☆Puppy -MOCOCO- If all Holomen on your stage are Holomen with #Advent, you can return one Debut Holomem in your Backto the bottom of your deck: Draw 2 cards from your deck.",
       "arts": "Really true! ! 30"
     },
     "illustrator": "イコモチ",
@@ -46481,7 +46481,7 @@
       "#AnimalEars"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Happy☆Puppy -FUWAWA- If all Holomen on your stage are Holomen with #Advent, you can return one Debut Holomem in your Back to the bottom of the deck: Send the top card of your Cheer deck to your Holomen.",
+      "keyword": "[Collab Effect] Happy☆Puppy -FUWAWA- If all Holomen on your stage are Holomen with #Advent, you can return one Debut Holomem in your Backto the bottom of the deck: Send the top card of your Cheer deck to your Holomen.",
       "arts": "It's really true! 30"
     },
     "illustrator": "イコモチ",
@@ -46928,7 +46928,7 @@
       "#Justice"
     ],
     "abilities": {
-      "keyword": "[Gift] Thank you for your hard work! During your opponent's turn, when your Back receives Special Damage from your opponent, you can archive 1 Holomen that overlaps this Holomen: During this turn, all of your Back will not receive Special Damage.",
+      "keyword": "[Gift] Thank you for your hard work! During your opponent's turn, when your Backreceives Special Damage from your opponent, you can archive 1 Holomen that overlaps this Holomen: During this turn, all of your Backwill not receive Special Damage.",
       "arts": "I can't afford to lose 60"
     },
     "illustrator": "加川壱互",
@@ -47178,7 +47178,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "oshi_skill": "[Holo Power: -2] Worldwide strongest idol! [once per turn] Return one Debut Holomem Akai Haato in your Back to the bottom of the deck. Then select one Akai Haato on your stage. During this turn, the selected Holomen's arts +50."
+      "oshi_skill": "[Holo Power: -2] Worldwide strongest idol! [once per turn] Return one Debut Holomem Akai Haato in your Backto the bottom of the deck. Then select one Akai Haato on your stage. During this turn, the selected Holomen's arts +50."
     },
     "illustrator": "茶ちえ",
     "is_parallel": false,
@@ -47813,7 +47813,7 @@
       "#Cooking"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] Order of the Queen of Hearts Choose one of your Back other than this Holomen. During this turn, the selected Holomen's arts +30.",
+      "keyword": "[Bloom Effect] Order of the Queen of Hearts Choose one of your Backother than this Holomen. During this turn, the selected Holomen's arts +30.",
       "arts": "Call me Her Majesty 70 [Center only] When you knock down your opponent's Holomen with this art, draw 1 card from your deck."
     },
     "illustrator": "イマフク",
@@ -48175,7 +48175,7 @@
       "#Cooking"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Haachama ♥ Restaurant Return one Debut Holomem Akai Haato in your Back to the bottom of your deck: Reveal one [1st Holomem or 2nd Holomem] other than Buzz from your deck and add it to your hand. Then shuffle the deck.",
+      "keyword": "[Collab Effect] Haachama ♥ Restaurant Return one Debut Holomem Akai Haato in your Backto the bottom of your deck: Reveal one [1st Holomem or 2nd Holomem] other than Buzz from your deck and add it to your hand. Then shuffle the deck.",
       "arts": "Our proud Haaton Burger! 40"
     },
     "illustrator": "すすもく",
@@ -48646,7 +48646,7 @@
     ],
     "abilities": {
       "keyword": "[Collab Effect] I get excited when I play with you... Deal 30 Special Damage to one opponent's Holomen.",
-      "arts": "Here we go! ! You let your guard down~ 100 If your favorite Holomen is Nekomata Okayu and there are Back whose HP has decreased by 100 or more, deal 50 Special Damage to one of your opponent's Holomen."
+      "arts": "Here we go! ! You let your guard down~ 100 If your favorite Holomen is Nekomata Okayu and there are Backwhose HP has decreased by 100 or more, deal 50 Special Damage to one of your opponent's Holomen."
     },
     "illustrator": "バシコウ",
     "is_parallel": false,
@@ -48673,7 +48673,7 @@
     ],
     "abilities": {
       "keyword": "[Bloom Effect] Happy For You From your own yell deck, reveal one yell of the same color as one Holomen with #ID3 generation in your stage, and send it to your Holomen. Then shuffle the ale deck.",
-      "arts": "MANTAP LEE!! 60 If there are 3 or more Back whose HP is reduced, draw 2 cards from your deck."
+      "arts": "MANTAP LEE!! 60 If there are 3 or more Backwhose HP is reduced, draw 2 cards from your deck."
     },
     "illustrator": "のり恋",
     "is_parallel": false,
@@ -49086,7 +49086,7 @@
     ],
     "abilities": {
       "keyword": "[Collab Effect] It's live! ! ! ! ! ! ! ! ! During this turn, the colorless -2 required for this Holomen's arts.",
-      "arts": "There are people who listen to my songs! ? ! ? 30 Reveal 1 La+ Darknesssss from your deck and add it to your hand. Then shuffle the deck."
+      "arts": "There are people who listen to my songs! ? ! ? 30 Reveal 1 La+ Darknessssss from your deck and add it to your hand. Then shuffle the deck."
     },
     "illustrator": "ミュシャ",
     "is_parallel": false,
@@ -49317,7 +49317,7 @@
       "#Art"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Momosuzu Nene will become an insect doctor! If your Holo Power is 4 or more and your opponent has no collaboration Holomen, your opponent moves one of their Back to the collaboration position (movement is not treated as collaboration).",
+      "keyword": "[Collab Effect] Momosuzu Nene will become an insect doctor! If your Holo Power is 4 or more and your opponent has no collaboration Holomen, your opponent moves one of their Backto the collaboration position (movement is not treated as collaboration).",
       "arts": "Bulllock your heart! 30 If this Holomen has Giraffa Saw Stag Beetle attached, this art damage will be applied to the opponent's Center Holomen and Collaboration Holomen instead of the target Holomen."
     },
     "illustrator": "兎未枝",
@@ -49458,7 +49458,7 @@
       "#Justice"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Obsession Chaser Select one of your Gigi Murin. During this turn, the selected Holomen's arts can also target Back whose HP is reduced.",
+      "keyword": "[Collab Effect] Obsession Chaser Select one of your Gigi Murin. During this turn, the selected Holomen's arts can also target Backwhose HP is reduced.",
       "arts": "Pursuit Riot 160+ If the target of this art is a Holomen whose HP is reduced, this art +30."
     },
     "illustrator": "ふじさわ犬一",
@@ -49512,7 +49512,7 @@
       "#FLOW GLOW"
     ],
     "abilities": {
-      "keyword": "[Gift] Tiger's Power All 1st Holomem with #FLOW GLOW in their Back will not receive Special Damage from the opponent.",
+      "keyword": "[Gift] Tiger's Power All 1st Holomem with #FLOW GLOW in their Backwill not receive Special Damage from the opponent.",
       "arts": "I'm happy because everyone is here! 50+ If your stage yell was archived this turn, this art +30."
     },
     "illustrator": "藤巳",
@@ -49774,7 +49774,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Draw 2 cards from your deck. After that, if your Holomen was down in your opponent's previous turn, choose one Holomen on your stage. During this turn, the selected Holomen's arts +20. Furthermore, if your Holomen that was down in your opponent's previous turn is La+ Darknesssss, draw 2 cards from your deck. LIMITED: Only one card can be used per turn."
+      "ability_text": "Draw 2 cards from your deck. After that, if your Holomen was down in your opponent's previous turn, choose one Holomen on your stage. During this turn, the selected Holomen's arts +20. Furthermore, if your Holomen that was down in your opponent's previous turn is La+ Darknessssss, draw 2 cards from your deck. LIMITED: Only one card can be used per turn."
     },
     "illustrator": "さかなへん",
     "is_parallel": false,
@@ -50479,7 +50479,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "oshi_skill": "[Holo Power: -2] Worldwide strongest idol! [once per turn] Return one Debut Holomem Akai Haato in your Back to the bottom of the deck. Then select one Akai Haato on your stage. During this turn, the selected Holomen's arts +50."
+      "oshi_skill": "[Holo Power: -2] Worldwide strongest idol! [once per turn] Return one Debut Holomem Akai Haato in your Backto the bottom of the deck. Then select one Akai Haato on your stage. During this turn, the selected Holomen's arts +50."
     },
     "illustrator": "茶ちえ",
     "is_parallel": true,
@@ -51132,7 +51132,7 @@
       "#Cooking"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] Order of the Queen of Hearts Choose one of your Back other than this Holomen. During this turn, the selected Holomen's arts +30.",
+      "keyword": "[Bloom Effect] Order of the Queen of Hearts Choose one of your Backother than this Holomen. During this turn, the selected Holomen's arts +30.",
       "arts": "Call me Her Majesty 70 [Center only] When you knock down your opponent's Holomen with this art, draw 1 card from your deck."
     },
     "illustrator": "イマフク",
@@ -51495,7 +51495,7 @@
       "#Cooking"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Haachama ♥ Restaurant Return one Debut Holomem Akai Haato in your Back to the bottom of your deck: Reveal one [1st Holomem or 2nd Holomem] other than Buzz from your deck and add it to your hand. Then shuffle the deck.",
+      "keyword": "[Collab Effect] Haachama ♥ Restaurant Return one Debut Holomem Akai Haato in your Backto the bottom of your deck: Reveal one [1st Holomem or 2nd Holomem] other than Buzz from your deck and add it to your hand. Then shuffle the deck.",
       "arts": "Our proud Haaton Burger! 40"
     },
     "illustrator": "すすもく",
@@ -51993,7 +51993,7 @@
     ],
     "abilities": {
       "keyword": "[Collab Effect] I get excited when I play with you... Deal 30 Special Damage to one opponent's Holomen.",
-      "arts": "Here we go! ! You let your guard down~ 100 If your favorite Holomen is Nekomata Okayu and there are Back whose HP has decreased by 100 or more, deal 50 Special Damage to one of your opponent's Holomen."
+      "arts": "Here we go! ! You let your guard down~ 100 If your favorite Holomen is Nekomata Okayu and there are Backwhose HP has decreased by 100 or more, deal 50 Special Damage to one of your opponent's Holomen."
     },
     "illustrator": "バシコウ",
     "is_parallel": true,
@@ -52020,7 +52020,7 @@
     ],
     "abilities": {
       "keyword": "[Bloom Effect] Happy For You From your own yell deck, reveal one yell of the same color as one Holomen with #ID3 generation in your stage, and send it to your Holomen. Then shuffle the ale deck.",
-      "arts": "MANTAP LEE!! 60 If there are 3 or more Back whose HP is reduced, draw 2 cards from your deck."
+      "arts": "MANTAP LEE!! 60 If there are 3 or more Backwhose HP is reduced, draw 2 cards from your deck."
     },
     "illustrator": "のり恋",
     "is_parallel": true,
@@ -52432,7 +52432,7 @@
     ],
     "abilities": {
       "keyword": "[Collab Effect] It's live! ! ! ! ! ! ! ! ! During this turn, the colorless -2 required for this Holomen's arts.",
-      "arts": "There are people who listen to my songs! ? ! ? 30 Reveal 1 La+ Darknesssss from your deck and add it to your hand. Then shuffle the deck."
+      "arts": "There are people who listen to my songs! ? ! ? 30 Reveal 1 La+ Darknessssss from your deck and add it to your hand. Then shuffle the deck."
     },
     "illustrator": "ミュシャ",
     "is_parallel": true,
@@ -52663,7 +52663,7 @@
       "#Art"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Momosuzu Nene will become an insect doctor! If your Holo Power is 4 or more and your opponent has no collaboration Holomen, your opponent moves one of their Back to the collaboration position (movement is not treated as collaboration).",
+      "keyword": "[Collab Effect] Momosuzu Nene will become an insect doctor! If your Holo Power is 4 or more and your opponent has no collaboration Holomen, your opponent moves one of their Backto the collaboration position (movement is not treated as collaboration).",
       "arts": "Bulllock your heart! 30 If this Holomen has Giraffa Saw Stag Beetle attached, this art damage will be applied to the opponent's Center Holomen and Collaboration Holomen instead of the target Holomen."
     },
     "illustrator": "兎未枝",
@@ -52833,7 +52833,7 @@
       "#Justice"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Obsession Chaser Select one of your Gigi Murin. During this turn, the selected Holomen's arts can also target Back whose HP is reduced.",
+      "keyword": "[Collab Effect] Obsession Chaser Select one of your Gigi Murin. During this turn, the selected Holomen's arts can also target Backwhose HP is reduced.",
       "arts": "Pursuit Riot 160+ If the target of this art is a Holomen whose HP is reduced, this art +30."
     },
     "illustrator": "ふじさわ犬一",
@@ -52860,7 +52860,7 @@
       "#FLOW GLOW"
     ],
     "abilities": {
-      "keyword": "[Gift] Tiger's Power All 1st Holomem with #FLOW GLOW in their Back will not receive Special Damage from the opponent.",
+      "keyword": "[Gift] Tiger's Power All 1st Holomem with #FLOW GLOW in their Backwill not receive Special Damage from the opponent.",
       "arts": "I'm happy because everyone is here! 50+ If your stage yell was archived this turn, this art +30."
     },
     "illustrator": "藤巳",
@@ -53103,7 +53103,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Draw 2 cards from your deck. After that, if your Holomen was down in your opponent's previous turn, choose one Holomen on your stage. During this turn, the selected Holomen's arts +20. Furthermore, if your Holomen that was down in your opponent's previous turn is La+ Darknesssss, draw 2 cards from your deck. LIMITED: Only one card can be used per turn."
+      "ability_text": "Draw 2 cards from your deck. After that, if your Holomen was down in your opponent's previous turn, choose one Holomen on your stage. During this turn, the selected Holomen's arts +20. Furthermore, if your Holomen that was down in your opponent's previous turn is La+ Darknessssss, draw 2 cards from your deck. LIMITED: Only one card can be used per turn."
     },
     "illustrator": "さかなへん",
     "is_parallel": true,
