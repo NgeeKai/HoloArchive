@@ -441,16 +441,14 @@ def parse_card_page(html, card_id, url):
         'スタートデッキ 推し Justice':                   'Start Deck – Oshi Justice',
         'スタートエールセット':                          'Start Cheer Set',
         'PRカード':                                      'Promo Cards',
-        '【hololive production OFFICIAL SHOP限定】hololive OFFICIAL CARD GAME 1st Anniversary Celebration Set':  '【hololive production OFFICIAL SHOP限定】hololive OFFICIAL CARD GAME 1st Anniversary Celebration Set',  # AUTO-ADDED — verify EN name
-        '【イベント物販／hololive production OFFICIAL SHOP限定商品】オフィシャルホロカコレクション-PCセット-':  '【イベント物販／hololive production OFFICIAL SHOP限定商品】オフィシャルホロカコレクション-PCセット-',  # AUTO-ADDED — verify EN name
     }
     raw_set_name = fields.get("Card Set") or ""
     raw_set_name = raw_set_name.strip()
     set_name = JP_SET_NAME_MAP.get(raw_set_name) or (raw_set_name if raw_set_name else None)
 
     # Derive product_set_code from the actual product name
-    # This is different from set_code (which comes from card number)
-    # For reprints, set_code = original set, product_set_code = the set it was actually printed in
+    # P rarity = Promo — always hPR regardless of card number prefix
+    # Other cards: use set_name mapping if available, else fall back to set_code
     SET_NAME_TO_CODE = {v: k for k, v in {
         'hSD01': 'Start Deck – Tokino Sora & AZKi',
         'hBP01': 'Booster Pack – Blooming Radiance',
@@ -474,10 +472,13 @@ def parse_card_page(html, card_id, url):
         'hSD13': 'Start Deck – Oshi Justice',
         'hBP07': 'Booster Pack – Enchant Regalia',
         'hPR':   'Promo Cards',
-        'hCS01': '【hololive production OFFICIAL SHOP限定】hololive OFFICIAL CARD GAME 1st Anniversary Celebration Set',  # AUTO-ADDED — verify EN name
-        'hPC01': '【イベント物販／hololive production OFFICIAL SHOP限定商品】オフィシャルホロカコレクション-PCセット-',  # AUTO-ADDED — verify EN name
     }.items()}
-    product_set_code = SET_NAME_TO_CODE.get(set_name) or set_code
+
+    if rarity == 'P':
+        # P rarity = Promo card — always belongs to hPR set
+        product_set_code = 'hPR'
+    else:
+        product_set_code = SET_NAME_TO_CODE.get(set_name) or set_code
 
     # Illustrator -- field first, then scan raw page text (covers both JP/EN format)
     illustrator_raw = fields.get("Illustrator") or ""
