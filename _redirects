@@ -1,3 +1,0 @@
-# Redirect old Cloudflare Pages URL to new custom domain
-https://holoarchive.pages.dev/* https://holoarchiveocg.com/:splat 301
-https://www.holoarchiveocg.com/* https://holoarchiveocg.com/:splat 301
