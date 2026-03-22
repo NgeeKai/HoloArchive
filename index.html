@@ -2135,7 +2135,8 @@ function switchView(v, opts = {}) {
   // Sidebar only on cards view
   document.getElementById('sidebar').style.display = v === 'cards' ? '' : 'none';
 
-  // Search bar only relevant on cards view
+  // Hide search bar on home, show on cards/sets
+  document.getElementById('searchWrap').style.display = v === 'home' ? 'none' : '';
   document.getElementById('searchWrap').style.opacity = v === 'cards' ? '1' : '0.4';
   document.getElementById('searchInput').disabled = v !== 'cards';
 
