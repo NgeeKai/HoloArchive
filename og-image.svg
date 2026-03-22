@@ -74,7 +74,7 @@
 
   <!-- Stats (auto-generated from cards.json) -->
   <g transform="translate(80, 330)">
-    <text x="0"   y="44" font-family="system-ui,sans-serif" font-size="44" font-weight="700" fill="white">2,048</text>
+    <text x="0"   y="44" font-family="system-ui,sans-serif" font-size="44" font-weight="700" fill="white">2,049</text>
     <text x="0"   y="72" font-family="system-ui,sans-serif" font-size="15" fill="#7ab8d8">cards indexed</text>
     <text x="210" y="44" font-family="system-ui,sans-serif" font-size="44" font-weight="700" fill="white">28</text>
     <text x="210" y="72" font-family="system-ui,sans-serif" font-size="15" fill="#7ab8d8">sets covered</text>
@@ -87,10 +87,10 @@
   <line x1="80" y1="450" x2="680" y2="450" stroke="rgba(0,168,232,0.18)" stroke-width="1"/>
 
   <!-- Tagline with today's date -->
-  <text x="80" y="490" font-family="system-ui,sans-serif" font-size="18" fill="rgba(255,255,255,0.45)">Last updated March 20, 2026 &#8212; data from the official hololive OCG site</text>
+  <text x="80" y="490" font-family="system-ui,sans-serif" font-size="18" fill="rgba(255,255,255,0.45)">Last updated March 22, 2026 &#8212; data from the official hololive OCG site</text>
 
   <!-- Footer -->
   <rect y="590" width="1200" height="40" fill="rgba(0,168,232,0.07)"/>
   <text x="80"   y="615" font-family="system-ui,sans-serif" font-size="14" fill="rgba(255,255,255,0.35)">Fan project &#8212; not affiliated with COVER Corp. or hololive production</text>
-  <text x="1120" y="615" text-anchor="end" font-family="system-ui,sans-serif" font-size="14" fill="rgba(0,168,232,0.65)">holoarchive.pages.dev</text>
+  <text x="1120" y="615" text-anchor="end" font-family="system-ui,sans-serif" font-size="14" fill="rgba(0,168,232,0.65)">holoarchiveocg.com</text>
 </svg>

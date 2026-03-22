@@ -441,6 +441,8 @@ def parse_card_page(html, card_id, url):
         'スタートデッキ 推し Justice':                   'Start Deck – Oshi Justice',
         'スタートエールセット':                          'Start Cheer Set',
         'PRカード':                                      'Promo Cards',
+        '【hololive production OFFICIAL SHOP限定】hololive OFFICIAL CARD GAME 1st Anniversary Celebration Set':  '【hololive production OFFICIAL SHOP限定】hololive OFFICIAL CARD GAME 1st Anniversary Celebration Set',  # AUTO-ADDED — verify EN name
+        '【イベント物販／hololive production OFFICIAL SHOP限定商品】オフィシャルホロカコレクション-PCセット-':  '【イベント物販／hololive production OFFICIAL SHOP限定商品】オフィシャルホロカコレクション-PCセット-',  # AUTO-ADDED — verify EN name
     }
     raw_set_name = fields.get("Card Set") or ""
     raw_set_name = raw_set_name.strip()
@@ -472,6 +474,8 @@ def parse_card_page(html, card_id, url):
         'hSD13': 'Start Deck – Oshi Justice',
         'hBP07': 'Booster Pack – Enchant Regalia',
         'hPR':   'Promo Cards',
+        'hCS01': '【hololive production OFFICIAL SHOP限定】hololive OFFICIAL CARD GAME 1st Anniversary Celebration Set',  # AUTO-ADDED — verify EN name
+        'hPC01': '【イベント物販／hololive production OFFICIAL SHOP限定商品】オフィシャルホロカコレクション-PCセット-',  # AUTO-ADDED — verify EN name
     }.items()}
     product_set_code = SET_NAME_TO_CODE.get(set_name) or set_code
 

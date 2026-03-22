@@ -284,6 +284,34 @@
     "source_url": "https://hololive-official-cardgame.com/cardlist/?id=11"
   },
   {
+    "id": 12,
+    "card_number": "hSD01-012",
+    "set_code": "hSD01",
+    "product_set_code": "hSD01",
+    "set_name": "Start Deck – Tokino Sora & AZKi",
+    "name": "Iofi Airani",
+    "card_type": "ホロメン",
+    "rarity": "C",
+    "color": "green",
+    "hp": 70,
+    "life": null,
+    "bloom_level": "Debut",
+    "baton_pass": "◇",
+    "tags": [
+      "#ID",
+      "#IDGen1",
+      "#Art"
+    ],
+    "abilities": {
+      "keyword": "[Collab Effect] Draw together! You can send one [White Cheer or Green Cheer] from your archive to your Center Holomen.",
+      "arts": "I had fun drawing! 20"
+    },
+    "illustrator": null,
+    "is_parallel": false,
+    "image_url": "https://hololive-official-cardgame.com/wp-content/images/cardlist/hSD01/hSD01-012_C.png",
+    "source_url": "https://hololive-official-cardgame.com/cardlist/?id=12"
+  },
+  {
     "id": 13,
     "card_number": "hSD01-013",
     "set_code": "hSD01",
@@ -3867,7 +3895,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Roll the dice once: When the result is 3 or less, archive 1 yell of your opponent's Holomen. ◆When your favorite Holomen is 〈Seven Poetry Mumei〉, you can change the ability [Once per game] Archive 2 yells of the opponent's center Holomen. LIMITED: Only one card can be used per turn."
+      "ability_text": "Roll the dice once: When the result is 3 or less, archive 1 yell of your opponent's Holomen. ◆When your favorite Holomen is Seven Poetry Mumei, you can change the ability [once per game] Archive 2 yells of the opponent's Center Holomen. LIMITED: Only one card can be used per turn."
     },
     "illustrator": null,
     "is_parallel": false,
@@ -8269,7 +8297,7 @@
       "#Song"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] What's up? You can return one [〈Forest Calliope's Sickle〉 or〈Death-sensei〉] from your archive to your hand.",
+      "keyword": "[Bloom Effect] What's up? You can return one [Forest Calliope's Sickle orDeath-sensei] from your archive to your hand.",
       "arts": "Dead Beat 30+ When this Holomen has a tool or mascot attached, this art +30."
     },
     "illustrator": "ぶるー太",
@@ -9215,7 +9243,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Arts +10 for Holomen with this mascot. ◆ Added ability if attached to <Shakasha Kuroヱ> When a Holomen with this mascot knocks down an opponent's Holomen, you can send 1 Yell from your archive to the Holomen with your #secret society holox. Only one mascot can be attached to each of your Holomen."
+      "ability_text": "Arts +10 for Holomen with this mascot. ◆ Added ability if attached to <Shakasha Kuroヱ> When a Holomen with this mascot knocks down an opponent's Holomen, you can send 1 Cheer from your archive to the Holomen with your #secret society holox. Only one mascot can be attached to each of your Holomen."
     },
     "illustrator": "はずき",
     "is_parallel": false,
@@ -10917,7 +10945,7 @@
       "#Song"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] What's up? You can return one [〈Forest Calliope's Sickle〉 or〈Death-sensei〉] from your archive to your hand.",
+      "keyword": "[Bloom Effect] What's up? You can return one [Forest Calliope's Sickle orDeath-sensei] from your archive to your hand.",
       "arts": "Dead Beat 30+ When this Holomen has a tool or mascot attached, this art +30."
     },
     "illustrator": "ぶるー太",
@@ -11962,7 +11990,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Arts +10 for Holomen with this mascot. ◆ Added ability if attached to <Shakasha Kuroヱ> When a Holomen with this mascot knocks down an opponent's Holomen, you can send 1 Yell from your archive to the Holomen with your #secret society holox. Only one mascot can be attached to each of your Holomen."
+      "ability_text": "Arts +10 for Holomen with this mascot. ◆ Added ability if attached to <Shakasha Kuroヱ> When a Holomen with this mascot knocks down an opponent's Holomen, you can send 1 Cheer from your archive to the Holomen with your #secret society holox. Only one mascot can be attached to each of your Holomen."
     },
     "illustrator": "はずき",
     "is_parallel": true,
@@ -14942,7 +14970,7 @@
       "#holoX"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] Protected by Kazama You can send one Yell from your archive to each of your [〈Kazuma Iroha〉 and 〈Hoshimachi Suisei〉].",
+      "keyword": "[Bloom Effect] Protected by Kazama You can send one Cheer from your archive to each of your [Kazuma Iroha and Hoshimachi Suisei].",
       "arts": "Fuma ga Slash 100+ When this Holomen has 2 or more non-green ales attached, this art +50."
     },
     "illustrator": "古弥月",
@@ -15049,7 +15077,7 @@
       "#Baby"
     ],
     "abilities": {
-      "arts": "I asked for your support 30\nMikopee! (｀・ω・´)🌸 50 You can roll the dice once: When it's 2, 4, or 6, deal 20 special damage to the opponent's center Holomen. When it is 3 or 5, deals 20 special damage to the opponent's center Holomen and collaboration Holomen."
+      "arts": "I asked for your support 30\nMikopee! (｀・ω・´)🌸 50 You can roll the dice once: When it's 2, 4, or 6, deal 20 Special Damage to the opponent's Center Holomen. When it is 3 or 5, deal 20 Special Damage to the opponent's Center Holomen and collaboration Holomen."
     },
     "illustrator": null,
     "is_parallel": false,
@@ -17942,7 +17970,7 @@
       "#holoX"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] Protected by Kazama You can send one Yell from your archive to each of your [〈Kazuma Iroha〉 and 〈Hoshimachi Suisei〉].",
+      "keyword": "[Bloom Effect] Protected by Kazama You can send one Cheer from your archive to each of your [Kazuma Iroha and Hoshimachi Suisei].",
       "arts": "Fuma ga Slash 100+ When this Holomen has 2 or more non-green ales attached, this art +50."
     },
     "illustrator": "古弥月",
@@ -17968,7 +17996,7 @@
       "#holoX"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] Protected by Kazama You can send one Yell from your archive to each of your [〈Kazuma Iroha〉 and 〈Hoshimachi Suisei〉].",
+      "keyword": "[Bloom Effect] Protected by Kazama You can send one Cheer from your archive to each of your [Kazuma Iroha and Hoshimachi Suisei].",
       "arts": "Fuma ga Slash 100+ When this Holomen has 2 or more non-green ales attached, this art +50."
     },
     "illustrator": "古弥月",
@@ -18048,7 +18076,7 @@
       "#Baby"
     ],
     "abilities": {
-      "arts": "I asked for your support 30\nMikopee! (｀・ω・´)🌸 50 You can roll the dice once: When it's 2, 4, or 6, deal 20 special damage to the opponent's center Holomen. When it is 3 or 5, deals 20 special damage to the opponent's center Holomen and collaboration Holomen."
+      "arts": "I asked for your support 30\nMikopee! (｀・ω・´)🌸 50 You can roll the dice once: When it's 2, 4, or 6, deal 20 Special Damage to the opponent's Center Holomen. When it is 3 or 5, deal 20 Special Damage to the opponent's Center Holomen and collaboration Holomen."
     },
     "illustrator": null,
     "is_parallel": true,
@@ -30072,7 +30100,7 @@
       "#Song"
     ],
     "abilities": {
-      "keyword": "[Gift] Ray of Jewelry [Limited to Center Position/Collaboration Position] Arts +30 for all Holomen with #0 generation on your stage.",
+      "keyword": "[Gift] Ray of Jewelry [Limited to Center/Collaboration Position] Arts +30 for all Holomen with #0 generation on your stage.",
       "arts": "7th anniversary ✩°｡⋆⸜(*╹꒳ ╹* )⸝ 90"
     },
     "illustrator": "ぴ助",
@@ -30611,7 +30639,7 @@
       "#AnimalEars"
     ],
     "abilities": {
-      "arts": "That's amazing, Sakura! 40+ Roll the dice once: Archive the top card of your deck for each number rolled. After that, if you have 10 or more archives, this art +10.\nI want to come see you again next year. 70+ This art +10 for each 〈Member〉 attached to this Holomen."
+      "arts": "That's amazing, Sakura! 40+ Roll the dice once: Archive the top card of your deck for each number rolled. After that, if you have 10 or more archives, this art +10.\nI want to come see you again next year. 70+ This art +10 for each Member attached to this Holomen."
     },
     "illustrator": "tonoshi",
     "is_parallel": false,
@@ -30799,9 +30827,9 @@
       "#Song"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Business Friend If your life is 3 or less, you can use the Holomen in your hand to Bloom the center Holomen [〈Sakura Miko〉or〈Hoshimachi Suisei〉] that bloomed this turn one more time.",
-      "arts": "Business Partner 90 You can replace one of this Holomen's Yell with your own Back Holomen.",
-      "extra": "This Holomen is also treated as 〈Sakura Miko〉〈Hoshimachi Suisei〉"
+      "keyword": "[Collab Effect] Business Friend If your life is 3 or less, you can use the Holomen in your hand to Bloom the Center Holomen [Sakura MikoorHoshimachi Suisei] that bloomed this turn one more time.",
+      "arts": "Business Partner 90 You can replace one of this Holomen's Cheer with your own Back.",
+      "extra": "This Holomen is also treated as Sakura MikoHoshimachi Suisei"
     },
     "illustrator": "UIIV◇",
     "is_parallel": false,
@@ -31338,8 +31366,8 @@
       "#Bird"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] Moonlight Reveal 1 [〈Nerissa Ravencroft's Staff〉 or 〈Jailbird〉] from your deck and add it to your hand. Then shuffle the deck.",
-      "arts": "Glamorous Banquet 40 You can archive one card from your hand: Deal 20 special damage to your opponent's Center Holomen or Collaboration Holomen."
+      "keyword": "[Bloom Effect] Moonlight Reveal 1 [Nerissa Ravencroft's Staff or Jailbird] from your deck and add it to your hand. Then shuffle the deck.",
+      "arts": "Glamorous Banquet 40 You can archive one card from your hand: Deal 20 Special Damage to your opponent's Center Holomen or Collaboration Holomen."
     },
     "illustrator": "Honshin",
     "is_parallel": false,
@@ -32776,7 +32804,7 @@
       "#Song"
     ],
     "abilities": {
-      "keyword": "[Gift] Ray of Jewelry [Limited to Center Position/Collaboration Position] Arts +30 for all Holomen with #0 generation on your stage.",
+      "keyword": "[Gift] Ray of Jewelry [Limited to Center/Collaboration Position] Arts +30 for all Holomen with #0 generation on your stage.",
       "arts": "7th anniversary ✩°｡⋆⸜(*╹꒳ ╹* )⸝ 90"
     },
     "illustrator": "ぴ助",
@@ -33424,7 +33452,7 @@
       "#AnimalEars"
     ],
     "abilities": {
-      "arts": "That's amazing, Sakura! 40+ Roll the dice once: Archive the top card of your deck for each number rolled. After that, if you have 10 or more archives, this art +10.\nI want to come see you again next year. 70+ This art +10 for each 〈Member〉 attached to this Holomen."
+      "arts": "That's amazing, Sakura! 40+ Roll the dice once: Archive the top card of your deck for each number rolled. After that, if you have 10 or more archives, this art +10.\nI want to come see you again next year. 70+ This art +10 for each Member attached to this Holomen."
     },
     "illustrator": "tonoshi",
     "is_parallel": true,
@@ -33665,9 +33693,9 @@
       "#Song"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Business Friend If your life is 3 or less, you can use the Holomen in your hand to Bloom the center Holomen [〈Sakura Miko〉or〈Hoshimachi Suisei〉] that bloomed this turn one more time.",
-      "arts": "Business Partner 90 You can replace one of this Holomen's Yell with your own Back Holomen.",
-      "extra": "This Holomen is also treated as 〈Sakura Miko〉〈Hoshimachi Suisei〉"
+      "keyword": "[Collab Effect] Business Friend If your life is 3 or less, you can use the Holomen in your hand to Bloom the Center Holomen [Sakura MikoorHoshimachi Suisei] that bloomed this turn one more time.",
+      "arts": "Business Partner 90 You can replace one of this Holomen's Cheer with your own Back.",
+      "extra": "This Holomen is also treated as Sakura MikoHoshimachi Suisei"
     },
     "illustrator": "UIIV◇",
     "is_parallel": true,
@@ -34282,8 +34310,8 @@
       "#Bird"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] Moonlight Reveal 1 [〈Nerissa Ravencroft's Staff〉 or 〈Jailbird〉] from your deck and add it to your hand. Then shuffle the deck.",
-      "arts": "Glamorous Banquet 40 You can archive one card from your hand: Deal 20 special damage to your opponent's Center Holomen or Collaboration Holomen."
+      "keyword": "[Bloom Effect] Moonlight Reveal 1 [Nerissa Ravencroft's Staff or Jailbird] from your deck and add it to your hand. Then shuffle the deck.",
+      "arts": "Glamorous Banquet 40 You can archive one card from your hand: Deal 20 Special Damage to your opponent's Center Holomen or Collaboration Holomen."
     },
     "illustrator": "Honshin",
     "is_parallel": true,
@@ -37220,8 +37248,8 @@
       "#FLOW GLOW"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] If you want to make people smile, you can archive 2 Yells from your own stage: Return 1〈Torakinhi Shota〉 from your archive to your hand.",
-      "arts": "Even your own life can be sacrificed. 30 You can send the top card of your Yell deck to your <Torakinhi Shota>."
+      "keyword": "[Bloom Effect] If you want to make people smile, you can archive 2 Yells from your own stage: Return 1Torakinhi Shota from your archive to your hand.",
+      "arts": "Even your own life can be sacrificed. 30 You can send the top card of your Cheer deck to your <Torakinhi Shota>."
     },
     "illustrator": "猫山 桜梨",
     "is_parallel": false,
@@ -38279,7 +38307,7 @@
       "#Shooter"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Relaxing Night Cherry Blossom Hot Spring Date Reveal 1 [〈Asura & Rakshasa〉, 〈Demon Sword ``Asura''〉, or 〈Poyoyo〉] from your deck and add it to your hand. Then shuffle the deck.",
+      "keyword": "[Collab Effect] Relaxing Night Cherry Blossom Hot Spring Date Reveal 1 [Asura & Rakshasa, Demon Sword ``Asura'', or Poyoyo] from your deck and add it to your hand. Then shuffle the deck.",
       "arts": "Happy time after taking a bath 30 You can archive the top card of your ale deck: Draw 1 card from your deck."
     },
     "illustrator": "saino",
@@ -39462,7 +39490,7 @@
       "#Bird"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] Let's join hands Reveal 1 [〈Subarudak〉 or 〈Subatomo〉] from your deck and add it to your hand. Then shuffle the deck.",
+      "keyword": "[Bloom Effect] Let's join hands Reveal 1 [Subarudak or Subatomo] from your deck and add it to your hand. Then shuffle the deck.",
       "arts": "You can go anywhere 60+ This art +20 for each <Suba friend> attached to this Holomen."
     },
     "illustrator": "しぐれうい",
@@ -39547,8 +39575,8 @@
     ],
     "abilities": {
       "keyword": "[Collab Effect] The end of the story Reveal 1 <Oozora Subaru> from your hand and return it to the bottom of your deck: Return 1 [<Kakumaki Watame> or <Oozora Subaru>] from your archive to your hand.",
-      "arts": "I am Subaru & Watame! Yeah! ! 80 [Collaboration position only] If your favorite Holomen is <Kakumaki Watame> or <Subaru Ozora>, Yellow -1 is required for this art. If your center Holomen is the 2nd Holomen's <Kakumaki Watame>, instead, use Yellow-3, which is required for this art.",
-      "extra": "This Holomen is also treated as 〈Kakumaki Watame〉〈Oozora Subaru〉"
+      "arts": "I am Subaru & Watame! Yeah! ! 80 [Collaboration position only] If your favorite Holomen is <Kakumaki Watame> or <Subaru Ozora>, Yellow -1 is required for this art. If your Center Holomen is the 2nd Holomem's <Kakumaki Watame>, instead, use Yellow-3, which is required for this art.",
+      "extra": "This Holomen is also treated as Kakumaki WatameOozora Subaru"
     },
     "illustrator": "うえのみぎ",
     "is_parallel": false,
@@ -39842,7 +39870,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Choose one of your own [〈Kakumaki Watame〉 and 〈Oozora Subaru〉]. Send one ale from your archive to each selected Holomen. After that, during this turn, the selected Holomen's arts +20. LIMITED: Only one card can be used per turn."
+      "ability_text": "Choose one of your own [Kakumaki Watame and Oozora Subaru]. Send one ale from your archive to each selected Holomen. After that, during this turn, the selected Holomen's arts +20. LIMITED: Only one card can be used per turn."
     },
     "illustrator": "神奈ぺろん",
     "is_parallel": false,
@@ -41340,7 +41368,7 @@
       "#Shooter"
     ],
     "abilities": {
-      "keyword": "[Collab Effect] Relaxing Night Cherry Blossom Hot Spring Date Reveal 1 [〈Asura & Rakshasa〉, 〈Demon Sword ``Asura''〉, or 〈Poyoyo〉] from your deck and add it to your hand. Then shuffle the deck.",
+      "keyword": "[Collab Effect] Relaxing Night Cherry Blossom Hot Spring Date Reveal 1 [Asura & Rakshasa, Demon Sword ``Asura'', or Poyoyo] from your deck and add it to your hand. Then shuffle the deck.",
       "arts": "Happy time after taking a bath 30 You can archive the top card of your ale deck: Draw 1 card from your deck."
     },
     "illustrator": "saino",
@@ -42602,7 +42630,7 @@
       "#Bird"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] Let's join hands Reveal 1 [〈Subarudak〉 or 〈Subatomo〉] from your deck and add it to your hand. Then shuffle the deck.",
+      "keyword": "[Bloom Effect] Let's join hands Reveal 1 [Subarudak or Subatomo] from your deck and add it to your hand. Then shuffle the deck.",
       "arts": "You can go anywhere 60+ This art +20 for each <Suba friend> attached to this Holomen."
     },
     "illustrator": "しぐれうい",
@@ -42714,8 +42742,8 @@
     ],
     "abilities": {
       "keyword": "[Collab Effect] The end of the story Reveal 1 <Oozora Subaru> from your hand and return it to the bottom of your deck: Return 1 [<Kakumaki Watame> or <Oozora Subaru>] from your archive to your hand.",
-      "arts": "I am Subaru & Watame! Yeah! ! 80 [Collaboration position only] If your favorite Holomen is <Kakumaki Watame> or <Subaru Ozora>, Yellow -1 is required for this art. If your center Holomen is the 2nd Holomen's <Kakumaki Watame>, instead, use Yellow-3, which is required for this art.",
-      "extra": "This Holomen is also treated as 〈Kakumaki Watame〉〈Oozora Subaru〉"
+      "arts": "I am Subaru & Watame! Yeah! ! 80 [Collaboration position only] If your favorite Holomen is <Kakumaki Watame> or <Subaru Ozora>, Yellow -1 is required for this art. If your Center Holomen is the 2nd Holomem's <Kakumaki Watame>, instead, use Yellow-3, which is required for this art.",
+      "extra": "This Holomen is also treated as Kakumaki WatameOozora Subaru"
     },
     "illustrator": "うえのみぎ",
     "is_parallel": true,
@@ -44319,7 +44347,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Choose one of your own [〈Kakumaki Watame〉 and 〈Oozora Subaru〉]. Send one ale from your archive to each selected Holomen. After that, during this turn, the selected Holomen's arts +20. LIMITED: Only one card can be used per turn."
+      "ability_text": "Choose one of your own [Kakumaki Watame and Oozora Subaru]. Send one ale from your archive to each selected Holomen. After that, during this turn, the selected Holomen's arts +20. LIMITED: Only one card can be used per turn."
     },
     "illustrator": "神奈ぺろん",
     "is_parallel": false,
@@ -44950,7 +44978,7 @@
       "#Song"
     ],
     "abilities": {
-      "keyword": "[Gift] For Justice! -ERB- When your Holomen with #Justice goes down on your opponent's turn, send the top card of your Yell deck to this Holomen. Your gift \"For Justice! -ERB-\" can only be used once per turn.",
+      "keyword": "[Gift] For Justice! -ERB- When your Holomen with #Justice goes down on your opponent's turn, send the top card of your Cheer deck to this Holomen. Your gift \"For Justice! -ERB-\" can only be used once per turn.",
       "arts": "Lovely to See You, to See You, Lovely〜♡ 50"
     },
     "illustrator": "sena",
@@ -45958,7 +45986,7 @@
       "#Cooking"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] I wonder if it will come soon... Reveal 1 [〈Hatotaur〉 or 〈Miofa〉] from your deck and add it to your hand. Then shuffle the deck.",
+      "keyword": "[Bloom Effect] I wonder if it will come soon... Reveal 1 [Hatotaur or Miofa] from your deck and add it to your hand. Then shuffle the deck.",
       "arts": "Doesn't it look a bit stylish? 40"
     },
     "illustrator": "イマフク",
@@ -46416,7 +46444,7 @@
     ],
     "abilities": {
       "keyword": "[Collab Effect] holoRêve -Miko- Choose 3 or 5. During this turn, when you roll dice using the abilities of your favorite Holomen's Sakura Miko and your stage's Sakura Miko, treat all numbers on the dice as the selected number.",
-      "arts": "Cherry blossoms appear in flowers 70+ For each 〈35P〉 attached to this Holomen, add 70 to this art and draw 1 card from your deck."
+      "arts": "Cherry blossoms appear in flowers 70+ For each 35P attached to this Holomen, add 70 to this art and draw 1 card from your deck."
     },
     "illustrator": "うごんば",
     "is_parallel": false,
@@ -47897,7 +47925,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Return 1 <AZKi> from your archive to your hand. After that, for every ``Frontier Spirit'' in your archive, send 1 Yell from your archive to 1 AZKi in your archive. Your 〈Frontier Spirit〉 can only be used once per turn."
+      "ability_text": "Return 1 <AZKi> from your archive to your hand. After that, for every ``Frontier Spirit'' in your archive, send 1 Cheer from your archive to 1 AZKi in your archive. Your Frontier Spirit can only be used once per turn."
     },
     "illustrator": "古弥月",
     "is_parallel": false,
@@ -49153,7 +49181,7 @@
       "#Cooking"
     ],
     "abilities": {
-      "keyword": "[Bloom Effect] I wonder if it will come soon... Reveal 1 [〈Hatotaur〉 or 〈Miofa〉] from your deck and add it to your hand. Then shuffle the deck.",
+      "keyword": "[Bloom Effect] I wonder if it will come soon... Reveal 1 [Hatotaur or Miofa] from your deck and add it to your hand. Then shuffle the deck.",
       "arts": "Doesn't it look a bit stylish? 40"
     },
     "illustrator": "イマフク",
@@ -49638,7 +49666,7 @@
     ],
     "abilities": {
       "keyword": "[Collab Effect] holoRêve -Miko- Choose 3 or 5. During this turn, when you roll dice using the abilities of your favorite Holomen's Sakura Miko and your stage's Sakura Miko, treat all numbers on the dice as the selected number.",
-      "arts": "Cherry blossoms appear in flowers 70+ For each 〈35P〉 attached to this Holomen, add 70 to this art and draw 1 card from your deck."
+      "arts": "Cherry blossoms appear in flowers 70+ For each 35P attached to this Holomen, add 70 to this art and draw 1 card from your deck."
     },
     "illustrator": "うごんば",
     "is_parallel": true,
@@ -52427,7 +52455,7 @@
     "baton_pass": null,
     "tags": [],
     "abilities": {
-      "ability_text": "Return 1 <AZKi> from your archive to your hand. After that, for every ``Frontier Spirit'' in your archive, send 1 Yell from your archive to 1 AZKi in your archive. Your 〈Frontier Spirit〉 can only be used once per turn."
+      "ability_text": "Return 1 <AZKi> from your archive to your hand. After that, for every ``Frontier Spirit'' in your archive, send 1 Cheer from your archive to 1 AZKi in your archive. Your Frontier Spirit can only be used once per turn."
     },
     "illustrator": "みずあめ",
     "is_parallel": false,
