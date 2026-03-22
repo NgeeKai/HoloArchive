@@ -1534,6 +1534,7 @@ img { display: block; max-width: 100%; }
         </div>
         <span class="toolrow-label">Sort</span>
         <select id="sortSelect" onchange="applyFilters()">
+          <option value="set">Set</option>
           <option value="number">Card No.</option>
           <option value="name">Name</option>
           <option value="rarity">Rarity</option>
@@ -2035,10 +2036,32 @@ function applyFilters() {
   });
 
   const sort = document.getElementById('sortSelect').value;
+
+  // SET_ORDER defines release order for correct chronological set sorting
+  const SET_ORDER = [
+    'hBP01','hBP02','hBP03','hBP04','hBP05','hBP06','hBP07',
+    'hSD01','hSD02','hSD03','hSD04','hSD05','hSD06','hSD07',
+    'hSD08','hSD09','hSD10','hSD11','hSD12','hSD13',
+    'hBD24','hYS01','hPR',
+    'hY01','hY02','hY03','hY04','hY05','hY06',
+  ];
+
   cards.sort((a, b) => {
     if (sort === 'name')   return (a.name||'').localeCompare(b.name||'');
     if (sort === 'rarity') return RARITY_ORDER.indexOf(a.rarity) - RARITY_ORDER.indexOf(b.rarity);
     if (sort === 'hp')     return (b.hp || 0) - (a.hp || 0);
+    if (sort === 'number') return (a.card_number||'').localeCompare(b.card_number||'');
+
+    // 'set' — sort by the actual set/product the card was printed in,
+    // using set_code derived from set_name first, then card_number within that set
+    // This correctly groups reprints and promos by their actual product
+    const aSetCode = a.set_code || '';
+    const bSetCode = b.set_code || '';
+    const aIdx = SET_ORDER.indexOf(aSetCode);
+    const bIdx = SET_ORDER.indexOf(bSetCode);
+    const setDiff = (aIdx === -1 ? 999 : aIdx) - (bIdx === -1 ? 999 : bIdx);
+    if (setDiff !== 0) return setDiff;
+    // Within same set, sort by card number
     return (a.card_number||'').localeCompare(b.card_number||'');
   });
 
