@@ -1854,7 +1854,9 @@ function buildSetIndex() {
     if (!c.set_code) return;
     if (!setMap[c.set_code]) {
       setMap[c.set_code] = {
-        code: c.set_code, name: getSetName(c.set_code, c.set_name),
+        // Use product_set_code so reprints are grouped under their actual product
+    code: c.product_set_code || c.set_code,
+    name: getSetName(c.product_set_code || c.set_code, c.set_name),
         cards: 0, types: {}
       };
     }
@@ -2020,12 +2022,15 @@ function applyFilters() {
       if (filters.parallel === 'Base'     &&  isParallel) return false;
     }
     if (filters.set !== 'All') {
-      if (c.set_code !== filters.set) return false;
+      // Use product_set_code (actual product printed in) if available,
+      // otherwise fall back to set_code (from card number)
+      const cardSet = c.product_set_code || c.set_code;
+      if (cardSet !== filters.set) return false;
     }
     if (q) {
       const hay = [
         c.name, c.card_number, c.card_type, c.color, c.rarity,
-        c.set_name, c.set_code, c.bloom_level, c.illustrator,
+        c.set_name, c.set_code, c.product_set_code, c.bloom_level, c.illustrator,
         c.is_parallel ? 'parallel' : 'base',
         ...(c.tags || []),
         ...Object.values(c.abilities || {})
@@ -2037,32 +2042,52 @@ function applyFilters() {
 
   const sort = document.getElementById('sortSelect').value;
 
-  // SET_ORDER defines release order for correct chronological set sorting
+  // SET_ORDER matches the actual chronological release order from the JP site
+  // (derived from card IDs which reflect scrape order = release order)
   const SET_ORDER = [
-    'hBP01','hBP02','hBP03','hBP04','hBP05','hBP06','hBP07',
-    'hSD01','hSD02','hSD03','hSD04','hSD05','hSD06','hSD07',
-    'hSD08','hSD09','hSD10','hSD11','hSD12','hSD13',
-    'hBD24','hYS01','hPR',
-    'hY01','hY02','hY03','hY04','hY05','hY06',
+    'hSD01',                          // Start Deck Tokino Sora & AZKi
+    'hBP01',                          // Booster Pack Blooming Radiance
+    'hYS01',                          // Start Cheer Set
+    'hBD24',                          // Birthday Deck 2024
+    'hBP02',                          // Booster Pack Quintet Spectrum
+    'hSD02','hSD03','hSD04',          // Start Decks (Red/Blue/Purple)
+    'hSD05','hSD06','hSD07',          // Start Decks (White/Green/Yellow)
+    'hBP03',                          // Booster Pack Elite Spark
+    'hBP04',                          // Booster Pack Curious Universe
+    'hSD08','hSD09',                  // Start Decks (Kanata/Marine)
+    'hBP05',                          // Booster Pack Ayakashi Vermillion
+    'hSD10','hSD11',                  // Start Decks FLOW GLOW
+    'hBP06',                          // Booster Pack Diva Fever
+    'hSD12','hSD13',                  // Start Decks (Advent/Justice)
+    'hBP07',                          // Booster Pack Enchant Regalia
+    'hPR',                            // Promo Cards
+    'hY01','hY02','hY03','hY04','hY05','hY06', // Cheer sets
   ];
+
+  const RARITY_SORT = { 'C':0,'OC':1,'U':2,'R':3,'RR':4,'HR':5,'SR':6,'OSR':7,'S':8,'SY':9,'P':10,'OUR':11,'UR':12,'SEC':13 };
 
   cards.sort((a, b) => {
     if (sort === 'name')   return (a.name||'').localeCompare(b.name||'');
-    if (sort === 'rarity') return RARITY_ORDER.indexOf(a.rarity) - RARITY_ORDER.indexOf(b.rarity);
+    if (sort === 'rarity') {
+      const rDiff = (RARITY_SORT[a.rarity]??99) - (RARITY_SORT[b.rarity]??99);
+      if (rDiff !== 0) return rDiff;
+      return (a.card_number||'').localeCompare(b.card_number||'');
+    }
     if (sort === 'hp')     return (b.hp || 0) - (a.hp || 0);
     if (sort === 'number') return (a.card_number||'').localeCompare(b.card_number||'');
 
-    // 'set' — sort by the actual set/product the card was printed in,
-    // using set_code derived from set_name first, then card_number within that set
-    // This correctly groups reprints and promos by their actual product
-    const aSetCode = a.set_code || '';
-    const bSetCode = b.set_code || '';
-    const aIdx = SET_ORDER.indexOf(aSetCode);
-    const bIdx = SET_ORDER.indexOf(bSetCode);
+    // Default: 'set' — sort by actual product release order
+    // then by card number within the set
+    // then by rarity (base prints before parallels)
+    // Use product_set_code for sort — correctly places reprints in their actual set
+    const aIdx = SET_ORDER.indexOf(a.product_set_code || a.set_code || '');
+    const bIdx = SET_ORDER.indexOf(b.product_set_code || b.set_code || '');
     const setDiff = (aIdx === -1 ? 999 : aIdx) - (bIdx === -1 ? 999 : bIdx);
     if (setDiff !== 0) return setDiff;
-    // Within same set, sort by card number
-    return (a.card_number||'').localeCompare(b.card_number||'');
+    const numDiff = (a.card_number||'').localeCompare(b.card_number||'');
+    if (numDiff !== 0) return numDiff;
+    // Same card number — base print before parallel
+    return (RARITY_SORT[a.rarity]??99) - (RARITY_SORT[b.rarity]??99);
   });
 
   const hasFilters = Object.values(filters).some(v => v !== 'All') || searchQuery;
