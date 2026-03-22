@@ -254,6 +254,17 @@ img { display: block; max-width: 100%; }
 #inlineClearSearch:hover { color: var(--text); }
 
 /* ── Toolrow ─────────────────────────────────────────────────────── */
+#toolbarLogo {
+  width: 36px; height: 36px; flex-shrink: 0;
+  background: linear-gradient(135deg, #005fa3, #00d4ff);
+  border-radius: 10px; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.15s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+#toolbarLogo:hover { opacity: 0.85; transform: scale(0.96); }
+#toolbarLogo svg { width: 20px; height: 20px; }
+
 #toolrow {
   display: flex; align-items: center; gap: 8px;
   margin-bottom: 12px; flex-wrap: wrap;
@@ -293,6 +304,19 @@ img { display: block; max-width: 100%; }
 .filter-bar-divider {
   width: 1px; height: 20px; background: var(--border2); flex-shrink: 0; margin: 0 4px;
 }
+.filter-bar-active {
+  font-size: 11px; color: var(--accent); font-weight: 600;
+  white-space: nowrap; padding: 2px 8px;
+  background: rgba(0,168,232,0.1); border-radius: 99px;
+  border: 1px solid rgba(0,168,232,0.2);
+}
+#filterResetBtn {
+  font-size: 11px; color: var(--text3); background: none;
+  border: 1px solid var(--border); border-radius: 99px;
+  padding: 3px 10px; cursor: pointer; font-family: var(--font);
+  white-space: nowrap; transition: all 0.15s; flex-shrink: 0;
+}
+#filterResetBtn:hover { color: var(--text); border-color: var(--text3); }
 
 /* ── Result summary ──────────────────────────────────────────────── */
 #resultSummary {
@@ -1401,51 +1425,7 @@ img { display: block; max-width: 100%; }
 <!-- ── Layout ────────────────────────────────────────────────────────── -->
 <div id="layout">
 
-  <!-- Sidebar -->
-  <aside id="sidebar">
 
-    <div class="filter-group">
-      <div class="filter-label">Card Type</div>
-      <div class="filter-pills" id="typePills"></div>
-    </div>
-
-    <div class="sidebar-divider"></div>
-
-    <div class="filter-group">
-      <div class="filter-label">Color</div>
-      <div class="filter-pills" id="colorPills"></div>
-    </div>
-
-    <div class="sidebar-divider"></div>
-
-    <div class="filter-group">
-      <div class="filter-label">Rarity</div>
-      <div class="filter-pills" id="rarityPills"></div>
-    </div>
-
-    <div class="sidebar-divider"></div>
-
-    <div class="filter-group">
-      <div class="filter-label">Bloom Level</div>
-      <div class="filter-pills" id="bloomPills"></div>
-    </div>
-
-    <div class="sidebar-divider"></div>
-
-    <div class="filter-group">
-      <div class="filter-label">Print</div>
-      <div class="filter-pills" id="parallelPills"></div>
-    </div>
-
-    <div class="sidebar-divider"></div>
-
-    <div class="filter-group">
-      <div class="filter-label">Set</div>
-      <div class="filter-pills" id="setPills"></div>
-    </div>
-
-    <div id="resultCount">— cards</div>
-  </aside>
 
   <!-- Main -->
   <main id="main">
@@ -1534,8 +1514,16 @@ img { display: block; max-width: 100%; }
 
     <!-- Card View -->
     <div id="cardView">
-      <!-- Toolrow: search + sort + view -->
+      <!-- Toolrow: logo + search + sort + view -->
       <div id="toolrow">
+        <button id="toolbarLogo" onclick="switchView('home')" title="Home">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 10.5C5 9 6 8 7.5 8L15.2 9L15.2 23L7.5 22C6 22 5 21 5 19.5Z" fill="white" fill-opacity="0.95"/>
+            <path d="M27 10.5C27 9 26 8 24.5 8L16.8 9L16.8 23L24.5 22C26 22 27 21 27 19.5Z" fill="white" fill-opacity="0.7"/>
+            <line x1="16" y1="8.5" x2="16" y2="23" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M26,5 L26.8,7 L29,7 L27.2,8.5 L28,10.5 L26,9 L24,10.5 L24.8,8.5 L23,7 L25.2,7 Z" fill="white" fill-opacity="0.9"/>
+          </svg>
+        </button>
         <div id="inlineSearchWrap">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
             <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/>
@@ -1572,34 +1560,38 @@ img { display: block; max-width: 100%; }
 
       <!-- Filter bar: all filter pills in one horizontal row -->
       <div id="filterBar">
+        <span id="filterCount" class="filter-bar-active" style="display:none"></span>
+        <button id="filterResetBtn" onclick="resetFilters()" style="display:none">
+          Clear filters ×
+        </button>
         <div class="filter-bar-group">
           <span class="filter-bar-label">Type</span>
-          <div class="filter-pills" id="typePills"></div>
+          <div class="filter-pills" id="barTypePills"></div>
         </div>
         <div class="filter-bar-divider"></div>
         <div class="filter-bar-group">
           <span class="filter-bar-label">Color</span>
-          <div class="filter-pills" id="colorPills"></div>
+          <div class="filter-pills" id="barColorPills"></div>
         </div>
         <div class="filter-bar-divider"></div>
         <div class="filter-bar-group">
           <span class="filter-bar-label">Rarity</span>
-          <div class="filter-pills" id="rarityPills"></div>
+          <div class="filter-pills" id="barRarityPills"></div>
         </div>
         <div class="filter-bar-divider"></div>
         <div class="filter-bar-group">
           <span class="filter-bar-label">Bloom</span>
-          <div class="filter-pills" id="bloomPills"></div>
+          <div class="filter-pills" id="barBloomPills"></div>
         </div>
         <div class="filter-bar-divider"></div>
         <div class="filter-bar-group">
           <span class="filter-bar-label">Print</span>
-          <div class="filter-pills" id="parallelPills"></div>
+          <div class="filter-pills" id="barParallelPills"></div>
         </div>
         <div class="filter-bar-divider"></div>
         <div class="filter-bar-group">
           <span class="filter-bar-label">Set</span>
-          <div class="filter-pills" id="setPills"></div>
+          <div class="filter-pills" id="barSetPills"></div>
         </div>
       </div>
 
@@ -1939,12 +1931,12 @@ function buildFilterPills() {
   const sets      = ['All', ...ALL_SETS.map(s => s.code)];
 
   // Sidebar (desktop)
-  makePills('typePills',   types,    'type',   v => v);
-  makePills('colorPills',  colors,   'color',  v => v, true);
-  makePills('rarityPills', rarities, 'rarity', v => v);
-  makePills('bloomPills',    blooms,    'bloom',    v => v);
-  makePills('parallelPills', parallels, 'parallel', v => v);
-  makePills('setPills',      sets,      'set',      v => v);
+  makePills('barTypePills',   types,    'type',   v => v);
+  makePills('barColorPills',  colors,   'color',  v => v, true);
+  makePills('barRarityPills', rarities, 'rarity', v => v);
+  makePills('barBloomPills',    blooms,    'bloom',    v => v);
+  makePills('barParallelPills', parallels, 'parallel', v => v);
+  makePills('barSetPills',      sets,      'set',      v => v);
 
   // Drawer (mobile/tablet) — same content, separate elements
   makePills('drawerTypePills',    types,    'type',    v => v);
@@ -1959,13 +1951,25 @@ function buildFilterPills() {
 
 function updateFilterCount() {
   const active = Object.values(filters).filter(v => v !== 'All').length;
+
+  // Filter bar indicator
   const badge = document.getElementById('filterCount');
-  const dot = document.getElementById('filterActiveDot');
+  const resetBtn = document.getElementById('filterResetBtn');
   if (badge) {
-    badge.textContent = active;
-    badge.classList.toggle('visible', active > 0);
+    badge.textContent = `${active} filter${active !== 1 ? 's' : ''} active`;
+    badge.style.display = active > 0 ? '' : 'none';
   }
+  if (resetBtn) resetBtn.style.display = active > 0 ? '' : 'none';
+
+  // Mobile bottom nav dot
+  const dot = document.getElementById('filterActiveDot');
   if (dot) dot.style.opacity = active > 0 ? '1' : '0';
+}
+
+function resetFilters() {
+  filters = { type: 'All', color: 'All', rarity: 'All', bloom: 'All', set: 'All', parallel: 'All' };
+  buildFilterPills();
+  applyFilters();
 }
 
 function makePills(containerId, values, filterKey, labelFn, isColor=false) {
@@ -2231,6 +2235,7 @@ function filterBySet(code) {
 // ── View switching ───────────────────────────────────────────────────
 // Track whether this is the very first view load
 let _historyReady = false;
+let _previousView = 'home'; // track which view opened card detail
 
 function switchView(v, opts = {}) {
   currentView = v;
@@ -2244,17 +2249,9 @@ function switchView(v, opts = {}) {
   document.getElementById('cardView').classList.toggle('hidden', v !== 'cards');
   document.getElementById('setsView').classList.toggle('active', v === 'sets');
 
-  // Sidebar only on cards view
-  document.getElementById('sidebar').style.display = v === 'cards' ? '' : 'none';
-
   // (search is now inline in cards view — no topbar search to toggle)
 
-  // Topbar nav (desktop)
-  document.getElementById('btnHome').classList.toggle('active',  v === 'home');
-  document.getElementById('btnCards').classList.toggle('active', v === 'cards');
-  document.getElementById('btnSets').classList.toggle('active',  v === 'sets');
-
-  // Bottom nav (mobile)
+  // Bottom nav
   document.getElementById('bnHome').classList.toggle('active',  v === 'home');
   document.getElementById('bnCards').classList.toggle('active', v === 'cards');
   document.getElementById('bnSets').classList.toggle('active',  v === 'sets');
@@ -2482,7 +2479,6 @@ function _renderCardDetail(card) {
   document.getElementById('homeView').style.display  = 'none';
   document.getElementById('cardView').classList.add('hidden');
   document.getElementById('setsView').classList.remove('active');
-  document.getElementById('sidebar').style.display   = 'none';
   document.getElementById('cardDetailView').classList.add('active');
 
   // Update page title and meta for SEO/sharing
@@ -2833,12 +2829,20 @@ async function init() {
     buildFilterPills();
     buildSetsView();
 
-    // Check if URL has a card deep-link
+    // Check URL params for deep links
     const params = new URLSearchParams(window.location.search);
     const deepCardId = params.get('id');
+    const deepView   = params.get('view');
+
     if (deepCardId) {
       const card = ALL_CARDS.find(c => String(c.id) === deepCardId);
       if (card) { _renderCardDetail(card); return; }
+    }
+
+    if (deepView === 'cards' || deepView === 'sets') {
+      window.history.replaceState({ type: 'view', view: deepView }, '', window.location.href);
+      switchView(deepView, { replace: true });
+      return;
     }
 
     // Push initial state so popstate has something to pop back to
