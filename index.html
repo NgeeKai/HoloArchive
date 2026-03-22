@@ -2346,6 +2346,10 @@ function _restorePrevView(state) {
 }
 
 function _renderCardDetail(card) {
+  // Scroll to top FIRST before any DOM changes — prevents flash to bottom
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+
   // Hide all other views, show detail
   document.getElementById('homeView').style.display  = 'none';
   document.getElementById('cardView').classList.add('hidden');
@@ -2483,14 +2487,10 @@ function _renderCardDetail(card) {
   document.getElementById('cardDetailFooter').innerHTML = footerParts
     .map(p => `<div>${p}</div>`).join('');
 
-  // Update nav state — show card detail as active in bottom nav
-  // Highlight the nav button that was previously active (came from cards/sets/home)
+  // Update nav state
   document.getElementById('bnHome').classList.toggle('active',  _previousView === 'home');
   document.getElementById('bnCards').classList.toggle('active', _previousView === 'cards');
   document.getElementById('bnSets').classList.toggle('active',  _previousView === 'sets');
-
-  // Scroll to top
-  window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 // Handle browser back/forward buttons
