@@ -87,7 +87,7 @@
   <line x1="80" y1="450" x2="680" y2="450" stroke="rgba(0,168,232,0.18)" stroke-width="1"/>
 
   <!-- Tagline with today's date -->
-  <text x="80" y="490" font-family="system-ui,sans-serif" font-size="18" fill="rgba(255,255,255,0.45)">Last updated March 22, 2026 &#8212; data from the official hololive OCG site</text>
+  <text x="80" y="490" font-family="system-ui,sans-serif" font-size="18" fill="rgba(255,255,255,0.45)">Last updated March 23, 2026 &#8212; data from the official hololive OCG site</text>
 
   <!-- Footer -->
   <rect y="590" width="1200" height="40" fill="rgba(0,168,232,0.07)"/>
