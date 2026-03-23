@@ -123,6 +123,8 @@ JP_SET_NAME_MAP = {
     'スタートデッキ 推し Justice':                   'Start Deck – Oshi Justice',
     'ブースターパック「ディーヴァフィーバー」':       'Booster Pack – Diva Fever',
     'PRカード':                                      'Promo Cards',
+    '【hololive production OFFICIAL SHOP限定】hololive OFFICIAL CARD GAME 1st Anniversary Celebration Set':  '【hololive production OFFICIAL SHOP限定】hololive OFFICIAL CARD GAME 1st Anniversary Celebration Set',  # AUTO-ADDED
+    '【イベント物販／hololive production OFFICIAL SHOP限定商品】オフィシャルホロカコレクション-PCセット-':  '【イベント物販／hololive production OFFICIAL SHOP限定商品】オフィシャルホロカコレクション-PCセット-',  # AUTO-ADDED
 }
 
 # English set name → set code
