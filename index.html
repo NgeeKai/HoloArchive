@@ -1855,23 +1855,69 @@ function showSkeletons(count = 20) {
 
 
 
+// ── Set name → code lookup (used to derive correct product set from set_name field)
+const SET_NAME_TO_CODE = {
+  'Start Deck – Tokino Sora & AZKi':   'hSD01',
+  'Booster Pack – Blooming Radiance':   'hBP01',
+  'Start Cheer Set':                    'hYS01',
+  'Birthday Deck 2024':                 'hBD24',
+  'Booster Pack – Quintet Spectrum':    'hBP02',
+  'Start Deck – Red Nakiri Ayame':      'hSD02',
+  'Start Deck – Blue Nekomata Okayu':   'hSD03',
+  'Start Deck – Purple Yuzuki Choco':   'hSD04',
+  'Start Deck – White Todoroki':        'hSD05',
+  'Start Deck – Green Kazama Iroha':    'hSD06',
+  'Start Deck – Yellow Shiranui Flare': 'hSD07',
+  'Booster Pack – Elite Spark':         'hBP03',
+  'Booster Pack – Curious Universe':    'hBP04',
+  'Start Deck – White Amane Kanata':    'hSD08',
+  'Start Deck – Red Houshou Marine':    'hSD09',
+  'Booster Pack – Enchant Regalia':     'hBP05',
+  'Start Deck – Rindo Chihaya':         'hSD10',
+  'Start Deck – Koganei Niko':          'hSD11',
+  'Booster Pack – Ayakashi Vermillion': 'hBP06',
+  'Start Deck – Oshi Advent':           'hSD12',
+  'Start Deck – Oshi Justice':          'hSD13',
+  'Booster Pack – Diva Fever':          'hBP07',
+  'Promo Cards':                        'hPR',
+};
+
+function getProductSetCode(card) {
+  // Priority 1: set_name field (most accurate — catches reprints)
+  if (card.set_name && SET_NAME_TO_CODE[card.set_name]) return SET_NAME_TO_CODE[card.set_name];
+  // Priority 2: product_set_code field (pre-computed by scraper)
+  if (card.product_set_code) return card.product_set_code;
+  // Priority 3: P rarity = promo (hBD24 exception — uses P for its own cards)
+  if (card.rarity === 'P' && card.set_code !== 'hBD24') return 'hPR';
+  // Fallback: set_code from card number
+  return card.set_code || '';
+}
+
 function buildSetIndex() {
   const setMap = {};
   ALL_CARDS.forEach(c => {
-    if (!c.set_code) return;
-    if (!setMap[c.set_code]) {
-      setMap[c.set_code] = {
-        // Use product_set_code so reprints are grouped under their actual product
-    code: c.product_set_code || c.set_code,
-    name: getSetName(c.product_set_code || c.set_code, c.set_name),
-        cards: 0, types: {}
-      };
+    const key = getProductSetCode(c);
+    if (!key) return;
+    if (!setMap[key]) {
+      setMap[key] = { code: key, name: getSetName(key, c.set_name), cards: 0, types: {} };
     }
-    setMap[c.set_code].cards++;
+    setMap[key].cards++;
     const t = normalizeType(c.card_type);
-    setMap[c.set_code].types[t] = (setMap[c.set_code].types[t] || 0) + 1;
+    setMap[key].types[t] = (setMap[key].types[t] || 0) + 1;
   });
-  ALL_SETS = Object.values(setMap).sort((a,b) => a.code.localeCompare(b.code));
+  const SET_ORDER_IDX = [
+    'hSD01','hBP01','hYS01','hBD24','hBP02',
+    'hSD02','hSD03','hSD04','hSD05','hSD06','hSD07',
+    'hBP03','hBP04','hSD08','hSD09','hBP05',
+    'hSD10','hSD11','hBP06','hSD12','hSD13','hBP07',
+    'hPR','hY01','hY02','hY03','hY04','hY05','hY06',
+  ];
+  ALL_SETS = Object.values(setMap).sort((a, b) => {
+    const ai = SET_ORDER_IDX.indexOf(a.code), bi = SET_ORDER_IDX.indexOf(b.code);
+    if (ai === -1 && bi === -1) return a.code.localeCompare(b.code);
+    if (ai === -1) return 1; if (bi === -1) return -1;
+    return ai - bi;
+  });
 }
 
 // ── Normalizers ──────────────────────────────────────────────────────
@@ -2029,9 +2075,7 @@ function applyFilters() {
       if (filters.parallel === 'Base'     &&  isParallel) return false;
     }
     if (filters.set !== 'All') {
-      // Use product_set_code (actual product printed in) if available,
-      // otherwise fall back to set_code (from card number)
-      const cardSet = c.product_set_code || c.set_code;
+      const cardSet = getProductSetCode(c);
       if (cardSet !== filters.set) return false;
     }
     if (q) {
@@ -2086,9 +2130,8 @@ function applyFilters() {
     // Default: 'set' — sort by actual product release order
     // then by card number within the set
     // then by rarity (base prints before parallels)
-    // Use product_set_code for sort — correctly places reprints in their actual set
-    const aIdx = SET_ORDER.indexOf(a.product_set_code || a.set_code || '');
-    const bIdx = SET_ORDER.indexOf(b.product_set_code || b.set_code || '');
+    const aIdx = SET_ORDER.indexOf(getProductSetCode(a));
+    const bIdx = SET_ORDER.indexOf(getProductSetCode(b));
     const setDiff = (aIdx === -1 ? 999 : aIdx) - (bIdx === -1 ? 999 : bIdx);
     if (setDiff !== 0) return setDiff;
     const numDiff = (a.card_number||'').localeCompare(b.card_number||'');
@@ -2262,7 +2305,7 @@ function buildSetsView() {
   }
   grid.innerHTML = ALL_SETS.map(s => {
     const icon = SET_ICONS[s.code] || '📦';
-    const rareCnt = ALL_CARDS.filter(c => c.set_code === s.code && ['SR','OSR','RR','SEC','UR','OUR'].includes(c.rarity)).length;
+    const rareCnt = ALL_CARDS.filter(c => getProductSetCode(c) === s.code && ['SR','OSR','RR','SEC','UR','OUR'].includes(c.rarity)).length;
     return `<div class="set-card" onclick="filterBySet('${escHtml(s.code)}')">
       <div class="set-card-header">
         <div class="set-icon" style="background:rgba(0,168,232,0.12)">${icon}</div>
@@ -2576,7 +2619,7 @@ function _renderCardDetail(card) {
   const labeledFields = [];
   if (card.card_type) labeledFields.push(['Card Type', MODAL_TYPE_LABELS[card.card_type] || card.card_type]);
   if (card.rarity)    labeledFields.push(['Rarity', card.rarity]);
-  const setName = getSetName(card.set_code, card.set_name);
+  const setName = getSetName(getProductSetCode(card), card.set_name);
   if (setName)        labeledFields.push(['Card Set', setName]);
 
   document.getElementById('cardDetailFields').innerHTML = labeledFields
@@ -2736,7 +2779,7 @@ function openModal(card) {
   const labeledFields = [];
   if (card.card_type) labeledFields.push(['Card Type', MODAL_TYPE_LABELS[card.card_type] || card.card_type]);
   if (card.rarity)    labeledFields.push(['Rarity', card.rarity]);
-  const setName = getSetName(card.set_code, card.set_name);
+  const setName = getSetName(getProductSetCode(card), card.set_name);
   if (setName)        labeledFields.push(['Card Set', setName]);
 
   document.getElementById('modalFields').innerHTML = labeledFields
