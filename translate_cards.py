@@ -172,13 +172,9 @@ def lookup_name(jp_name):
         if jp_name.startswith(jp) and len(jp) > 3:
             suffix = jp_name[len(jp):].strip()
             if suffix:
-                # Translate suffix if it's Japanese, keep if it's already EN
+                # Translate suffix if it's Japanese
                 if is_japanese(suffix):
-                    try:
-                        suffix = translator.translate(suffix)
-                        time.sleep(DELAY)
-                    except Exception:
-                        pass
+                    suffix = _gt_translate(suffix) or suffix
                 return f"{en} {suffix}".strip()
     return None  # not found — fall back to Google Translate
 
