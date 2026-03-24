@@ -123,8 +123,6 @@ JP_SET_NAME_MAP = {
     'スタートデッキ 推し Justice':                   'Start Deck – Oshi Justice',
     'ブースターパック「ディーヴァフィーバー」':       'Booster Pack – Diva Fever',
     'PRカード':                                      'Promo Cards',
-    '【hololive production OFFICIAL SHOP限定】hololive OFFICIAL CARD GAME 1st Anniversary Celebration Set':  '【hololive production OFFICIAL SHOP限定】hololive OFFICIAL CARD GAME 1st Anniversary Celebration Set',  # AUTO-ADDED
-    '【イベント物販／hololive production OFFICIAL SHOP限定商品】オフィシャルホロカコレクション-PCセット-':  '【イベント物販／hololive production OFFICIAL SHOP限定商品】オフィシャルホロカコレクション-PCセット-',  # AUTO-ADDED
     # ── Promo specific sources ──────────────────────────────────────────
     '月例大会パック Vol.1':                          'Monthly Tournament Pack Vol.1',
     '月例大会パック Vol.2':                          'Monthly Tournament Pack Vol.2',
@@ -383,64 +381,57 @@ def parse_card(html, card_id, url):
     # ── Baton pass ─────────────────────────────────────────────────────
     baton_pass = (fields.get("Baton Pass") or "").strip() or None
 
-    # ── Set name ───────────────────────────────────────────────────────
-    # Primary: 収録商品 from the top <dl>
+    # ── Set name & product set codes ───────────────────────────────────
+    # 収録商品 field can contain multiple products space-separated, e.g.:
+    # "ブースターパック「ブルーミングレディアンス」 スタートデッキ「ときのそら＆AZKi」"
+    # This means the card genuinely appears in ALL those sets.
     raw_set_name = (fields.get("Card Set") or "").strip()
 
-    # The JP site sometimes prepends event eligibility banners to the product name:
-    # e.g. "【使用可能カード】エントリーカップ「アヤカシヴァーミリオン」 ブースターパック「アヤカシヴァーミリオン」"
-    # Strip all 【...】 prefixes to get the actual product name, then try each
-    # segment in case there are multiple products listed (take the last one = most specific)
-    def extract_product_name(raw):
-        """Strip event/promo prefixes, return the actual product name."""
-        # Remove all 【...】 bracketed event prefixes
+    # Strip event eligibility prefixes: 【使用可能カード】エントリーカップ「xxx」
+    cleaned_set_name = re.sub(r'【[^】]*】\s*', '', raw_set_name).strip()
+
+    # Parse ALL product codes from the field (longest match first to avoid partial matches)
+    def parse_all_set_codes_from_raw(raw):
+        """Extract all set codes from a raw 収録商品 string."""
         cleaned = re.sub(r'【[^】]*】\s*', '', raw).strip()
-        # If multiple products listed (space-separated JP), take the last one
-        # e.g. "スタートデッキ FLOW GLOW 推し 輪堂千速 スタートデッキ FLOW GLOW 推し 虎金妃笑虎"
-        # Try to match known product names within the string
+        found_codes = []
+        remaining = cleaned
         for jp_key in sorted(JP_SET_NAME_MAP.keys(), key=len, reverse=True):
-            if jp_key in cleaned:
-                return jp_key
-        return cleaned if cleaned else raw
+            if jp_key in remaining:
+                en_name = JP_SET_NAME_MAP[jp_key]
+                code = SET_NAME_TO_CODE.get(en_name)
+                if code and code not in found_codes:
+                    found_codes.append(code)
+                remaining = remaining.replace(jp_key, '')
+        return found_codes
 
-    product_name = extract_product_name(raw_set_name) if raw_set_name else ''
-    set_name = JP_SET_NAME_MAP.get(product_name) or JP_SET_NAME_MAP.get(raw_set_name) or (product_name if product_name else None)
-
-    # For promo cards (rarity P), the <dl> says "PRカード" which is too generic.
-    # The page has a ## 収録商品 section below with the specific product name.
-    # Scrape that to get the actual source (e.g. "月例大会パック Vol.1", "月刊ブシロード2024年11月号").
-    if raw_set_name == 'PRカード' or (not raw_set_name and set_code != 'hBD24'):
-        # Look for the featured products section heading
-        for h2 in soup.find_all(['h2', 'h3']):
-            if '収録商品' in h2.get_text():
-                # The product name is usually in the next sibling block or dt/dd after this h2
-                # Walk forward siblings to find product name text
-                for sib in h2.find_next_siblings(['p', 'dl', 'div', 'section'])[:3]:
-                    text = sib.get_text(' ', strip=True)
-                    text = re.sub(r'\s+', ' ', text).strip()
-                    # Skip release date lines and generic labels
-                    if text and len(text) > 3 and '発売日' not in text and text not in ('Boosters','Decks','Events','PR'):
-                        # Map to English if we know it, otherwise keep JP
-                        specific = JP_SET_NAME_MAP.get(text) or text
-                        if specific and specific != 'Promo Cards' and specific != set_name:
-                            set_name = specific
-                        break
-                break
-
-    # ── Product set code ───────────────────────────────────────────────
-    # Priority 1: set_code = hBD24 always wins (Birthday Deck uses P rarity for its own cards)
-    # Priority 2: set_name → code map (catches reprints correctly)
-    # Priority 3: P rarity = promo
-    # Priority 4: fall back to set_code from card number
     if set_code == 'hBD24':
-        product_set_code = 'hBD24'
+        # Birthday Deck — always hBD24 regardless of set_name
+        product_set_codes = ['hBD24']
         set_name = 'Birthday Deck 2024'
-    elif set_name and set_name in SET_NAME_TO_CODE:
-        product_set_code = SET_NAME_TO_CODE[set_name]
-    elif rarity == 'P':
-        product_set_code = 'hPR'
+    elif cleaned_set_name:
+        product_set_codes = parse_all_set_codes_from_raw(cleaned_set_name)
+        if not product_set_codes:
+            # Direct EN lookup (already translated field)
+            code = SET_NAME_TO_CODE.get(cleaned_set_name)
+            if code:
+                product_set_codes = [code]
+            elif rarity == 'P':
+                product_set_codes = ['hPR']
+            else:
+                product_set_codes = [set_code] if set_code else []
+        # set_name = primary set (first one found)
+        code_to_en = {v: k for k, v in SET_NAME_TO_CODE.items()}
+        set_name = code_to_en.get(product_set_codes[0]) if product_set_codes else cleaned_set_name
     else:
-        product_set_code = set_code
+        if rarity == 'P':
+            product_set_codes = ['hPR']
+        else:
+            product_set_codes = [set_code] if set_code else []
+        set_name = None
+
+    # Single product_set_code = primary (first) set for backwards compatibility
+    product_set_code = product_set_codes[0] if product_set_codes else set_code
 
     # ── Illustrator (never translated) ────────────────────────────────
     illustrator = (fields.get("Illustrator") or "").strip() or None
@@ -480,11 +471,12 @@ def parse_card(html, card_id, url):
     is_parallel = rarity in PARALLEL_RARITIES if rarity else False
 
     return {
-        "id":               card_id,
-        "card_number":      card_number,
-        "set_code":         set_code,
-        "product_set_code": product_set_code,
-        "set_name":         set_name,
+        "id":                card_id,
+        "card_number":       card_number,
+        "set_code":          set_code,
+        "product_set_code":  product_set_code,   # primary set (backwards compat)
+        "product_set_codes": product_set_codes,  # all sets this card appears in
+        "set_name":          set_name,
         "name":             name,
         "card_type":        card_type,
         "rarity":           rarity,
