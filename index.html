@@ -446,7 +446,7 @@ img { display: block; max-width: 100%; }
 
 .sets-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 14px;
 }
 .set-card {
@@ -767,8 +767,8 @@ img { display: block; max-width: 100%; }
   overscroll-behavior: contain;
 }
 #filterDrawerBody .filter-group { display: flex; flex-direction: column; gap: 10px; }
-#filterDrawerBody .filter-pills { gap: 7px; }
-#filterDrawerBody .pill { height: 32px; padding: 0 14px; font-size: 13px; }
+#filterDrawerBody .filter-pills { gap: 8px; }
+#filterDrawerBody .pill { min-height: 44px; padding: 0 16px; font-size: 13px; display: flex; align-items: center; }
 
 /* ── Bottom nav bar (mobile only) ─────────────────────────────── */
 #bottomNav {
@@ -1014,7 +1014,7 @@ img { display: block; max-width: 100%; }
   #bottomNav {
     height: calc(52px + env(safe-area-inset-bottom));
   }
-  .bottom-nav-btn { font-size: 9px; gap: 2px; }
+  .bottom-nav-btn { font-size: 10px; gap: 2px; }
   .bottom-nav-btn svg { width: 20px; height: 20px; }
 }
 
@@ -1037,7 +1037,7 @@ img { display: block; max-width: 100%; }
   /* Remove hover effects — use active states instead */
   .pill { min-height: 36px; padding: 0 14px; }
   .card-tile:hover { transform: none; border-color: var(--border); box-shadow: none; }
-  .card-tile:active { transform: scale(0.97); border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+  .card-tile:active { transform: scale(0.97); border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); transition: transform 0.08s; }
   .set-card:hover { transform: none; border-color: var(--border); }
   .set-card:active { transform: scale(0.98); border-color: var(--accent); }
   .home-set-card:hover { transform: none; border-color: var(--border); }
@@ -1221,7 +1221,10 @@ img { display: block; max-width: 100%; }
   #homeTitle { font-size: 28px; }
   #homeLogoMark { width: 40px; height: 40px; border-radius: 11px; }
   #homeLogoMark svg { width: 22px; height: 22px; }
-  #homeSearchInput { font-size: 14px; }
+  #homeSearchInput { font-size: 16px; }
+  #homeSearchWrap { padding: 10px 12px; }
+  #homeSearchBtn { padding: 8px 14px; min-height: 44px; }
+  .home-action-btn { min-height: 44px; padding: 10px 14px; }
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -1399,7 +1402,7 @@ img { display: block; max-width: 100%; }
   #cardDetailStats { padding: 10px 12px; gap: 6px; }
   .cd-stat-label { font-size: 10px; padding: 3px 8px; }
   .cd-stat-val { font-size: 12px; }
-  #cardDetailBack { font-size: 12px; padding: 6px 12px; }
+  #cardDetailBack { font-size: 12px; padding: 10px 14px; min-height: 44px; }
   #cardDetailOfficialLink { font-size: 11px; padding: 6px 10px; }
   #cardDetailFooter { font-size: 11px; }
 }
