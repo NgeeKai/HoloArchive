@@ -1882,28 +1882,42 @@ const SET_NAME_TO_CODE = {
   'Promo Cards':                        'hPR',
 };
 
+function getProductSetCodes(card) {
+  // Return array of all sets this card appears in
+  // Priority 1: product_set_codes array (new field from re-scrape)
+  if (Array.isArray(card.product_set_codes) && card.product_set_codes.length) {
+    return card.product_set_codes;
+  }
+  // Priority 2: set_name field
+  if (card.set_name && SET_NAME_TO_CODE[card.set_name]) return [SET_NAME_TO_CODE[card.set_name]];
+  // Priority 3: product_set_code single field
+  if (card.product_set_code) return [card.product_set_code];
+  // Priority 4: P rarity = promo (hBD24 exception)
+  if (card.rarity === 'P' && card.set_code !== 'hBD24') return ['hPR'];
+  if (card.set_code === 'hBD24') return ['hBD24'];
+  // Fallback
+  return card.set_code ? [card.set_code] : [];
+}
+
+// Keep single-value helper for sorting (use first/primary set)
 function getProductSetCode(card) {
-  // Priority 1: set_name field (most accurate — catches reprints)
-  if (card.set_name && SET_NAME_TO_CODE[card.set_name]) return SET_NAME_TO_CODE[card.set_name];
-  // Priority 2: product_set_code field (pre-computed by scraper)
-  if (card.product_set_code) return card.product_set_code;
-  // Priority 3: P rarity = promo (hBD24 exception — uses P for its own cards)
-  if (card.rarity === 'P' && card.set_code !== 'hBD24') return 'hPR';
-  // Fallback: set_code from card number
-  return card.set_code || '';
+  const codes = getProductSetCodes(card);
+  return codes[0] || card.set_code || '';
 }
 
 function buildSetIndex() {
   const setMap = {};
   ALL_CARDS.forEach(c => {
-    const key = getProductSetCode(c);
-    if (!key) return;
-    if (!setMap[key]) {
-      setMap[key] = { code: key, name: getSetName(key, c.set_name), cards: 0, types: {} };
-    }
-    setMap[key].cards++;
-    const t = normalizeType(c.card_type);
-    setMap[key].types[t] = (setMap[key].types[t] || 0) + 1;
+    const keys = getProductSetCodes(c);
+    keys.forEach(key => {
+      if (!key) return;
+      if (!setMap[key]) {
+        setMap[key] = { code: key, name: getSetName(key, c.set_name), cards: 0, types: {} };
+      }
+      setMap[key].cards++;
+      const t = normalizeType(c.card_type);
+      setMap[key].types[t] = (setMap[key].types[t] || 0) + 1;
+    });
   });
   const SET_ORDER_IDX = [
     'hSD01','hBP01','hYS01','hBD24','hBP02',
@@ -2075,8 +2089,7 @@ function applyFilters() {
       if (filters.parallel === 'Base'     &&  isParallel) return false;
     }
     if (filters.set !== 'All') {
-      const cardSet = getProductSetCode(c);
-      if (cardSet !== filters.set) return false;
+      if (!getProductSetCodes(c).includes(filters.set)) return false;
     }
     if (q) {
       const hay = [
@@ -2305,7 +2318,7 @@ function buildSetsView() {
   }
   grid.innerHTML = ALL_SETS.map(s => {
     const icon = SET_ICONS[s.code] || '📦';
-    const rareCnt = ALL_CARDS.filter(c => getProductSetCode(c) === s.code && ['SR','OSR','RR','SEC','UR','OUR'].includes(c.rarity)).length;
+    const rareCnt = ALL_CARDS.filter(c => getProductSetCodes(c).includes(s.code) && ['SR','OSR','RR','SEC','UR','OUR'].includes(c.rarity)).length;
     return `<div class="set-card" onclick="filterBySet('${escHtml(s.code)}')">
       <div class="set-card-header">
         <div class="set-icon" style="background:rgba(0,168,232,0.12)">${icon}</div>
