@@ -2293,8 +2293,10 @@ let _previousView = 'home'; // track which view opened card detail
 function switchView(v, opts = {}) {
   currentView = v;
 
-  // Always hide card detail when switching to a main view
+  // Always restore main layout and hide card detail when switching to a main view
+  document.getElementById('layout').style.display = '';
   document.getElementById('cardDetailView').classList.remove('active');
+  document.getElementById('cardDetailView').style.display = 'none';
   document.title = 'Holoarchive — hololive OCG Card Database';
 
   // Show/hide views
@@ -2495,16 +2497,14 @@ function closeCardDetail() {
 }
 
 function _restorePrevView(state) {
-  // Restore the view that was showing before card detail
   const prev = (state && state.prevState) || _prevViewState;
 
   document.getElementById('cardDetailView').classList.remove('active');
+  document.getElementById('cardDetailView').style.display = 'none';
+  document.getElementById('layout').style.display = '';  // restore main layout
   document.title = 'Holoarchive — hololive OCG Card Database';
 
-  // Restore filters and search
-  if (prev.filters) {
-    Object.assign(filters, prev.filters);
-  }
+  if (prev.filters) Object.assign(filters, prev.filters);
   if (prev.searchQuery !== undefined) {
     searchQuery = prev.searchQuery;
     const inline = document.getElementById('inlineSearchInput');
@@ -2514,10 +2514,7 @@ function _restorePrevView(state) {
     }
   }
 
-  // Switch to the previous view — use replace since popstate already moved history
   switchView(prev.view || 'cards', { replace: true });
-
-  // Restore scroll position after render
   requestAnimationFrame(() => {
     window.scrollTo({ top: prev.scrollY || 0, behavior: 'instant' });
   });
@@ -2528,11 +2525,11 @@ function _renderCardDetail(card) {
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
 
-  // Hide all other views, show detail
-  document.getElementById('homeView').style.display  = 'none';
-  document.getElementById('cardView').classList.add('hidden');
-  document.getElementById('setsView').classList.remove('active');
+  // Hide the main layout entirely (it sits above cardDetailView in the DOM)
+  // Without this, #main creates a full screen of blank space on mobile
+  document.getElementById('layout').style.display = 'none';
   document.getElementById('cardDetailView').classList.add('active');
+  document.getElementById('cardDetailView').style.display = 'block';
 
   // Update page title and meta for SEO/sharing
   document.title = `${card.name || card.card_number} — Holoarchive`;
