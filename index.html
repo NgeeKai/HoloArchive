@@ -1237,80 +1237,94 @@ img { display: block; max-width: 100%; }
 }
 #cardDetailOfficialLink:hover { border-color: var(--accent); color: var(--accent); }
 
-/* Right column — card info */
+/* ── Card Detail Right Column — Scryfall-style layout ──────────────── */
 #cardDetailInfo { display: flex; flex-direction: column; gap: 0; }
 
+/* Card name */
 #cardDetailName {
-  font-size: 32px; font-weight: 700; line-height: 1.15;
-  color: var(--text); margin-bottom: 6px;
-}
-#cardDetailCardNum {
-  font-size: 13px; color: var(--text3); font-family: var(--mono);
-  margin-bottom: 24px;
+  font-size: 26px; font-weight: 700; line-height: 1.2;
+  color: var(--text); margin: 0 0 4px;
 }
 
-/* Fields table */
-#cardDetailFields { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-.cd-field-row { display: flex; align-items: center; gap: 12px; }
-.cd-key {
-  background: var(--accent); color: #fff;
-  font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
-  padding: 4px 14px; border-radius: 99px;
-  white-space: nowrap; flex-shrink: 0; min-width: 88px; text-align: center;
-}
-.cd-val { font-size: 14px; color: var(--text); font-weight: 500; }
-
-/* Tags */
-#cardDetailTags { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 22px; }
-.cd-tag {
-  padding: 5px 13px; border-radius: 99px;
-  background: var(--bg3); border: 1px solid var(--border2);
-  font-size: 12px; color: var(--text2); font-weight: 500;
-}
-
-/* Stats bar */
-#cardDetailStats {
+/* Type bar — like Scryfall's "Holomem — 2nd Bloom" bar */
+#cardDetailTypeLine {
+  font-size: 14px; font-weight: 600; color: var(--text2);
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 8px 0; margin: 12px 0;
   display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-  padding: 14px 18px; background: var(--bg3);
-  border-radius: var(--radius-lg); border: 1px solid var(--border);
-  margin-bottom: 24px;
 }
-.cd-stat { display: flex; align-items: center; gap: 8px; }
-.cd-stat-label {
-  background: #1a3a5c; color: #60aaee;
-  font-size: 11px; font-weight: 700;
-  padding: 4px 12px; border-radius: 99px; white-space: nowrap;
+.cd-type-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.03em;
+  padding: 3px 10px; border-radius: 99px;
+  white-space: nowrap;
 }
-.cd-stat-val { font-size: 14px; font-weight: 700; color: var(--text); }
-.cd-stat-divider { width: 1px; height: 18px; background: var(--border2); flex-shrink: 0; }
-.cd-color-dot { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 2px rgba(255,255,255,0.15); }
+.cd-type-pill.t-oshi    { background: rgba(0,168,232,0.15); color: var(--accent2); }
+.cd-type-pill.t-holomem { background: rgba(167,139,250,0.15); color: var(--purple); }
+.cd-type-pill.t-buzz    { background: rgba(245,200,66,0.15); color: var(--yellow); }
+.cd-type-pill.t-support { background: rgba(74,158,255,0.15); color: var(--blue); }
+.cd-type-pill.t-cheer   { background: rgba(61,214,140,0.15); color: var(--green); }
+.cd-type-pill.t-other   { background: rgba(100,116,139,0.15); color: #94a3b8; }
+.cd-color-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+.cd-type-sep { color: var(--text3); font-weight: 400; }
 
-/* Divider */
-.cd-divider { height: 1px; background: var(--border); margin-bottom: 20px; }
+/* Stats row — HP · Bloom · Baton inline */
+#cardDetailStats {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.cd-stat { display: flex; align-items: center; gap: 5px; font-size: 13px; }
+.cd-stat-label { color: var(--text3); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+.cd-stat-val { font-weight: 600; color: var(--text); }
+.cd-stat-divider { width: 1px; height: 14px; background: var(--border2); flex-shrink: 0; }
 
-/* Ability blocks */
-#cardDetailAbilities { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
+/* Text box — abilities inside a card-like box */
+#cdTextBox {
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: var(--radius-lg); padding: 0;
+  margin-bottom: 14px; overflow: hidden;
+}
 .cd-ability {
-  border-radius: var(--radius-lg); padding: 16px 18px;
-  font-size: 14px; line-height: 1.75;
-  background: #111827;
-  border: 1px solid rgba(255,255,255,0.06);
+  padding: 14px 16px; font-size: 14px; line-height: 1.75;
+  border-bottom: 1px solid var(--border);
+}
+.cd-ability:last-child { border-bottom: none; }
+.cd-ability-header {
+  display: flex; align-items: center; gap: 7px; margin-bottom: 8px; flex-wrap: wrap;
 }
 .cd-ability-label {
-  display: inline-block;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
-  padding: 4px 13px; border-radius: 99px;
-  margin-bottom: 10px;
+  display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+  padding: 3px 10px; border-radius: 99px;
 }
-.cd-ability-text { color: #c8d8e8; white-space: pre-line; }
+.cd-ability-text { color: var(--text); white-space: pre-line; font-size: 13.5px; line-height: 1.7; }
 
-/* Footer */
-#cardDetailFooter {
-  padding-top: 16px; border-top: 1px solid var(--border);
-  font-size: 13px; color: var(--text3);
-  display: flex; flex-direction: column; gap: 5px;
+/* Tags */
+#cardDetailTags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.cd-tag {
+  padding: 3px 10px; border-radius: 99px;
+  background: var(--bg3); border: 1px solid var(--border);
+  font-size: 12px; color: var(--text3);
 }
-#cardDetailFooter span { color: var(--text2); font-weight: 500; }
+
+/* Set/number footer — like Scryfall's bottom line */
+#cardDetailFooter {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding-top: 12px; border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--text3); font-family: var(--mono);
+}
+.cd-footer-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 99px;
+  background: var(--bg3); border: 1px solid var(--border);
+  font-size: 11px; color: var(--text2); font-family: var(--mono);
+}
+.cd-footer-chip.rarity-chip { font-weight: 700; }
+#cardDetailIllus { color: var(--text3); font-size: 12px; font-family: var(--font); font-style: italic; }
+
+/* Unused from old layout */
+#cardDetailFields { display: none; }
+#cardDetailCardNum { display: none; }
+.cd-field-row, .cd-key, .cd-val, .cd-divider { display: none; }
 
 /* Responsive */
 @media (max-width: 900px) {
@@ -1660,14 +1674,22 @@ img { display: block; max-width: 100%; }
     </div>
     <!-- Right: info -->
     <div id="cardDetailInfo">
+      <!-- Name -->
       <div id="cardDetailName"></div>
-      <div id="cardDetailCardNum"></div>
-      <div id="cardDetailFields"></div>
-      <div id="cardDetailTags"></div>
+      <!-- Type line: Card Type · Color · Set -->
+      <div id="cardDetailTypeLine"></div>
+      <!-- Stats: HP · Bloom · Baton Pass -->
       <div id="cardDetailStats"></div>
-      <div class="cd-divider"></div>
-      <div id="cardDetailAbilities"></div>
+      <!-- Ability text box -->
+      <div id="cdTextBox"></div>
+      <!-- Tags -->
+      <div id="cardDetailTags"></div>
+      <!-- Footer: set · number · rarity · illustrator -->
       <div id="cardDetailFooter"></div>
+      <!-- Hidden legacy elements (JS still writes to them) -->
+      <div id="cardDetailCardNum" style="display:none"></div>
+      <div id="cardDetailFields" style="display:none"></div>
+      <div id="cardDetailAbilities" style="display:none"></div>
     </div>
   </div>
 </div>
@@ -2550,75 +2572,48 @@ function _renderCardDetail(card) {
   // Official site link
   document.getElementById('cardDetailOfficialLink').href = card.source_url || '#';
 
-  // ── Name & card number ────────────────────────────────────────────
-  document.getElementById('cardDetailName').textContent    = card.name || 'Unknown';
-  document.getElementById('cardDetailCardNum').textContent = card.card_number || '';
+  // ── Name ─────────────────────────────────────────────────────────
+  document.getElementById('cardDetailName').textContent = card.name || 'Unknown';
 
-  // ── Labeled fields ────────────────────────────────────────────────
-  const MODAL_TYPE_LABELS = {
-    '推しホロメン':'Oshi Holomem', 'ホロメン':'Holomem', 'Buzzホロメン':'Buzz Holomem',
-    'サポート・アイテム':'Support — Item',
-    'サポート・アイテム・LIMITED':'Support — Item (Limited)',
-    'サポート・イベント':'Support — Event',
-    'サポート・イベント・LIMITED':'Support — Event (Limited)',
-    'サポート・ツール':'Support — Tool',
-    'サポート・マスコット':'Support — Mascot',
-    'サポート・ファン':'Support — Fan',
-    'サポート・スタッフ':'Support — Staff',
-    'サポート・スタッフ・LIMITED':'Support — Staff (Limited)',
-    'チア':'Cheer', 'エール':'Cheer', 'Cheer':'Cheer',
+  // ── Type line ─────────────────────────────────────────────────────
+  // Card Type · Color dot · "Bloom Level" bloom · Set name
+  const TYPE_LABELS = {
+    '推しホロメン':'Oshi Holomem','ホロメン':'Holomem','Buzzホロメン':'Buzz Holomem',
+    'サポート・アイテム':'Item','サポート・アイテム・LIMITED':'Item (Ltd)',
+    'サポート・イベント':'Event','サポート・イベント・LIMITED':'Event (Ltd)',
+    'サポート・ツール':'Tool','サポート・マスコット':'Mascot',
+    'サポート・ファン':'Fan','サポート・スタッフ':'Staff',
+    'サポート・スタッフ・LIMITED':'Staff (Ltd)','チア':'Cheer','エール':'Cheer','Cheer':'Cheer',
   };
-  const labeledFields = [];
-  if (card.card_type) labeledFields.push(['Card Type', MODAL_TYPE_LABELS[card.card_type] || card.card_type]);
-  if (card.rarity)    labeledFields.push(['Rarity', card.rarity]);
-  const setName = getSetName(getProductSetCode(card), card.set_name);
-  if (setName)        labeledFields.push(['Card Set', setName]);
+  const COLOR_HEX = { white:'#e2e8f0',green:'#22c55e',red:'#ef4444',blue:'#3b82f6',purple:'#a855f7',yellow:'#eab308',colorless:'#64748b' };
+  const COLOR_LABELS = { white:'White',green:'Green',red:'Red',blue:'Blue',purple:'Purple',yellow:'Yellow',colorless:'Colorless','白':'White','緑':'Green','赤':'Red','青':'Blue','紫':'Purple','黄':'Yellow' };
+  const typCls = typeClass(card.card_type);
+  const typeLabel = TYPE_LABELS[card.card_type] || card.card_type || '';
+  const setNameDisplay = getSetName(getProductSetCode(card), card.set_name);
 
-  document.getElementById('cardDetailFields').innerHTML = labeledFields
-    .filter(([,v]) => v)
-    .map(([k,v]) => `
-      <div class="cd-field-row">
-        <span class="cd-key">${escHtml(k)}</span>
-        <span class="cd-val">${escHtml(String(v))}</span>
-      </div>`).join('');
-
-  // ── Tags ──────────────────────────────────────────────────────────
-  const tags = card.tags || [];
-  document.getElementById('cardDetailTags').innerHTML = tags
-    .map(t => `<span class="cd-tag">${escHtml(t)}</span>`).join('');
-
-  // ── Stats row ─────────────────────────────────────────────────────
-  const COLOR_HEX_DETAIL = {
-    white:'#e2e8f0', green:'#22c55e', red:'#ef4444',
-    blue:'#3b82f6', purple:'#a855f7', yellow:'#eab308', colorless:'#64748b'
-  };
-  const COLOR_LABELS = {
-    white:'White', green:'Green', red:'Red', blue:'Blue',
-    purple:'Purple', yellow:'Yellow', colorless:'Colorless',
-    '白':'White','緑':'Green','赤':'Red','青':'Blue','紫':'Purple','黄':'Yellow',
-  };
-  const stats = [];
+  let typeParts = [];
+  if (typeLabel) typeParts.push(`<span class="cd-type-pill ${typCls}">${escHtml(typeLabel)}</span>`);
   if (card.color) {
-    const hex = COLOR_HEX_DETAIL[card.color] || '#888';
-    const lbl = COLOR_LABELS[card.color] || cap(card.color);
-    stats.push(`<div class="cd-stat">
-      <span class="cd-stat-label">Color</span>
-      <span class="cd-stat-val" style="display:flex;align-items:center;gap:5px">
-        <span class="cd-color-dot" style="background:${escHtml(hex)}"></span>${escHtml(lbl)}
-      </span></div>`);
+    const hex = COLOR_HEX[card.color] || '#888';
+    const clbl = COLOR_LABELS[card.color] || cap(card.color);
+    typeParts.push(`<span class="cd-type-sep">·</span><span style="display:inline-flex;align-items:center;gap:5px;font-size:13px;color:var(--text2)"><span class="cd-color-dot" style="background:${escHtml(hex)}"></span>${escHtml(clbl)}</span>`);
   }
-  if (card.hp)          stats.push(`<div class="cd-stat"><span class="cd-stat-label">HP</span><span class="cd-stat-val">${card.hp}</span></div>`);
-  if (card.life)        stats.push(`<div class="cd-stat"><span class="cd-stat-label">Life</span><span class="cd-stat-val">${card.life}</span></div>`);
-  if (card.bloom_level) stats.push(`<div class="cd-stat"><span class="cd-stat-label">Bloom Level</span><span class="cd-stat-val">${escHtml(card.bloom_level)}</span></div>`);
-  if (card.baton_pass && card.baton_pass !== 'None') stats.push(`<div class="cd-stat"><span class="cd-stat-label">Baton Pass</span><span class="cd-stat-val">${escHtml(card.baton_pass)}</span></div>`);
+  if (card.bloom_level) typeParts.push(`<span class="cd-type-sep">·</span><span style="font-size:13px;color:var(--text2)">${escHtml(card.bloom_level)} Bloom</span>`);
+  if (setNameDisplay) typeParts.push(`<span class="cd-type-sep">·</span><span style="font-size:12px;color:var(--text3)">${escHtml(setNameDisplay)}</span>`);
+  document.getElementById('cardDetailTypeLine').innerHTML = typeParts.join('');
 
+  // ── Stats — HP / Life / Baton Pass inline ─────────────────────────
+  const stats = [];
+  if (card.hp)   stats.push(`<div class="cd-stat"><span class="cd-stat-label">HP</span><span class="cd-stat-val">${card.hp}</span></div>`);
+  if (card.life) stats.push(`<div class="cd-stat"><span class="cd-stat-label">Life</span><span class="cd-stat-val">${card.life}</span></div>`);
+  if (card.baton_pass && card.baton_pass !== 'None') {
+    stats.push(`<div class="cd-stat"><span class="cd-stat-label">Baton Pass</span><span class="cd-stat-val">${escHtml(card.baton_pass)}</span></div>`);
+  }
   const statsEl = document.getElementById('cardDetailStats');
-  statsEl.innerHTML = stats.map((s,i) =>
-    i < stats.length - 1 ? s + '<div class="cd-stat-divider"></div>' : s
-  ).join('');
+  statsEl.innerHTML = stats.map((s,i) => i < stats.length-1 ? s+'<div class="cd-stat-divider"></div>' : s).join('');
   statsEl.style.display = stats.length ? 'flex' : 'none';
 
-  // ── Abilities ─────────────────────────────────────────────────────
+  // ── Text box — abilities ───────────────────────────────────────────
   const ABILITY_META = {
     keyword:       { label:'Keyword',       cls:'abl-keyword' },
     arts:          { label:'Arts',          cls:'abl-arts' },
@@ -2631,35 +2626,41 @@ function _renderCardDetail(card) {
     extra:         { label:'Extra',         cls:'abl-extra' },
   };
   const abs = card.abilities || {};
-  document.getElementById('cardDetailAbilities').innerHTML = Object.entries(abs)
-    .filter(([,v]) => v && v.trim())
-    .map(([k,v]) => {
+  const abEntries = Object.entries(abs).filter(([,v]) => v && v.trim());
+  const textBoxEl = document.getElementById('cdTextBox');
+  if (abEntries.length) {
+    textBoxEl.style.display = '';
+    textBoxEl.innerHTML = abEntries.map(([k,v]) => {
       const meta = ABILITY_META[k] || { label: k, cls: 'abl-ability_text' };
-      // For keyword abilities, extract [Type] prefix e.g. [Collab Effect]
-      let typeLabel = '';
-      let abilityText = v;
+      let typeLabel2 = '', abilityText = v;
       if (k === 'keyword') {
-        const typeMatch = v.match(/^\[([^\]]+)\]\s*/);
-        if (typeMatch) {
-          typeLabel = typeMatch[1];
-          abilityText = v.slice(typeMatch[0].length);
-        }
+        const m = v.match(/^\[([^\]]+)\]\s*/);
+        if (m) { typeLabel2 = m[1]; abilityText = v.slice(m[0].length); }
       }
       return `<div class="cd-ability">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
-          <div class="cd-ability-label ${meta.cls}">${escHtml(meta.label)}</div>
-          ${typeLabel ? `<div class="cd-ability-label abl-collab_effect">${escHtml(typeLabel)}</div>` : ''}
+        <div class="cd-ability-header">
+          <span class="cd-ability-label ${meta.cls}">${escHtml(meta.label)}</span>
+          ${typeLabel2 ? `<span class="cd-ability-label abl-collab_effect">${escHtml(typeLabel2)}</span>` : ''}
         </div>
         <div class="cd-ability-text">${escHtml(abilityText)}</div>
       </div>`;
-    }).join('') || '';
+    }).join('');
+  } else {
+    textBoxEl.style.display = 'none';
+  }
 
-  // ── Footer ────────────────────────────────────────────────────────
-  const footerParts = [];
-  if (card.illustrator) footerParts.push(`Illustrator: <span>${escHtml(card.illustrator)}</span>`);
-  if (card.card_number) footerParts.push(`Card Number: <span>${escHtml(card.card_number)}</span>`);
-  document.getElementById('cardDetailFooter').innerHTML = footerParts
-    .map(p => `<div>${p}</div>`).join('');
+  // ── Tags ──────────────────────────────────────────────────────────
+  const tags = card.tags || [];
+  document.getElementById('cardDetailTags').innerHTML =
+    tags.map(t => `<span class="cd-tag">${escHtml(t)}</span>`).join('');
+
+  // ── Footer — set · card number · rarity · illustrator ────────────
+  const RARITY_CLS = { C:'r-C',U:'r-U',R:'r-R',RR:'r-RR',OSR:'r-OSR',SR:'r-SR',HR:'r-HR',SEC:'r-SEC',OUR:'r-OUR',UR:'r-UR',P:'r-P',SY:'r-SY',S:'r-S',OC:'r-OC' };
+  const footerChips = [];
+  if (card.card_number) footerChips.push(`<span class="cd-footer-chip">${escHtml(card.card_number)}</span>`);
+  if (card.rarity)      footerChips.push(`<span class="cd-footer-chip rarity-chip ${RARITY_CLS[card.rarity]||''}">${escHtml(card.rarity)}</span>`);
+  if (card.illustrator) footerChips.push(`<span id="cardDetailIllus">Illus. ${escHtml(card.illustrator)}</span>`);
+  document.getElementById('cardDetailFooter').innerHTML = footerChips.join('');
 
   // Update nav state
   document.getElementById('bnHome').classList.toggle('active',  _previousView === 'home');
