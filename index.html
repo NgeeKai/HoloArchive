@@ -842,70 +842,29 @@ img { display: block; max-width: 100%; }
 /* ── Tablet (600–900px) ─────────────────────────────────────── */
 @media (max-width: 900px) {
   #sidebar { display: none; }
-  #main { padding: 12px 12px 80px; }
+  #main { padding: 16px 16px 80px; }
   #filterBar { overflow-x: auto; flex-wrap: nowrap; gap: 4px; padding: 8px 10px; }
   #filterBar::-webkit-scrollbar { display: none; }
   .filter-bar-divider { display: none; }
-  #inlineSearchWrap { max-width: 100%; flex: 1; }
+  #filterCount, #filterResetBtn { display: none !important; }
+  .filter-bar-label { display: none; }
+  #filterBar { padding: 6px 8px; }
+  #inlineSearchWrap { max-width: 100%; flex: 1; min-width: 0; }
   #filterTrigger { display: flex; }
   #bottomNav { display: grid; }
   .topbar-right { display: none; }
-  #cardGrid {
-    grid-template-columns: repeat(auto-fill, 148px);
-    gap: 10px;
-    justify-content: start;
-  }
-  /* Inline search in cards toolrow */
-#inlineSearchWrap {
-  display: flex; align-items: center; gap: 7px;
-  background: var(--bg2); border: 1px solid var(--border2);
-  border-radius: var(--radius); padding: 6px 10px;
-  flex: 1; max-width: 320px; transition: border-color 0.15s;
-}
-#inlineSearchWrap:focus-within { border-color: var(--accent); }
-#inlineSearchWrap svg { color: var(--text3); flex-shrink: 0; }
-#inlineSearchInput {
-  flex: 1; background: none; border: none; outline: none;
-  color: var(--text); font-size: 13px; font-family: var(--font);
-}
-#inlineSearchInput::placeholder { color: var(--text3); }
-#inlineClearSearch {
-  background: none; border: none; color: var(--text3);
-  cursor: pointer; font-size: 16px; padding: 0; line-height: 1;
-  flex-shrink: 0;
-}
-#inlineClearSearch:hover { color: var(--text); }
-
-#toolrow { gap: 8px; }
-
-  /* Homepage tablet */
-  .home-sets-row { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
-  .home-color-grid { grid-template-columns: repeat(3, 1fr); }
-  .home-type-grid { grid-template-columns: repeat(2, 1fr); }
+  #cardGrid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+  #toolrow { gap: 8px; }
 }
 
 /* ── Phone (<600px) ─────────────────────────────────────────── */
 @media (max-width: 600px) {
-  :root {
-    --topbar-h: 52px;
-    --sidebar-w: 0px;
-  }
-
-  /* Topbar */
-  #topbar { padding: 0 12px; gap: 8px; }
-  .logo-text { display: none; }
-  .logo-mark { width: 32px; height: 32px; border-radius: 8px; }
-  .logo-mark svg { width: 22px; height: 22px; }
-  #searchInput {
-    font-size: 16px; /* prevents iOS auto-zoom */
-    height: 36px;
-  }
-
   /* Layout */
-  #layout { padding-top: var(--topbar-h); }
-  #main { padding: 12px 12px 72px; }
+  #main { padding: 10px 12px 72px; }
 
   /* Card grid — 2 equal columns on phone */
+  #filterBar { display: none; }
+  #resultSummary { margin-bottom: 8px; }
   #cardGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
@@ -913,30 +872,10 @@ img { display: block; max-width: 100%; }
   }
 
   /* Toolrow */
-  /* Inline search in cards toolrow */
-#inlineSearchWrap {
-  display: flex; align-items: center; gap: 7px;
-  background: var(--bg2); border: 1px solid var(--border2);
-  border-radius: var(--radius); padding: 6px 10px;
-  flex: 1; max-width: 320px; transition: border-color 0.15s;
-}
-#inlineSearchWrap:focus-within { border-color: var(--accent); }
-#inlineSearchWrap svg { color: var(--text3); flex-shrink: 0; }
-#inlineSearchInput {
-  flex: 1; background: none; border: none; outline: none;
-  color: var(--text); font-size: 13px; font-family: var(--font);
-}
-#inlineSearchInput::placeholder { color: var(--text3); }
-#inlineClearSearch {
-  background: none; border: none; color: var(--text3);
-  cursor: pointer; font-size: 16px; padding: 0; line-height: 1;
-  flex-shrink: 0;
-}
-#inlineClearSearch:hover { color: var(--text); }
-
-#toolrow { margin-bottom: 10px; flex-wrap: nowrap; }
+  #toolrow { margin-bottom: 8px; flex-wrap: nowrap; gap: 6px; }
   .toolrow-label { display: none; }
-  #sortSelect { font-size: 12px; height: 30px; flex: 1; min-width: 0; }
+  #inlineSearchWrap { flex: 1; min-width: 0; max-width: none; }
+  #sortSelect { font-size: 12px; height: 34px; flex: 0 0 auto; max-width: 90px; }
 
   /* Card tiles — compact on phone */
   .card-name { font-size: 12px; }
@@ -1386,11 +1325,11 @@ img { display: block; max-width: 100%; }
     margin: 0 auto;
   }
   #cardDetailName { font-size: 24px; }
-  #cardDetailBreadcrumb { padding: 8px 16px 0; }
+  #cardDetailBreadcrumb { padding: 6px 12px 0; }
   #cardDetailStats { gap: 8px; flex-wrap: wrap; }
 }
 @media (max-width: 600px) {
-  #cardDetailInner { padding: 12px 12px 100px; gap: 16px; }
+  #cardDetailInner { padding: 8px 12px 100px; gap: 12px; }
   #cardDetailArt { max-width: 200px; }
   #cardDetailName { font-size: 20px; margin-bottom: 4px; }
   #cardDetailCardNum { font-size: 11px; margin-bottom: 16px; }
