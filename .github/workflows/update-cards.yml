@@ -2,7 +2,9 @@ name: Update Card Database
 
 on:
   schedule:
-    - cron: '0 6 * * 1'   # Every Monday at 6am UTC
+    - cron: '0 6 * * 1'   # Monday 6am UTC — full scrape week
+    - cron: '0 6 * * 2'   # Tuesday 6am UTC — retry if Monday hit Gemini limit
+    - cron: '0 6 * * 3'   # Wednesday 6am UTC — retry if still incomplete
   workflow_dispatch:        # Manual trigger from GitHub Actions tab
 
 permissions:
@@ -11,7 +13,7 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 90    # Scraper takes ~30-40 min for full run
+    timeout-minutes: 120
 
     steps:
       - name: Checkout repo
@@ -29,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Validate cards.json (reset if corrupt/empty)
+      - name: Validate cards.json
         run: |
           python3 - << 'PYEOF'
           import json, os
@@ -38,26 +40,38 @@ jobs:
               print("No cards.json — will start fresh")
           else:
               try:
-                  with open(path) as f:
-                      data = f.read().strip()
-                  if not data:
-                      raise ValueError("empty file")
-                  json.loads(data)
-                  print(f"cards.json valid ({len(json.loads(data))} cards)")
+                  data = open(path).read().strip()
+                  if not data: raise ValueError("empty file")
+                  cards = json.loads(data)
+                  def is_jp(s): return s and any('\u3040' <= c <= '\u9fff' for c in str(s))
+                  untranslated = sum(1 for c in cards if is_jp(c.get('name')) or any(is_jp(v) for v in (c.get('abilities') or {}).values()))
+                  print(f"cards.json valid — {len(cards)} cards, {untranslated} need translation")
               except Exception as e:
-                  print(f"cards.json corrupt ({e}) — resetting to []")
-                  with open(path, 'w') as f:
-                      f.write('[]')
+                  print(f"cards.json corrupt ({e}) — resetting")
+                  open(path, 'w').write('[]')
           PYEOF
 
       - name: Check for new sets
         run: python check_new_sets.py
 
-      - name: Run scraper
+      - name: Run scraper (detects new + updated cards)
         run: python scrape_hocg.py
 
-      - name: Run translator
-        run: python translate_cards.py
+      - name: Run translator (Gemini, stops cleanly on daily limit)
+        id: translate
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python translate_cards.py || echo "TRANSLATE_EXIT=$?" >> $GITHUB_ENV
+        continue-on-error: true
+
+      - name: Check translator result
+        run: |
+          if [ "${TRANSLATE_EXIT}" = "2" ]; then
+            echo "Gemini daily limit reached — partial progress saved, will retry tomorrow."
+          elif [ -n "${TRANSLATE_EXIT}" ]; then
+            echo "Translator failed with exit ${TRANSLATE_EXIT}" && exit 1
+          fi
 
       - name: Regenerate OG image and sitemap
         run: python generate_og.py
@@ -66,8 +80,8 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add cards.json og-image.svg sitemap.xml scrape_hocg.py index.html
-          git diff --staged --quiet && echo "No changes, skipping push" && exit 0
+          git add cards.json og-image.svg sitemap.xml
+          git diff --staged --quiet && echo "No changes to commit" && exit 0
           git commit -m "auto: update card database $(date +'%Y-%m-%d')"
           git pull --rebase origin main
           git push
