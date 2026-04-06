@@ -38,9 +38,15 @@ CLAUDE_BATCH     = 8      # translate N ability texts per Claude API call
 
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 GEMINI_API_KEY    = os.environ.get("GEMINI_API_KEY", "")
-USE_CLAUDE  = bool(ANTHROPIC_API_KEY)
-USE_GEMINI  = bool(GEMINI_API_KEY) and not USE_CLAUDE  # Gemini if no Claude key
-USE_AI      = USE_CLAUDE or USE_GEMINI
+
+# Priority: Gemini first (free, good quality), Claude second, GT only for names/tags
+USE_GEMINI  = bool(GEMINI_API_KEY)
+USE_CLAUDE  = bool(ANTHROPIC_API_KEY) and not USE_GEMINI  # Claude only if no Gemini key
+USE_AI      = USE_GEMINI or USE_CLAUDE
+
+GEMINI_DELAY          = 4.0    # seconds between Gemini calls (free tier: 15 RPM)
+GEMINI_MAX_RETRIES    = 3      # retries on transient errors (not rate limits)
+GEMINI_DAILY_LIMIT    = 1500   # free tier: 1500 requests/day — stop before hitting it
 
 # ── OFFICIAL MEMBER NAME TABLE ────────────────────────────────────────
 # JP name → Official English name
@@ -293,37 +299,106 @@ def translate_with_claude(texts):
 
 
 def translate_with_gemini(texts):
-    """Translate ability texts using Gemini API (free alternative)."""
+    """Translate ability texts using Gemini API.
+    Hard-stops on rate limit (429) — never silently falls back to Google Translate.
+    """
     if not texts:
         return texts
 
     numbered = "\n".join(f"{i+1}. {t}" for i, t in enumerate(texts))
-    prompt = f"{CLAUDE_SYSTEM}\n\nTranslate each numbered ability text from Japanese to English.\nReturn exactly the same number of lines, each starting with the number.\n\n{numbered}"
+    prompt = (
+        f"{CLAUDE_SYSTEM}\n\n"
+        f"Translate each numbered ability text from Japanese to English.\n"
+        f"Return exactly the same number of lines, each starting with the number.\n\n"
+        f"{numbered}"
+    )
+
+    for attempt in range(GEMINI_MAX_RETRIES):
+        try:
+            resp = requests.post(
+                f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}",
+                headers={"content-type": "application/json"},
+                json={"contents": [{"parts": [{"text": prompt}]}]},
+                timeout=45,
+            )
+
+            # Rate limit hit — hard stop, do not fall back to GT
+            if resp.status_code == 429:
+                retry_after = resp.headers.get("Retry-After", "unknown")
+                print(f"\n⛔ Gemini daily rate limit hit (429). Retry-After: {retry_after}s")
+                print("   Saving progress and exiting — run again tomorrow.")
+                print("   Tip: set ANTHROPIC_API_KEY as a backup for when Gemini quota runs out.")
+                raise SystemExit(2)   # exit code 2 = rate limited (workflow can detect this)
+
+            resp.raise_for_status()
+            raw = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
+            time.sleep(GEMINI_DELAY)
+            return _parse_numbered(raw, texts)
+
+        except SystemExit:
+            raise   # propagate the rate limit exit
+
+        except Exception as e:
+            wait = 10 * (attempt + 1)
+            print(f"    ⚠ Gemini error (attempt {attempt+1}/{GEMINI_MAX_RETRIES}): {e} — retrying in {wait}s")
+            time.sleep(wait)
+
+    # All retries failed on transient errors — raise so the workflow knows
+    raise RuntimeError(f"Gemini failed after {GEMINI_MAX_RETRIES} attempts")
+
+
+def translate_with_claude(texts):
+    """Translate ability texts using Claude API (backup when Gemini not configured)."""
+    if not texts:
+        return texts
+
+    numbered = "\n".join(f"{i+1}. {t}" for i, t in enumerate(texts))
+    prompt = (
+        f"Translate each numbered ability text from Japanese to English.\n"
+        f"Return exactly the same number of lines, each starting with the number.\n\n"
+        f"{numbered}"
+    )
 
     try:
         resp = requests.post(
-            f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}",
-            headers={"content-type": "application/json"},
-            json={"contents": [{"parts": [{"text": prompt}]}]},
+            "https://api.anthropic.com/v1/messages",
+            headers={
+                "x-api-key": ANTHROPIC_API_KEY,
+                "anthropic-version": "2023-06-01",
+                "content-type": "application/json",
+            },
+            json={
+                "model": "claude-haiku-4-5",
+                "max_tokens": 2048,
+                "system": CLAUDE_SYSTEM,
+                "messages": [{"role": "user", "content": prompt}],
+            },
             timeout=30,
         )
         resp.raise_for_status()
-        raw = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
+        raw = resp.json()["content"][0]["text"].strip()
         time.sleep(CLAUDE_DELAY)
         return _parse_numbered(raw, texts)
     except Exception as e:
-        print(f"    ⚠ Gemini API error: {e} — falling back to Google Translate")
-        return [_gt_translate(t) for t in texts]
+        raise RuntimeError(f"Claude API error: {e}")
 
 
 def translate_batch(texts):
-    """Route to best available translator."""
-    if USE_CLAUDE:
-        return translate_with_claude(texts)
-    elif USE_GEMINI:
+    """Route to best available translator for ability texts.
+    Order: Gemini (default) → Claude (backup) → hard fail.
+    Google Translate is NEVER used for abilities — quality too low.
+    """
+    if USE_GEMINI:
         return translate_with_gemini(texts)
+    elif USE_CLAUDE:
+        return translate_with_claude(texts)
     else:
-        return [_gt_translate(t) for t in texts]
+        # No AI key — return untranslated and warn once
+        if not hasattr(translate_batch, '_warned'):
+            print("⚠ No GEMINI_API_KEY or ANTHROPIC_API_KEY set.")
+            print("  Abilities will NOT be translated. Set GEMINI_API_KEY in GitHub Secrets.")
+            translate_batch._warned = True
+        return texts  # keep JP text — better than wrong GT translation
 
 
 def _parse_numbered(raw, originals):
@@ -662,13 +737,14 @@ def main():
             json.dump(cards, f, ensure_ascii=False, indent=2)
         print(f"✓ Backed up original to {BACKUP_FILE}")
 
-    if USE_CLAUDE:
-        print(f"✓ Using Claude API (haiku) for translation")
-    elif USE_GEMINI:
-        print(f"✓ Using Gemini API (gemini-2.0-flash, free) for translation")
+    if USE_GEMINI:
+        print(f"✓ Using Gemini API (gemini-2.0-flash, free tier) for ability translation")
+        print(f"  Daily limit guard: will stop at {GEMINI_DAILY_LIMIT} requests to avoid 429")
+    elif USE_CLAUDE:
+        print(f"✓ Using Claude API (haiku) for ability translation")
     else:
-        print(f"⚠ No AI API key set — using Google Translate (lower quality)")
-        print(f"  For better results set ANTHROPIC_API_KEY or GEMINI_API_KEY")
+        print(f"⚠ No GEMINI_API_KEY set — abilities will be left in Japanese")
+        print(f"  Add GEMINI_API_KEY to GitHub Secrets for automatic translation")
 
     total = len(cards)
     print(f"Translating {total} cards...\n")
