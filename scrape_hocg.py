@@ -31,6 +31,14 @@ DELAY       = 0.8     # seconds between requests — be polite
 OUTPUT_FILE = "cards.json"
 RESUME      = True    # skip IDs already in output file
 
+# Fields to compare when checking if an existing card has changed.
+# Excludes 'name'/'abilities' (translator handles those) and image_url (not critical).
+CHANGE_FIELDS = [
+    "card_number", "set_code", "product_set_code", "product_set_codes",
+    "set_name", "card_type", "rarity", "color", "hp", "life",
+    "bloom_level", "baton_pass", "tags", "illustrator", "is_parallel",
+]
+
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (compatible; HoloArchive-Scraper/2.0; "
@@ -123,8 +131,6 @@ JP_SET_NAME_MAP = {
     'スタートデッキ 推し Justice':                   'Start Deck – Oshi Justice',
     'ブースターパック「ディーヴァフィーバー」':       'Booster Pack – Diva Fever',
     'PRカード':                                      'Promo Cards',
-    '【hololive production OFFICIAL SHOP限定】hololive OFFICIAL CARD GAME 1st Anniversary Celebration Set':  '【hololive production OFFICIAL SHOP限定】hololive OFFICIAL CARD GAME 1st Anniversary Celebration Set',  # AUTO-ADDED
-    '【イベント物販／hololive production OFFICIAL SHOP限定商品】オフィシャルホロカコレクション-PCセット-':  '【イベント物販／hololive production OFFICIAL SHOP限定商品】オフィシャルホロカコレクション-PCセット-',  # AUTO-ADDED
     # ── Promo specific sources ──────────────────────────────────────────
     '月例大会パック Vol.1':                          'Monthly Tournament Pack Vol.1',
     '月例大会パック Vol.2':                          'Monthly Tournament Pack Vol.2',
@@ -503,8 +509,21 @@ def save(cards, path):
         json.dump(sorted(cards.values(), key=lambda c: c["id"]), f, ensure_ascii=False, indent=2)
 
 
+def card_has_changed(old, new):
+    """Return list of changed fields between old and new card dicts."""
+    changed = []
+    for field in CHANGE_FIELDS:
+        oval, nval = old.get(field), new.get(field)
+        # Normalize lists for comparison
+        if isinstance(oval, list): oval = sorted(str(x) for x in oval)
+        if isinstance(nval, list): nval = sorted(str(x) for x in nval)
+        if oval != nval:
+            changed.append(f"{field}: {oval!r} → {nval!r}")
+    return changed
+
+
 def main():
-    print("Holoarchive Card Scraper v2.0")
+    print("Holoarchive Card Scraper v2.1")
     print(f"  Target : {BASE_URL}")
     print(f"  Range  : ID {ID_START} → {ID_END}")
     print(f"  Output : {OUTPUT_FILE}")
@@ -517,7 +536,7 @@ def main():
             content = open(OUTPUT_FILE, encoding="utf-8").read().strip()
             if content:
                 existing = {c["id"]: c for c in json.loads(content)}
-                print(f"Resuming — {len(existing)} cards already scraped\n")
+                print(f"Loaded {len(existing)} existing cards — will check for updates\n")
         except (json.JSONDecodeError, ValueError) as e:
             print(f"Warning: {OUTPUT_FILE} corrupt ({e}) — starting fresh\n")
 
@@ -526,13 +545,9 @@ def main():
     session.headers.update(HEADERS)
 
     consecutive_missing = 0
-    scraped = skipped = errors = 0
+    new_cards = updated = skipped = errors = 0
 
     for card_id in range(ID_START, ID_END + 1):
-
-        if card_id in cards:
-            skipped += 1
-            continue
 
         url = f"{BASE_URL}/cardlist/?id={card_id}"
 
@@ -565,19 +580,35 @@ def main():
                 continue
 
             consecutive_missing = 0
-            cards[card_id] = card
-            scraped += 1
 
-            print(
-                f"  [{card_id:>4}] {card['card_number']:<16} "
-                f"{(card['name'] or '')[:28]:<28}  "
-                f"{(card['rarity'] or '?'):<5}  "
-                f"{card['product_set_code'] or card['set_code'] or '?'}"
-            )
+            if card_id not in existing:
+                # Brand new card
+                cards[card_id] = card
+                new_cards += 1
+                print(
+                    f"  [{card_id:>4}] NEW  {card['card_number']:<16} "
+                    f"{(card['name'] or '')[:28]:<28}  "
+                    f"{(card['rarity'] or '?'):<5}  "
+                    f"{card['product_set_code'] or card['set_code'] or '?'}"
+                )
+            else:
+                # Existing card — check for changes in key fields
+                changes = card_has_changed(existing[card_id], card)
+                if changes:
+                    # Preserve already-translated name and abilities
+                    card['name']      = existing[card_id].get('name') or card['name']
+                    card['abilities'] = existing[card_id].get('abilities') or card['abilities']
+                    cards[card_id] = card
+                    updated += 1
+                    print(f"  [{card_id:>4}] UPD  {card['card_number']:<16} {(card['name'] or '')[:28]}")
+                    for change in changes:
+                        print(f"          ↳ {change}")
+                else:
+                    skipped += 1
 
-            if scraped % 50 == 0:
+            if (new_cards + updated) % 50 == 0 and (new_cards + updated) > 0:
                 save(cards, OUTPUT_FILE)
-                print(f"  → Checkpoint ({len(cards)} total)")
+                print(f"  → Checkpoint ({len(cards)} total, {new_cards} new, {updated} updated)")
 
         except requests.exceptions.Timeout:
             print(f"  [{card_id}] Timeout")
@@ -595,8 +626,9 @@ def main():
 
     save(cards, OUTPUT_FILE)
     print("\n" + "─" * 50)
-    print(f"Scraped  : {scraped}")
-    print(f"Skipped  : {skipped}")
+    print(f"New      : {new_cards}")
+    print(f"Updated  : {updated}")
+    print(f"Skipped  : {skipped}  (unchanged)")
     print(f"Errors   : {errors}")
     print(f"Total    : {len(cards)}")
 
