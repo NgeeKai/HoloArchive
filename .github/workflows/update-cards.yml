@@ -1,36 +1,29 @@
 name: Update Card Database
-
 on:
   schedule:
     - cron: '0 6 * * 1'   # Monday 6am UTC — full scrape week
     - cron: '0 6 * * 2'   # Tuesday 6am UTC — retry if Monday hit Gemini limit
     - cron: '0 6 * * 3'   # Wednesday 6am UTC — retry if still incomplete
   workflow_dispatch:        # Manual trigger from GitHub Actions tab
-
 permissions:
   contents: write
-
 jobs:
   update:
     runs-on: ubuntu-latest
     timeout-minutes: 120
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
-
       - name: Install dependencies
         run: pip install -r requirements.txt
-
       - name: Validate cards.json
         run: |
           python3 - << 'PYEOF'
@@ -50,38 +43,32 @@ jobs:
                   print(f"cards.json corrupt ({e}) — resetting")
                   open(path, 'w').write('[]')
           PYEOF
-
       - name: Check for new sets
         run: python check_new_sets.py
-
       - name: Run scraper (detects new + updated cards)
         run: python scrape_hocg.py
-
       - name: Run translator (Gemini, stops cleanly on daily limit)
         id: translate
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python translate_cards.py || echo "TRANSLATE_EXIT=$?" >> $GITHUB_ENV
+        run: python translate_cards.py; echo "TRANSLATE_EXIT=$?" >> $GITHUB_ENV
         continue-on-error: true
-
       - name: Check translator result
         run: |
           if [ "${TRANSLATE_EXIT}" = "2" ]; then
             echo "Gemini daily limit reached — partial progress saved, will retry tomorrow."
-          elif [ -n "${TRANSLATE_EXIT}" ]; then
+          elif [ "${TRANSLATE_EXIT}" != "0" ]; then
             echo "Translator failed with exit ${TRANSLATE_EXIT}" && exit 1
           fi
-
       - name: Regenerate OG image and sitemap
         run: python generate_og.py
-
       - name: Commit and push if changed
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add cards.json og-image.svg sitemap.xml
           git diff --staged --quiet && echo "No changes to commit" && exit 0
-          git commit -m "auto: update card database $(date +'%Y-%m-%d')"
+          git commit -m "auto: update card database $(date +'%Y-%m-%d') [skip ci]"
           git pull --rebase origin main
           git push
