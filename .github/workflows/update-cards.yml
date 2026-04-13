@@ -70,5 +70,4 @@ jobs:
           git add cards.json og-image.svg sitemap.xml
           git diff --staged --quiet && echo "No changes to commit" && exit 0
           git commit -m "auto: update card database $(date +'%Y-%m-%d') [skip ci]"
-          git pull --rebase origin main
           git push
