@@ -30,7 +30,7 @@ CLAUDE_DELAY      = 0.5    # seconds between Claude API calls
 CLAUDE_BATCH      = 8      # translate N ability texts per Claude API call
 
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-GEMINI_API_KEY    = os.environ.get("GEMINI_API_KEY", "")
+GEMINI_API_KEY    = os.environ.get("GEMINI_API_KEY", "AIzaSyBbGfm0x7L0mEgzTKcz24fZkwuYnGDs9hU")
 
 # Priority: Gemini first (free, good quality), Claude second
 # Google Translate is NEVER used — quality too low for card game text
