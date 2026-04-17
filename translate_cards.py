@@ -22,31 +22,25 @@ Resume-safe: skips already-translated cards on re-run.
 
 import json, time, os, sys, re, requests
 
-try:
-    from deep_translator import GoogleTranslator
-    _GT_AVAILABLE = True
-except ImportError:
-    _GT_AVAILABLE = False
-
 # ── CONFIG ────────────────────────────────────────────────────────────
-INPUT_FILE       = "cards.json"
-OUTPUT_FILE      = "cards.json"
-BACKUP_FILE      = "cards_jp_backup.json"
-GT_DELAY         = 0.3    # seconds between Google Translate calls
-CLAUDE_DELAY     = 0.5    # seconds between Claude API calls
-CLAUDE_BATCH     = 8      # translate N ability texts per Claude API call
+INPUT_FILE   = "cards_raw.json"   # raw JP output from scraper — never overwritten by translator
+OUTPUT_FILE  = "cards.json"       # translated EN output — what the website reads
+
+CLAUDE_DELAY      = 0.5    # seconds between Claude API calls
+CLAUDE_BATCH      = 8      # translate N ability texts per Claude API call
 
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-GEMINI_API_KEY    = os.environ.get("GEMINI_API_KEY", "AIzaSyBbGfm0x7L0mEgzTKcz24fZkwuYnGDs9hU")
+GEMINI_API_KEY    = os.environ.get("GEMINI_API_KEY", "")
 
-# Priority: Gemini first (free, good quality), Claude second, GT only for names/tags
-USE_GEMINI  = bool(GEMINI_API_KEY)
-USE_CLAUDE  = bool(ANTHROPIC_API_KEY) and not USE_GEMINI  # Claude only if no Gemini key
-USE_AI      = USE_GEMINI or USE_CLAUDE
+# Priority: Gemini first (free, good quality), Claude second
+# Google Translate is NEVER used — quality too low for card game text
+USE_GEMINI = bool(GEMINI_API_KEY)
+USE_CLAUDE = bool(ANTHROPIC_API_KEY) and not USE_GEMINI
+USE_AI     = USE_GEMINI or USE_CLAUDE
 
-GEMINI_DELAY          = 4.0    # seconds between Gemini calls (free tier: 15 RPM)
-GEMINI_MAX_RETRIES    = 3      # retries on transient errors (not rate limits)
-GEMINI_DAILY_LIMIT    = 1500   # free tier: 1500 requests/day — stop before hitting it
+GEMINI_DELAY       = 4.0   # seconds between Gemini calls (free tier: 15 RPM)
+GEMINI_MAX_RETRIES = 3     # retries on transient errors (not rate limits)
+GEMINI_DAILY_LIMIT = 1500  # free tier: 1500 requests/day — stop before hitting it
 
 # ── OFFICIAL MEMBER NAME TABLE ────────────────────────────────────────
 # JP name → Official English name
@@ -178,11 +172,9 @@ def lookup_name(jp_name):
         if jp_name.startswith(jp) and len(jp) > 3:
             suffix = jp_name[len(jp):].strip()
             if suffix:
-                # Translate suffix if it's Japanese
-                if is_japanese(suffix):
-                    suffix = _gt_translate(suffix) or suffix
+                # Keep JP suffix as-is — GT quality too low, rare edge case
                 return f"{en} {suffix}".strip()
-    return None  # not found — fall back to Google Translate
+    return None  # not in name table — caller will keep JP text
 
 
 # ── TAG TRANSLATION MAP ───────────────────────────────────────────────
@@ -294,8 +286,7 @@ def translate_with_claude(texts):
         time.sleep(CLAUDE_DELAY)
         return _parse_numbered(raw, texts)
     except Exception as e:
-        print(f"    ⚠ Claude API error: {e} — falling back")
-        return [_gt_translate(t) for t in texts]
+        raise RuntimeError(f"Claude API error: {e}")
 
 
 def translate_with_gemini(texts):
@@ -413,33 +404,9 @@ def _parse_numbered(raw, originals):
     return [results[i] or originals[i] for i in range(len(originals))]
 
 
-_gt = None
-def _gt_translate(text):
-    """Google Translate fallback."""
-    global _gt
-    if not _GT_AVAILABLE:
-        return text
-    if _gt is None:
-        _gt = GoogleTranslator(source='ja', target='en')
-    try:
-        result = _gt.translate(text)
-        time.sleep(GT_DELAY)
-        return result or text
-    except Exception as e:
-        print(f"    ⚠ Google Translate error: {e}")
-        time.sleep(2)
-        return text
-
-
-def translate_text(text):
-    """Translate a single text — uses Google Translate (for names/tags)."""
-    if not text or not is_japanese(text):
-        return text
-    return _gt_translate(text)
-
 
 # ── MEMBER NAME REPLACEMENT IN ABILITY TEXT ───────────────────────────
-# Applied BEFORE and AFTER Google Translate to ensure names are never mangled.
+# Applied BEFORE and AFTER AI translation to ensure names are never mangled.
 # Full JP names are safe to replace anywhere (long enough to be unambiguous).
 # Short names only replaced inside 〈〉 brackets (where context is clear).
 
@@ -717,37 +684,77 @@ def translate_tag(tag):
         return TAG_MAP[tag]
     if not is_japanese(tag):
         return tag
-    inner = tag.lstrip('#')
-    translated = translate_text(inner)
-    clean = ''.join(w.capitalize() for w in translated.split())
-    return f"#{clean}"
+    # Unknown JP tag — keep as-is, better than a bad GT translation
+    return tag
 
 # ── MAIN ──────────────────────────────────────────────────────────────
 def main():
     if not os.path.exists(INPUT_FILE):
-        print(f"ERROR: {INPUT_FILE} not found.")
+        print(f"ERROR: {INPUT_FILE} not found. Run scrape_hocg.py first.")
         sys.exit(1)
 
+    # ── Load raw JP cards from scraper ────────────────────────────────
     with open(INPUT_FILE, 'r', encoding='utf-8') as f:
-        cards = json.load(f)
+        raw_cards = json.load(f)
 
-    # Backup
-    if not os.path.exists(BACKUP_FILE):
-        with open(BACKUP_FILE, 'w', encoding='utf-8') as f:
-            json.dump(cards, f, ensure_ascii=False, indent=2)
-        print(f"✓ Backed up original to {BACKUP_FILE}")
+    # ── Load existing translated cards (if any) for carry-forward ─────
+    # Any card already translated in cards.json is reused as-is,
+    # so we never re-translate or lose previous AI translations.
+    existing = {}
+    if os.path.exists(OUTPUT_FILE):
+        try:
+            with open(OUTPUT_FILE, 'r', encoding='utf-8') as f:
+                for c in json.load(f):
+                    existing[c['id']] = c
+            print(f"✓ Loaded {len(existing)} previously translated cards from {OUTPUT_FILE}")
+        except Exception as e:
+            print(f"⚠ Could not load {OUTPUT_FILE} ({e}) — translating all cards fresh")
+
+    # ── Merge: start from raw, carry over translations ─────────────────
+    # For each raw card:
+    #   - copy all scraper fields (set codes, image, rarity etc.) from raw
+    #   - if an existing translated card exists for this id, carry forward
+    #     its name/abilities/tags ONLY if they are already fully translated
+    cards = []
+    for raw in raw_cards:
+        card = dict(raw)  # start with fresh scraper data
+        prev = existing.get(raw['id'])
+        if prev:
+            # Carry forward translated text fields if they look good
+            if prev.get('name') and not is_japanese(prev['name']):
+                card['name'] = prev['name']
+            if prev.get('abilities'):
+                merged_abs = {}
+                for k, v in raw.get('abilities', {}).items():
+                    prev_v = prev.get('abilities', {}).get(k, '')
+                    # Use previous translation if it's in English
+                    if prev_v and not is_japanese(prev_v):
+                        merged_abs[k] = prev_v
+                    else:
+                        merged_abs[k] = v  # keep raw JP — will be translated below
+                card['abilities'] = merged_abs
+            if prev.get('tags'):
+                prev_tags = prev['tags']
+                if not any(is_japanese(t) for t in prev_tags):
+                    card['tags'] = prev_tags
+        cards.append(card)
 
     if USE_GEMINI:
-        print(f"✓ Using Gemini API (gemini-2.0-flash, free tier) for ability translation")
-        print(f"  Daily limit guard: will stop at {GEMINI_DAILY_LIMIT} requests to avoid 429")
+        print(f"✓ Using Gemini API (gemini-2.0-flash) for translation")
+        print(f"  Daily limit guard: will stop at {GEMINI_DAILY_LIMIT} requests")
     elif USE_CLAUDE:
-        print(f"✓ Using Claude API (haiku) for ability translation")
+        print(f"✓ Using Claude API (claude-haiku) for translation")
     else:
-        print(f"⚠ No GEMINI_API_KEY set — abilities will be left in Japanese")
-        print(f"  Add GEMINI_API_KEY to GitHub Secrets for automatic translation")
+        print(f"⚠ No GEMINI_API_KEY or ANTHROPIC_API_KEY set.")
+        print(f"  Cards with Japanese text will be left untranslated.")
+        print(f"  Add GEMINI_API_KEY to GitHub Secrets.")
 
-    total = len(cards)
-    print(f"Translating {total} cards...\n")
+    total     = len(cards)
+    to_do     = sum(1 for c in cards if
+                    is_japanese(c.get('name', '')) or
+                    any(is_japanese(v) for v in (c.get('abilities') or {}).values()) or
+                    any(is_japanese(t) for t in (c.get('tags') or [])))
+    print(f"\n{total} total cards — {to_do} need translation, {total - to_do} already done\n")
 
     for i, card in enumerate(cards):
         needs_work = (
@@ -756,7 +763,7 @@ def main():
             any(is_japanese(t) for t in (card.get('tags') or []))
         )
         if not needs_work:
-            # Still apply term/name fixes to already-translated text
+            # Apply term/name fixes to already-translated text
             if card.get('abilities'):
                 for key, val in card['abilities'].items():
                     if val and not is_japanese(val):
@@ -765,7 +772,7 @@ def main():
 
         print(f"  [{card['id']:>4}] {card['card_number']:<16} {card.get('name','')[:25]}")
 
-        # ── Translate name ────────────────────────────────────────
+        # ── Translate name ────────────────────────────────────────────
         if is_japanese(card.get('name', '')):
             official = lookup_name(card['name'])
             if official:
@@ -777,22 +784,20 @@ def main():
                     card['name'] = replaced
                     print(f"         name → {card['name']} (name map)")
                 else:
-                    card['name'] = translate_text(card['name'])
-                    print(f"         name → {card['name']} (google translate)")
+                    # Not in any lookup table — leave JP, log for manual addition
+                    print(f"         name → [UNTRANSLATED] {card['name']} (add to MEMBER_NAMES)")
 
-        # ── Translate abilities — batch with Claude ───────────────
+        # ── Translate abilities ───────────────────────────────────────
         if card.get('abilities'):
             ab_keys   = list(card['abilities'].keys())
             ab_values = list(card['abilities'].values())
 
-            # Pre-process all values
             processed = []
             for v in ab_values:
                 v = _preprocess(v) if v else v
                 v = replace_names_in_text(v) if v else v
                 processed.append(v)
 
-            # Translate JP ones in one Claude batch call
             jp_indices = [j for j, v in enumerate(processed) if v and is_japanese(v)]
             if jp_indices:
                 jp_texts = [processed[j] for j in jp_indices]
@@ -800,7 +805,6 @@ def main():
                 for j, t in zip(jp_indices, translated):
                     processed[j] = t
 
-            # Post-process all
             for j in range(len(processed)):
                 if processed[j]:
                     processed[j] = replace_names_in_text(processed[j])
@@ -808,12 +812,11 @@ def main():
 
             card['abilities'] = dict(zip(ab_keys, processed))
 
-        # ── Translate tags ────────────────────────────────────────
+        # ── Translate tags ────────────────────────────────────────────
         if card.get('tags'):
             card['tags'] = [translate_tag(t) for t in card['tags']]
 
-        # ── Illustrator — NEVER translate ─────────────────────────
-        # Names like 高崎律, あずーる, Nekojira stay exactly as written on the card.
+        # ── Illustrator — NEVER translate ─────────────────────────────
 
         # Checkpoint every 50 cards
         if (i + 1) % 50 == 0:
@@ -821,11 +824,15 @@ def main():
             print(f"\n  → Checkpoint saved ({i+1}/{total})\n")
 
     _save(cards, OUTPUT_FILE)
-    print(f"\n✓ Done! Saved to {OUTPUT_FILE}")
+    print(f"\n✓ Done! {OUTPUT_FILE} updated ({len(cards)} cards)")
+    print(f"   Source : {INPUT_FILE}  (raw JP — for change detection)")
+    print(f"   Output : {OUTPUT_FILE} (translated EN — for website)")
+
 
 def _save(cards, path):
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(cards, f, ensure_ascii=False, indent=2)
+
 
 if __name__ == '__main__':
     main()
