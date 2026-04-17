@@ -24,23 +24,21 @@ jobs:
           cache: 'pip'
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Validate cards.json
+      - name: Validate cards_raw.json
         run: |
           python3 - << 'PYEOF'
           import json, os
-          path = 'cards.json'
+          path = 'cards_raw.json'
           if not os.path.exists(path):
-              print("No cards.json — will start fresh")
+              print("No cards_raw.json — will start fresh")
           else:
               try:
                   data = open(path).read().strip()
                   if not data: raise ValueError("empty file")
                   cards = json.loads(data)
-                  def is_jp(s): return s and any('\u3040' <= c <= '\u9fff' for c in str(s))
-                  untranslated = sum(1 for c in cards if is_jp(c.get('name')) or any(is_jp(v) for v in (c.get('abilities') or {}).values()))
-                  print(f"cards.json valid — {len(cards)} cards, {untranslated} need translation")
+                  print(f"cards_raw.json valid — {len(cards)} cards")
               except Exception as e:
-                  print(f"cards.json corrupt ({e}) — resetting")
+                  print(f"cards_raw.json corrupt ({e}) — resetting")
                   open(path, 'w').write('[]')
           PYEOF
       - name: Check for new sets
@@ -67,7 +65,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add cards.json og-image.svg sitemap.xml
+          git add cards_raw.json cards.json og-image.svg sitemap.xml
           git diff --staged --quiet && echo "No changes to commit" && exit 0
           git commit -m "auto: update card database $(date +'%Y-%m-%d') [skip ci]"
           git push
