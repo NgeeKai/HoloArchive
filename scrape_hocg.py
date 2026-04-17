@@ -28,7 +28,7 @@ ID_START    = 1
 ID_END      = 3000
 MAX_MISSING = 50      # stop after this many consecutive empty pages
 DELAY       = 0.8     # seconds between requests — be polite
-OUTPUT_FILE = "cards.json"
+OUTPUT_FILE = "cards_raw.json"   # JP source — translator reads this, website uses cards.json
 RESUME      = True    # skip IDs already in output file
 
 # Fields to compare when checking if an existing card has changed.
